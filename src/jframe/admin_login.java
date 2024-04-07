@@ -60,6 +60,7 @@ public class admin_login extends javax.swing.JFrame {
         }
         
         }catch (Exception e){
+            JOptionPane.showMessageDialog(this,"server error!");
             e.printStackTrace();
         }
         }
@@ -120,7 +121,6 @@ public class admin_login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        user_name = new app.bolivia.swing.JCTextField();
         password = new rojerusan.RSPasswordTextPlaceHolder();
         login = new rojerusan.RSMaterialButtonCircle();
         jLabel2 = new javax.swing.JLabel();
@@ -129,6 +129,7 @@ public class admin_login extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         Home_Page = new javax.swing.JButton();
         forgot = new javax.swing.JLabel();
+        user_name = new app.bolivia.swing.JCTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -137,14 +138,6 @@ public class admin_login extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        user_name.setPlaceholder("Enter Your Username: ");
-        user_name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                user_nameActionPerformed(evt);
-            }
-        });
-        jPanel1.add(user_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 270, 40));
 
         password.setPhColor(new java.awt.Color(0, 0, 0));
         password.setPlaceholder("Enter Your Password");
@@ -194,6 +187,9 @@ public class admin_login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(forgot, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, 170, 40));
+
+        user_name.setPlaceholder("Enter your user name : ");
+        jPanel1.add(user_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 182, 270, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 

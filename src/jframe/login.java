@@ -277,7 +277,7 @@ public class login extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
 
             if(valid()){
-                user_portal up = new user_portal();
+                user_portal up = new user_portal(user_id);
                 up.setVisible(true);
             }
     }//GEN-LAST:event_loginActionPerformed

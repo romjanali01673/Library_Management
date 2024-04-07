@@ -20,7 +20,8 @@ public class modarator_login extends javax.swing.JFrame {
     public modarator_login() {
         initComponents();
     }
-    public void valid(){
+    public boolean valid(){
+        boolean result = false;
         if(validity()){
         try{
         Connection con = DB_connection.getConnection();
@@ -33,7 +34,7 @@ public class modarator_login extends javax.swing.JFrame {
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
             JOptionPane.showMessageDialog(this,"You have successfully Logined");
-            this.dispose();
+            result= true;
         }
         else{
             JOptionPane.showMessageDialog(this,"User not found!");
@@ -43,6 +44,7 @@ public class modarator_login extends javax.swing.JFrame {
             e.printStackTrace();
         }
         }
+        return result;
     }
     public boolean forgotten_pass(int id, String name){
         boolean result = false;
@@ -123,7 +125,7 @@ public class modarator_login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         user_id_number = new app.bolivia.swing.JCTextField();
         password = new rojerusan.RSPasswordTextPlaceHolder();
-        rSMaterialButtonCircle1 = new rojerusan.RSMaterialButtonCircle();
+        login = new rojerusan.RSMaterialButtonCircle();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         rSMaterialButtonCircle2 = new rojerusan.RSMaterialButtonCircle();
@@ -153,13 +155,13 @@ public class modarator_login extends javax.swing.JFrame {
         password.setPlaceholder("Enter Your Password");
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 270, 40));
 
-        rSMaterialButtonCircle1.setText("login");
-        rSMaterialButtonCircle1.addActionListener(new java.awt.event.ActionListener() {
+        login.setText("login");
+        login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonCircle1ActionPerformed(evt);
+                loginActionPerformed(evt);
             }
         });
-        jPanel1.add(rSMaterialButtonCircle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, 180, 50));
+        jPanel1.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, 180, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Hay Modarator ");
@@ -242,12 +244,16 @@ public class modarator_login extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
-    private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
+    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
                 if(validity()){
-            valid();
+                    if(valid()){
+                        modarator_portal mp = new modarator_portal(user_id);
+                        mp.setVisible(true);
+                        this.dispose();
+                    }
         }
-    }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
+    }//GEN-LAST:event_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,8 +298,8 @@ public class modarator_login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private rojerusan.RSMaterialButtonCircle login;
     private rojerusan.RSPasswordTextPlaceHolder password;
-    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle2;
     private app.bolivia.swing.JCTextField user_id_number;
     // End of variables declaration//GEN-END:variables

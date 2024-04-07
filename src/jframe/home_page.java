@@ -8,6 +8,7 @@ package jframe;
  *
  * @author romja
  */
+import java.awt.Color;
 public class home_page extends javax.swing.JFrame {
 
     /**

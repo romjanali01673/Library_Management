@@ -181,6 +181,8 @@ public class signup extends javax.swing.JFrame {
            
             if ( updatedRowCount > 0){
                JOptionPane.showMessageDialog(this, "Accout Created Successfully!");
+               JOptionPane.showMessageDialog(this, "wait for approved your accout.");
+               
                login l = new login();
                get_id();
                l.setVisible(true);
