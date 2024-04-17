@@ -308,6 +308,7 @@
               <Color blue="33" green="33" red="ff" type="rgb"/>
             </Property>
             <Property name="debugGraphicsOptions" type="int" value="-1"/>
+            <Property name="formatoFecha" type="java.lang.String" value="dd/MM/yyyy&#xa;"/>
             <Property name="name" type="java.lang.String" value="" noResource="true"/>
             <Property name="opaque" type="boolean" value="true"/>
             <Property name="placeholder" type="java.lang.String" value="Date of Birth"/>

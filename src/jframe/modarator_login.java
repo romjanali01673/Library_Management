@@ -245,13 +245,13 @@ public class modarator_login extends javax.swing.JFrame {
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        // TODO add your handling code here:
-                if(validity()){
-                    if(valid()){
-                        modarator_portal mp = new modarator_portal(user_id);
-                        mp.setVisible(true);
-                        this.dispose();
-                    }
+
+        if(validity()){        
+            if(valid()){
+                modarator_portal mp = new modarator_portal(user_id);
+                mp.setVisible(true);
+                this.dispose();
+                }
         }
     }//GEN-LAST:event_loginActionPerformed
 
