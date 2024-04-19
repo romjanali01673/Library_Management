@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import jframe.user_file.book_issue;
 
 public class login extends javax.swing.JFrame {
     
@@ -277,7 +278,7 @@ public class login extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
 
             if(valid()){
-                user_portal up = new user_portal(user_id);
+                book_issue up = new book_issue(user_id);
                 up.setVisible(true);
             }
     }//GEN-LAST:event_loginActionPerformed

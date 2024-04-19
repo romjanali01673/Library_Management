@@ -68,9 +68,9 @@ String full_address ;
         // to save the date in database we have to convart in sql-date
         //the process is util-long-sql
         Date DOB = verify_bod.getDatoFecha();//util date
-        Long dateofbirth = DOB.getTime();//long date
-        DATE_OF_BIRTH = new java.sql.Date(dateofbirth);//sql date 
- 
+        //DATE_OF_BIRTH = new java.sql.Date(DOB.getTime())// it's valid also
+        Long dateofbirth = DOB.getTime();//long date  but it's standerd
+        DATE_OF_BIRTH = new java.sql.Date(dateofbirth);
         }catch (Exception e ){
             JOptionPane.showMessageDialog(this,"Enter your Date of Birth!");
             bod_date_valid = true;
@@ -116,7 +116,6 @@ String full_address ;
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
         result = false;
     }
-    System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
     result = false;

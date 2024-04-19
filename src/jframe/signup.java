@@ -4,12 +4,18 @@
  */
 package jframe;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class signup extends javax.swing.JFrame {
 
@@ -246,6 +252,8 @@ public class signup extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         confirm_password = new rojerusan.RSPasswordTextPlaceHolder();
         password = new rojerusan.RSPasswordTextPlaceHolder();
+        agreement = new javax.swing.JCheckBox();
+        jLabel3 = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
         jMenuBar1 = new javax.swing.JMenuBar();
         home = new javax.swing.JMenu();
@@ -367,6 +375,21 @@ public class signup extends javax.swing.JFrame {
         password.setPlaceholder("Password");
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
 
+        agreement.setText("I agree to these terms and conditions.");
+        agreement.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(agreement, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 430, 240, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("view");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 430, 50, 20));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 530));
         getContentPane().add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -449,8 +472,14 @@ public class signup extends javax.swing.JFrame {
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         // TODO add your handling code here:
         //insartSignUpDetails();
-        if (necessary_data_insarted()){
-        insartSignUpDetails();}
+        if(agreement.isSelected()){
+            if (necessary_data_insarted()){
+            insartSignUpDetails();
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"Check the trams and condition.");
+        }
     }//GEN-LAST:event_submitActionPerformed
 
     private void femaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_femaleActionPerformed
@@ -504,6 +533,19 @@ public class signup extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_helpMouseClicked
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        try {
+            URI condition  = new URI("https://docs.google.com/document/d/1JZcUPBCoDkCpqa7lu0yaVy0PyEK05KHIEoyry6jD7iA/edit?usp=sharing");
+            Desktop.getDesktop().browse(condition);        
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e ){
+            e.printStackTrace();
+        }
+
+        
+    }//GEN-LAST:event_jLabel3MouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -537,6 +579,7 @@ public class signup extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox agreement;
     private javax.swing.ButtonGroup buttonGroup1;
     private rojerusan.RSPasswordTextPlaceHolder confirm_password;
     private javax.swing.JRadioButton custom;
@@ -552,6 +595,7 @@ public class signup extends javax.swing.JFrame {
     private app.bolivia.swing.JCTextField institute_office;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
