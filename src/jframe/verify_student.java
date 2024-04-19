@@ -69,7 +69,7 @@ String full_address ;
         //the process is util-long-sql
         Date DOB = verify_bod.getDatoFecha();//util date
         //DATE_OF_BIRTH = new java.sql.Date(DOB.getTime())// it's valid also
-        Long dateofbirth = DOB.getTime();//long date  but it's standerd
+        Long dateofbirth = DOB.getTime();//long date  //but it's standerd
         DATE_OF_BIRTH = new java.sql.Date(dateofbirth);
         }catch (Exception e ){
             JOptionPane.showMessageDialog(this,"Enter your Date of Birth!");
