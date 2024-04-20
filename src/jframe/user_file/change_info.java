@@ -338,6 +338,7 @@ else{
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -760,6 +761,15 @@ else{
         jLabel9.setText("Edit Student Info");
         MENU_BAR.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, -1, -1));
 
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/icons8_Secured_Letter_50px.png"))); // NOI18N
+        jLabel17.setText("NOTIFICATION");
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel17MouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 0, 140, -1));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         pack();
@@ -966,6 +976,13 @@ else{
         }
     }//GEN-LAST:event_gendercbItemStateChanged
 
+    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
+        // TODO add your handling code here:
+        notification n = new notification(id);
+        n.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel17MouseClicked
+
     public static void main(String args[]) {
         change_info cf = new change_info(95);
         cf.setVisible(true);
@@ -1015,6 +1032,7 @@ else{
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

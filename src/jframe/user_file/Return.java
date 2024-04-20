@@ -108,12 +108,14 @@ public class Return extends javax.swing.JFrame {
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         rSTableMetro2 = new rojeru_san.complementos.RSTableMetro();
         Retrun_code = new app.bolivia.swing.JCTextField();
         book_id = new app.bolivia.swing.JCTextField();
         RETURN = new rojerusan.RSMaterialButtonCircle();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -289,6 +291,15 @@ public class Return extends javax.swing.JFrame {
         });
         MENU_BAR.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/icons8_Secured_Letter_50px.png"))); // NOI18N
+        jLabel10.setText("NOTIFICATION");
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 170, 50));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
@@ -389,6 +400,15 @@ public class Return extends javax.swing.JFrame {
         );
 
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/icons8_Secured_Letter_50px.png"))); // NOI18N
+        jLabel3.setText("NOTIFICATION");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 170, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -521,6 +541,20 @@ public class Return extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Retrun_codeActionPerformed
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        notification n = new notification(id);
+        n.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        // TODO add your handling code here:
+        notification n = new notification(id);
+        n.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel10MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -562,7 +596,9 @@ public class Return extends javax.swing.JFrame {
     private javax.swing.JPanel book_queue;
     private javax.swing.JLabel close;
     private javax.swing.JLabel home;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

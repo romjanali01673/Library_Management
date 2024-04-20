@@ -99,15 +99,20 @@ public class returned extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         book_issue = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        all_history = new javax.swing.JPanel();
+        get_book_details = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        WELCOME = new javax.swing.JPanel();
-        last_name = new app.bolivia.swing.JCTextField();
+        all_history1 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
         close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        WELCOME = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        rSTableMetro3 = new rojeru_san.complementos.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -221,51 +226,49 @@ public class returned extends javax.swing.JFrame {
 
         jPanel2.add(book_issue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
 
-        all_history.setBackground(new java.awt.Color(0, 0, 0));
-        all_history.addMouseListener(new java.awt.event.MouseAdapter() {
+        get_book_details.setBackground(new java.awt.Color(0, 0, 0));
+        get_book_details.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                all_historyMouseClicked(evt);
+                get_book_detailsMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                all_historyMouseEntered(evt);
+                get_book_detailsMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                all_historyMouseExited(evt);
+                get_book_detailsMouseExited(evt);
             }
         });
-        all_history.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        get_book_details.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("All History");
-        all_history.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jLabel9.setText("Get Book Details");
+        get_book_details.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
-        jPanel2.add(all_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
+        jPanel2.add(get_book_details, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 200, 40));
+
+        all_history1.setBackground(new java.awt.Color(0, 0, 0));
+        all_history1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                all_history1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                all_history1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                all_history1MouseExited(evt);
+            }
+        });
+        all_history1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("All History");
+        all_history1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(all_history1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
-
-        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
-
-        last_name.setPlaceholder("Last Name");
-
-        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
-        WELCOME.setLayout(WELCOMELayout);
-        WELCOMELayout.setHorizontalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(372, 372, 372)
-                .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(568, Short.MAX_VALUE))
-        );
-        WELCOMELayout.setVerticalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(98, 98, 98)
-                .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(540, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -306,7 +309,87 @@ public class returned extends javax.swing.JFrame {
         });
         MENU_BAR.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
 
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/icons8_Secured_Letter_50px.png"))); // NOI18N
+        jLabel17.setText("NOTIFICATION");
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel17MouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 140, 50));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
+
+        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
+        WELCOME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel1.setText("your read book and returned books.");
+
+        rSTableMetro3.setBackground(new java.awt.Color(204, 255, 204));
+        rSTableMetro3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, "dfasd", "dfdfsd", null, null, "dfdsf", null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Book ID", "Book Name", "Book Author", "Book Type", "Book Part", "Date", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        rSTableMetro3.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
+        rSTableMetro3.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        rSTableMetro3.setColorBordeHead(new java.awt.Color(0, 0, 255));
+        rSTableMetro3.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        rSTableMetro3.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
+        rSTableMetro3.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        rSTableMetro3.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        rSTableMetro3.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        rSTableMetro3.setColorSelForeground(new java.awt.Color(0, 0, 0));
+        rSTableMetro3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rSTableMetro3.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rSTableMetro3.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rSTableMetro3.setRowHeight(30);
+        rSTableMetro3.setShowHorizontalLines(true);
+        rSTableMetro3.setShowVerticalLines(true);
+        jScrollPane4.setViewportView(rSTableMetro3);
+
+        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
+        WELCOME.setLayout(WELCOMELayout);
+        WELCOMELayout.setHorizontalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WELCOMELayout.createSequentialGroup()
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGap(408, 408, 408)
+                        .addComponent(jLabel1)))
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        WELCOMELayout.setVerticalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111))
+        );
+
+        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -410,17 +493,19 @@ public class returned extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
 
-    private void all_historyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseClicked
+    private void get_book_detailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_get_book_detailsMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseClicked
+        get_book_details gbd = newe get_book_details(id);
+        gbd.setVisible(true);
+    }//GEN-LAST:event_get_book_detailsMouseClicked
 
-    private void all_historyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseEntered
+    private void get_book_detailsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_get_book_detailsMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseEntered
+    }//GEN-LAST:event_get_book_detailsMouseEntered
 
-    private void all_historyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseExited
+    private void get_book_detailsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_get_book_detailsMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseExited
+    }//GEN-LAST:event_get_book_detailsMouseExited
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
@@ -434,6 +519,25 @@ public class returned extends javax.swing.JFrame {
             System.out.println("you have clicked CANCEL");
         }
     }//GEN-LAST:event_nameMouseClicked
+
+    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
+        // TODO add your handling code here:
+        notification n = new notification(id);
+        n.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel17MouseClicked
+
+    private void all_history1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_history1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_all_history1MouseClicked
+
+    private void all_history1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_history1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_all_history1MouseEntered
+
+    private void all_history1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_history1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_all_history1MouseExited
 
     /**
      * @param args the command line arguments
@@ -466,11 +570,15 @@ public class returned extends javax.swing.JFrame {
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Retrun;
     private javax.swing.JPanel WELCOME;
-    private javax.swing.JPanel all_history;
+    private javax.swing.JPanel all_history1;
     private javax.swing.JPanel book_issue;
     private javax.swing.JPanel book_queue;
     private javax.swing.JLabel close;
+    private javax.swing.JPanel get_book_details;
     private javax.swing.JLabel home;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -479,8 +587,9 @@ public class returned extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private app.bolivia.swing.JCTextField last_name;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel name;
+    private rojeru_san.complementos.RSTableMetro rSTableMetro3;
     private javax.swing.JPanel reading;
     private javax.swing.JPanel retrurnded;
     // End of variables declaration//GEN-END:variables

@@ -101,13 +101,19 @@ public class reading extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         all_history = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        WELCOME = new javax.swing.JPanel();
-        last_name = new app.bolivia.swing.JCTextField();
         MENU_BAR = new javax.swing.JPanel();
         close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        WELCOME = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        rSTableMetro2 = new rojeru_san.complementos.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -244,29 +250,6 @@ public class reading extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
-        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
-
-        last_name.setPlaceholder("Last Name");
-
-        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
-        WELCOME.setLayout(WELCOMELayout);
-        WELCOMELayout.setHorizontalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(372, 372, 372)
-                .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(568, Short.MAX_VALUE))
-        );
-        WELCOMELayout.setVerticalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(98, 98, 98)
-                .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(540, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
-
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -306,7 +289,115 @@ public class reading extends javax.swing.JFrame {
         });
         MENU_BAR.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
 
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/icons8_Secured_Letter_50px.png"))); // NOI18N
+        jLabel17.setText("NOTIFICATION");
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel17MouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 170, 50));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
+
+        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
+        WELCOME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel1.setText("You are reading these book/Returnable books.");
+
+        jScrollPane2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
+        jTextArea1.setRows(5);
+        jTextArea1.setText("You have taken these books. \nYou must have to returned the book.\nso take care these book like you self.\n\nplease visit our library continue \nand take book,return book, explore the author mind.\n\nif yor feel any problem and harasmend by us,\nfeel free to contact with us.\n");
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel3.setText("Description");
+
+        rSTableMetro2.setBackground(new java.awt.Color(204, 255, 204));
+        rSTableMetro2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, "dfasd", "dfdfsd", null, null, "dfdsf"},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Book ID", "Book Name", "Book Author", "Book Type", "Book Part", "Issue Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        rSTableMetro2.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
+        rSTableMetro2.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        rSTableMetro2.setColorBordeHead(new java.awt.Color(0, 0, 255));
+        rSTableMetro2.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        rSTableMetro2.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
+        rSTableMetro2.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setColorSelForeground(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rSTableMetro2.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rSTableMetro2.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rSTableMetro2.setRowHeight(30);
+        rSTableMetro2.setShowHorizontalLines(true);
+        rSTableMetro2.setShowVerticalLines(true);
+        jScrollPane3.setViewportView(rSTableMetro2);
+
+        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
+        WELCOME.setLayout(WELCOMELayout);
+        WELCOMELayout.setHorizontalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WELCOMELayout.createSequentialGroup()
+                .addGap(203, 203, 203)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(504, 504, 504))))
+            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(WELCOMELayout.createSequentialGroup()
+                    .addGap(23, 23, 23)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(24, Short.MAX_VALUE)))
+        );
+        WELCOMELayout.setVerticalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(291, 291, 291)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(WELCOMELayout.createSequentialGroup()
+                    .addGap(36, 36, 36)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(352, Short.MAX_VALUE)))
+        );
+
+        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -435,6 +526,13 @@ public class reading extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_nameMouseClicked
 
+    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
+        // TODO add your handling code here:
+        notification n = new notification(id);
+        n.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel17MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -471,7 +569,10 @@ public class reading extends javax.swing.JFrame {
     private javax.swing.JPanel book_queue;
     private javax.swing.JLabel close;
     private javax.swing.JLabel home;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -479,8 +580,11 @@ public class reading extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private app.bolivia.swing.JCTextField last_name;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel name;
+    private rojeru_san.complementos.RSTableMetro rSTableMetro2;
     private javax.swing.JPanel reading;
     private javax.swing.JPanel retrurnded;
     // End of variables declaration//GEN-END:variables
