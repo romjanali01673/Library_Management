@@ -13,9 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.contact_with_boss;
+import jframe.modarator_file.contact_with_boss;
 import jframe.home_page;
-import jframe.modarator_portal;
+import jframe.modarator_file.modarator_portal;
 
 public class book_add extends javax.swing.JFrame {
     int id;
@@ -102,6 +102,8 @@ public class book_add extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         book_issue = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        Retrun1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -198,7 +200,7 @@ public class book_add extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Remove Book");
+        jLabel7.setText("Update Book");
         Retrun.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel2.add(Retrun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, 40));
@@ -223,6 +225,27 @@ public class book_add extends javax.swing.JFrame {
         book_issue.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 160, -1));
 
         jPanel2.add(book_issue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
+
+        Retrun1.setBackground(new java.awt.Color(0, 0, 0));
+        Retrun1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Retrun1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Retrun1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Retrun1MouseExited(evt);
+            }
+        });
+        Retrun1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Remove Book");
+        Retrun1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(Retrun1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 200, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
@@ -390,13 +413,6 @@ public class book_add extends javax.swing.JFrame {
             .addGroup(WELCOMELayout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(166, 166, 166))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, WELCOMELayout.createSequentialGroup()
@@ -423,7 +439,14 @@ public class book_add extends javax.swing.JFrame {
                                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(book_parts, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
                                     .addComponent(book_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(43, 43, 43)))
+                        .addGap(43, 43, 43))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(WELCOMELayout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
@@ -454,9 +477,9 @@ public class book_add extends javax.swing.JFrame {
             .addGroup(WELCOMELayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(84, 84, 84)
+                .addGap(70, 70, 70)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97)
+                .addGap(111, 111, 111)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(book_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -696,6 +719,18 @@ public class book_add extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel17MouseClicked
 
+    private void Retrun1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Retrun1MouseClicked
+
+    private void Retrun1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Retrun1MouseEntered
+
+    private void Retrun1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Retrun1MouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -726,6 +761,7 @@ public class book_add extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Retrun;
+    private javax.swing.JPanel Retrun1;
     private javax.swing.JPanel WELCOME;
     private app.bolivia.swing.JCTextField author_name;
     private javax.swing.JPanel book_issue;
@@ -756,6 +792,7 @@ public class book_add extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class signup extends javax.swing.JFrame {
 
-    public String Gender = "Male";
+    public String Gender = "MALE";
     public boolean bod_date_valid = false;
     String passwd ;
     int ids = 00;
@@ -483,15 +483,15 @@ public class signup extends javax.swing.JFrame {
     }//GEN-LAST:event_submitActionPerformed
 
     private void femaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_femaleActionPerformed
-         getGender("Female");
+         getGender("FEMALE");
     }//GEN-LAST:event_femaleActionPerformed
 
     private void customActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customActionPerformed
-         getGender("Custom");
+         getGender("CUSTOM");
     }//GEN-LAST:event_customActionPerformed
 
     private void maleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maleActionPerformed
-         getGender("Male");
+         getGender("MALE");
     }//GEN-LAST:event_maleActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

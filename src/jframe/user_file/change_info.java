@@ -115,7 +115,11 @@ else{
         }
    }
 
+    // creating a mehod for gender 
 
+    public void getGender(String gender){
+        Gender = gender;
+    }
     
     public long get_nid_or_birth_number(){
         
@@ -234,10 +238,7 @@ else{
         return res ;
     }
     
-    // creating a mehod for gender 
-    public void getGender(String gender){
-        Gender = gender;
-    }
+
     
     // method insart values into user table 
     public void insartSignUpDetails(){
@@ -275,8 +276,8 @@ else{
        
            
             if ( updatedRowCount > 0){
-               JOptionPane.showMessageDialog(this, "Account Updated");
-               JOptionPane.showMessageDialog(this, "wait for approved your changes.");
+               JOptionPane.showMessageDialog(this, "Account Update request was send");
+               JOptionPane.showMessageDialog(this, "visit our office with all necesary document..");
                
            }
            else{
@@ -631,7 +632,7 @@ else{
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(60, 60, Short.MAX_VALUE)
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

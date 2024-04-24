@@ -10,11 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.approve_student;
-import jframe.contact_with_boss;
-import jframe.contact_with_student;
+import jframe.modarator_file.approve_student;
+import jframe.modarator_file.contact_with_boss;
+import jframe.modarator_file.contact_with_student;
 import jframe.home_page;
-import jframe.modarator_portal;
+import jframe.modarator_file.modarator_portal;
 
 public class get_book_details extends javax.swing.JFrame {
     int id;

@@ -13,9 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.contact_with_boss;
+import jframe.modarator_file.contact_with_boss;
 import jframe.home_page;
-import jframe.modarator_portal;
+import jframe.modarator_file.modarator_portal;
 
 public class remove_book extends javax.swing.JFrame {
     int id;
@@ -93,15 +93,6 @@ public class remove_book extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        book_queue = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        reading = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        Retrun = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        book_issue = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -134,99 +125,21 @@ public class remove_book extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        book_queue = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        reading = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        Retrun = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        book_issue = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        Retrun1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        book_queue.setBackground(new java.awt.Color(0, 0, 0));
-        book_queue.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                book_queueMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                book_queueMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                book_queueMouseExited(evt);
-            }
-        });
-        book_queue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Add New Book");
-        book_queue.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(book_queue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
-
-        reading.setBackground(new java.awt.Color(0, 0, 0));
-        reading.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                readingMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                readingMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                readingMouseExited(evt);
-            }
-        });
-        reading.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Book Receive(Returned)");
-        reading.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
-
-        jPanel2.add(reading, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 200, 40));
-
-        Retrun.setBackground(new java.awt.Color(255, 0, 0));
-        Retrun.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RetrunMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                RetrunMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                RetrunMouseExited(evt);
-            }
-        });
-        Retrun.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Remove Book");
-        Retrun.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(Retrun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, 40));
-
-        book_issue.setBackground(new java.awt.Color(0, 0, 0));
-        book_issue.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                book_issueMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                book_issueMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                book_issueMouseExited(evt);
-            }
-        });
-        book_issue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Confirm Book Request");
-        book_issue.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 160, -1));
-
-        jPanel2.add(book_issue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -593,6 +506,116 @@ public class remove_book extends javax.swing.JFrame {
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
+        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        book_queue.setBackground(new java.awt.Color(0, 0, 0));
+        book_queue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                book_queueMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                book_queueMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                book_queueMouseExited(evt);
+            }
+        });
+        book_queue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Add New Book");
+        book_queue.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(book_queue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
+
+        reading.setBackground(new java.awt.Color(0, 0, 0));
+        reading.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                readingMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                readingMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                readingMouseExited(evt);
+            }
+        });
+        reading.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Book Receive(Returned)");
+        reading.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        jPanel2.add(reading, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 200, 40));
+
+        Retrun.setBackground(new java.awt.Color(0, 0, 0));
+        Retrun.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RetrunMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                RetrunMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                RetrunMouseExited(evt);
+            }
+        });
+        Retrun.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Update Book");
+        Retrun.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(Retrun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, 40));
+
+        book_issue.setBackground(new java.awt.Color(255, 0, 0));
+        book_issue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                book_issueMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                book_issueMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                book_issueMouseExited(evt);
+            }
+        });
+        book_issue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Confirm Book Request");
+        book_issue.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 160, -1));
+
+        jPanel2.add(book_issue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
+
+        Retrun1.setBackground(new java.awt.Color(0, 0, 0));
+        Retrun1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Retrun1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Retrun1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Retrun1MouseExited(evt);
+            }
+        });
+        Retrun1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Remove Book");
+        Retrun1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(Retrun1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 200, 40));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -652,76 +675,6 @@ public class remove_book extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_book_name2ActionPerformed
 
-    private void book_issueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseExited
-        Color mouseout = new Color(0,0,0);
-        book_issue.setBackground(mouseout);
-    }//GEN-LAST:event_book_issueMouseExited
-
-    private void book_issueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseEntered
-        Color mousein = new Color(51,51,51);
-        book_issue.setBackground(mousein);
-    }//GEN-LAST:event_book_issueMouseEntered
-
-    private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
-        modarator_portal mp = new modarator_portal(id );
-        mp.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_book_issueMouseClicked
-
-    private void RetrunMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseExited
-        // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
-        Retrun.setBackground(mouseout);
-    }//GEN-LAST:event_RetrunMouseExited
-
-    private void RetrunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        Retrun.setBackground(mousein);
-    }//GEN-LAST:event_RetrunMouseEntered
-
-    private void RetrunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseClicked
-        Return cws = new Return(id);
-        cws.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_RetrunMouseClicked
-
-    private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
-        // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseExited
-
-    private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseEntered
-
-    private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
-        remove_book ac = new remove_book(id);
-        ac.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_readingMouseClicked
-
-    private void book_queueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseExited
-        // TODO add your handling code here:
-        Color mousein = new Color(0,0,0);
-        book_queue.setBackground(mousein);
-    }//GEN-LAST:event_book_queueMouseExited
-
-    private void book_queueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        book_queue.setBackground(mousein);
-    }//GEN-LAST:event_book_queueMouseEntered
-
-    private void book_queueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseClicked
-        queue as = new queue(id);
-        as.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_book_queueMouseClicked
-
     private void book_price1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_price1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_book_price1ActionPerformed
@@ -740,6 +693,88 @@ public class remove_book extends javax.swing.JFrame {
         n.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel17MouseClicked
+
+    private void book_queueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseClicked
+        queue as = new queue(id);
+        as.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_book_queueMouseClicked
+
+    private void book_queueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseEntered
+        // TODO add your handling code here:
+        Color mousein = new Color(51,51,51);
+        book_queue.setBackground(mousein);
+    }//GEN-LAST:event_book_queueMouseEntered
+
+    private void book_queueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseExited
+        // TODO add your handling code here:
+        Color mousein = new Color(0,0,0);
+        book_queue.setBackground(mousein);
+    }//GEN-LAST:event_book_queueMouseExited
+
+    private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
+        update_book ac = new update_book(id);
+        ac.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_readingMouseClicked
+
+    private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
+        // TODO add your handling code here:
+        Color mousein = new Color(251,0,0);
+        reading.setBackground(mousein);
+    }//GEN-LAST:event_readingMouseEntered
+
+    private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
+        // TODO add your handling code here:
+        Color mousein = new Color(251,0,0);
+        reading.setBackground(mousein);
+    }//GEN-LAST:event_readingMouseExited
+
+    private void RetrunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseClicked
+        Return cws = new Return(id);
+        cws.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_RetrunMouseClicked
+
+    private void RetrunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseEntered
+        // TODO add your handling code here:
+        Color mousein = new Color(51,51,51);
+        Retrun.setBackground(mousein);
+    }//GEN-LAST:event_RetrunMouseEntered
+
+    private void RetrunMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseExited
+        // TODO add your handling code here:
+        Color mouseout = new Color(0,0,0);
+        Retrun.setBackground(mouseout);
+    }//GEN-LAST:event_RetrunMouseExited
+
+    private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
+        modarator_portal mp = new modarator_portal(id );
+        mp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_book_issueMouseClicked
+
+    private void book_issueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseEntered
+        Color mousein = new Color(51,51,51);
+        book_issue.setBackground(mousein);
+    }//GEN-LAST:event_book_issueMouseEntered
+
+    private void book_issueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseExited
+        Color mouseout = new Color(0,0,0);
+        book_issue.setBackground(mouseout);
+    }//GEN-LAST:event_book_issueMouseExited
+
+    private void Retrun1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Retrun1MouseClicked
+
+    private void Retrun1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Retrun1MouseEntered
+
+    private void Retrun1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Retrun1MouseExited
 
     /**
      * @param args the command line arguments
@@ -771,6 +806,7 @@ public class remove_book extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Retrun;
+    private javax.swing.JPanel Retrun1;
     private javax.swing.JPanel WELCOME;
     private app.bolivia.swing.JCTextField author_name;
     private javax.swing.JPanel book_issue;
@@ -802,6 +838,7 @@ public class remove_book extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package jframe;
+import jframe.librarian_file.approve_issue_book;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
@@ -285,7 +286,7 @@ public class librarian_login extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
 
             if(valid()){
-                librarian_panel up = new librarian_panel();
+                approve_issue_book up = new approve_issue_book(user_id);
                 up.setVisible(true);
             }
     }//GEN-LAST:event_loginActionPerformed
