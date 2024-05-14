@@ -23,10 +23,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
-public class xxx extends javax.swing.JFrame {
+public class Admin_home extends javax.swing.JFrame {
     int id;
 
-    public xxx(int id) {
+    public Admin_home(int id) {
         this.id = id;
         initComponents();
         set_profile();
@@ -127,30 +127,6 @@ public void showPieChart(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        book_queue = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        reading = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        Retrun = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        retrurnded = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        book_issue = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        all_history = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        book_issue1 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        Retrun1 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        book_queue1 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        retrurnded1 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        reading1 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
         close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
@@ -184,253 +160,34 @@ public void showPieChart(){
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        LMS_DESHBOARD = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        MANAGE_STUDENT = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        MANAGE_LIBRARIAN = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        MANAGE_MOPDARATOR = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        HOME_PAGE = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        MANGE_ADMIN = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        MANAGE_BOOK = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        ALL_HISTORY = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        CUSTOM_OPRATION = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        NOTIFY = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        LOGOUT = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        book_queue.setBackground(new java.awt.Color(0, 0, 0));
-        book_queue.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                book_queueMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                book_queueMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                book_queueMouseExited(evt);
-            }
-        });
-        book_queue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Library_26px_1.png"))); // NOI18N
-        jLabel4.setText("LMS DESHBOARD");
-        book_queue.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 6, -1, 30));
-
-        jPanel2.add(book_queue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
-
-        reading.setBackground(new java.awt.Color(0, 0, 0));
-        reading.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                readingMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                readingMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                readingMouseExited(evt);
-            }
-        });
-        reading.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Manage Student");
-        reading.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(reading, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 200, 40));
-
-        Retrun.setBackground(new java.awt.Color(0, 0, 0));
-        Retrun.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RetrunMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                RetrunMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                RetrunMouseExited(evt);
-            }
-        });
-        Retrun.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Manage Librarian");
-        Retrun.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(Retrun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 200, 40));
-
-        retrurnded.setBackground(new java.awt.Color(0, 0, 0));
-        retrurnded.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                retrurndedMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                retrurndedMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                retrurndedMouseExited(evt);
-            }
-        });
-        retrurnded.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Mange Modarator");
-        retrurnded.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(retrurnded, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 200, 40));
-
-        book_issue.setBackground(new java.awt.Color(255, 0, 0));
-        book_issue.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                book_issueMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                book_issueMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                book_issueMouseExited(evt);
-            }
-        });
-        book_issue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
-        jLabel8.setText("HOME PAGE");
-        book_issue.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(book_issue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
-
-        all_history.setBackground(new java.awt.Color(0, 0, 0));
-        all_history.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                all_historyMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                all_historyMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                all_historyMouseExited(evt);
-            }
-        });
-        all_history.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Manage Admin");
-        all_history.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(all_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 200, 40));
-
-        book_issue1.setBackground(new java.awt.Color(0, 0, 0));
-        book_issue1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                book_issue1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                book_issue1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                book_issue1MouseExited(evt);
-            }
-        });
-        book_issue1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Book management");
-        book_issue1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(book_issue1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 200, 40));
-
-        Retrun1.setBackground(new java.awt.Color(0, 0, 0));
-        Retrun1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Retrun1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                Retrun1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Retrun1MouseExited(evt);
-            }
-        });
-        Retrun1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("All History");
-        Retrun1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 80, -1));
-
-        jPanel2.add(Retrun1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 200, 40));
-
-        book_queue1.setBackground(new java.awt.Color(0, 0, 0));
-        book_queue1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                book_queue1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                book_queue1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                book_queue1MouseExited(evt);
-            }
-        });
-        book_queue1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Custom Opration");
-        book_queue1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
-
-        jPanel2.add(book_queue1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 200, 40));
-
-        retrurnded1.setBackground(new java.awt.Color(0, 0, 0));
-        retrurnded1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                retrurnded1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                retrurnded1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                retrurnded1MouseExited(evt);
-            }
-        });
-        retrurnded1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Exit_26px_1.png"))); // NOI18N
-        jLabel15.setText("Logout");
-        retrurnded1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(retrurnded1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 200, 40));
-
-        reading1.setBackground(new java.awt.Color(0, 0, 0));
-        reading1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                reading1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                reading1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                reading1MouseExited(evt);
-            }
-        });
-        reading1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Notify ");
-        reading1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(reading1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 200, 40));
-
-        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel32.setText("Features");
-        jPanel2.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -685,117 +442,251 @@ public void showPieChart(){
 
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
+        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        LMS_DESHBOARD.setBackground(new java.awt.Color(0, 0, 0));
+        LMS_DESHBOARD.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Library_26px_1.png"))); // NOI18N
+        jLabel4.setText("LMS DESHBOARD");
+        LMS_DESHBOARD.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 6, -1, 30));
+
+        jPanel2.add(LMS_DESHBOARD, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
+
+        MANAGE_STUDENT.setBackground(new java.awt.Color(0, 0, 0));
+        MANAGE_STUDENT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MANAGE_STUDENTMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MANAGE_STUDENTMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                MANAGE_STUDENTMouseExited(evt);
+            }
+        });
+        MANAGE_STUDENT.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Manage Student");
+        MANAGE_STUDENT.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(MANAGE_STUDENT, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 200, 40));
+
+        MANAGE_LIBRARIAN.setBackground(new java.awt.Color(0, 0, 0));
+        MANAGE_LIBRARIAN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MANAGE_LIBRARIANMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MANAGE_LIBRARIANMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                MANAGE_LIBRARIANMouseExited(evt);
+            }
+        });
+        MANAGE_LIBRARIAN.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Manage Librarian");
+        MANAGE_LIBRARIAN.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(MANAGE_LIBRARIAN, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 200, 40));
+
+        MANAGE_MOPDARATOR.setBackground(new java.awt.Color(0, 0, 0));
+        MANAGE_MOPDARATOR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MANAGE_MOPDARATORMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MANAGE_MOPDARATORMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                MANAGE_MOPDARATORMouseExited(evt);
+            }
+        });
+        MANAGE_MOPDARATOR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Mange Modarator");
+        MANAGE_MOPDARATOR.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(MANAGE_MOPDARATOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 200, 40));
+
+        HOME_PAGE.setBackground(new java.awt.Color(255, 0, 0));
+        HOME_PAGE.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                HOME_PAGEMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                HOME_PAGEMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                HOME_PAGEMouseExited(evt);
+            }
+        });
+        HOME_PAGE.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
+        jLabel8.setText("HOME PAGE");
+        HOME_PAGE.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(HOME_PAGE, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
+
+        MANGE_ADMIN.setBackground(new java.awt.Color(0, 0, 0));
+        MANGE_ADMIN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MANGE_ADMINMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MANGE_ADMINMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                MANGE_ADMINMouseExited(evt);
+            }
+        });
+        MANGE_ADMIN.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Manage Admin");
+        MANGE_ADMIN.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(MANGE_ADMIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 200, 40));
+
+        MANAGE_BOOK.setBackground(new java.awt.Color(0, 0, 0));
+        MANAGE_BOOK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MANAGE_BOOKMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MANAGE_BOOKMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                MANAGE_BOOKMouseExited(evt);
+            }
+        });
+        MANAGE_BOOK.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Book management");
+        MANAGE_BOOK.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(MANAGE_BOOK, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 200, 40));
+
+        ALL_HISTORY.setBackground(new java.awt.Color(0, 0, 0));
+        ALL_HISTORY.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ALL_HISTORYMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ALL_HISTORYMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ALL_HISTORYMouseExited(evt);
+            }
+        });
+        ALL_HISTORY.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("All History");
+        ALL_HISTORY.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 80, -1));
+
+        jPanel2.add(ALL_HISTORY, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 200, 40));
+
+        CUSTOM_OPRATION.setBackground(new java.awt.Color(0, 0, 0));
+        CUSTOM_OPRATION.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CUSTOM_OPRATIONMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                CUSTOM_OPRATIONMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                CUSTOM_OPRATIONMouseExited(evt);
+            }
+        });
+        CUSTOM_OPRATION.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Custom Opration");
+        CUSTOM_OPRATION.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        jPanel2.add(CUSTOM_OPRATION, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 200, 40));
+
+        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel32.setText("Features");
+        jPanel2.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
+
+        NOTIFY.setBackground(new java.awt.Color(0, 0, 0));
+        NOTIFY.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NOTIFYMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                NOTIFYMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                NOTIFYMouseExited(evt);
+            }
+        });
+        NOTIFY.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Notify ");
+        NOTIFY.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(NOTIFY, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 200, 40));
+
+        LOGOUT.setBackground(new java.awt.Color(0, 0, 0));
+        LOGOUT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseExited(evt);
+            }
+        });
+        LOGOUT.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Exit_26px_1.png"))); // NOI18N
+        jLabel15.setText("Logout");
+        LOGOUT.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(LOGOUT, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 200, 40));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void book_queueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        book_queue.setBackground(mousein);
-    }//GEN-LAST:event_book_queueMouseEntered
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_closeMouseClicked
 
-    private void book_queueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseExited
-        // TODO add your handling code here:
-        Color mousein = new Color(0,0,0);
-        book_queue.setBackground(mousein);
-    }//GEN-LAST:event_book_queueMouseExited
-
-    private void book_queueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseClicked
-
-           this.dispose();
-    }//GEN-LAST:event_book_queueMouseClicked
-
-    private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
-            xxx ac = new xxx(id);
-            ac.setVisible(true);
-            this.dispose();
-    }//GEN-LAST:event_readingMouseClicked
-
-    private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseEntered
-
-    private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
-        // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseExited
-
-    private void retrurndedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseClicked
-        contact_with_boss cwb =  new contact_with_boss(id);
-        cwb.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_retrurndedMouseClicked
-
-    private void retrurndedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        retrurnded.setBackground(mousein);
-    }//GEN-LAST:event_retrurndedMouseEntered
-
-    private void retrurndedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseExited
-        // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
-        retrurnded.setBackground(mouseout);
-    }//GEN-LAST:event_retrurndedMouseExited
-
-    private void RetrunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseClicked
-
-        this.dispose();
-    }//GEN-LAST:event_RetrunMouseClicked
-
-    private void RetrunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        Retrun.setBackground(mousein);
-    }//GEN-LAST:event_RetrunMouseEntered
-
-    private void RetrunMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseExited
-        // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
-        Retrun.setBackground(mouseout);
-    }//GEN-LAST:event_RetrunMouseExited
-
-    private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
-          modarator_portal mp = new modarator_portal(id );
-          mp.setVisible(true);
-          this.dispose();
-    }//GEN-LAST:event_book_issueMouseClicked
-
-    private void book_issueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseEntered
-        Color mousein = new Color(51,51,51);
-        book_issue.setBackground(mousein);
-    }//GEN-LAST:event_book_issueMouseEntered
-
-    private void book_issueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseExited
-        Color mouseout = new Color(0,0,0);
-        book_issue.setBackground(mouseout);
-    }//GEN-LAST:event_book_issueMouseExited
-
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
         hp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
-
-    private void all_historyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseClicked
-
-    private void all_historyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseEntered
-
-    private void all_historyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseExited
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
@@ -817,76 +708,189 @@ public void showPieChart(){
         this.dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
 
-    private void book_issue1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issue1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_issue1MouseClicked
+    private void MANAGE_STUDENTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_STUDENTMouseClicked
+        student_management sm = new student_management(id);
+        sm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MANAGE_STUDENTMouseClicked
 
-    private void book_issue1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issue1MouseEntered
+    private void MANAGE_STUDENTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_STUDENTMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_book_issue1MouseEntered
+        Color mousein = new Color(51,51,51);
+        MANAGE_STUDENT.setBackground(mousein);
+    }//GEN-LAST:event_MANAGE_STUDENTMouseEntered
 
-    private void book_issue1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issue1MouseExited
+    private void MANAGE_STUDENTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_STUDENTMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_book_issue1MouseExited
+        Color mousein = new Color(0,0,0);
+        MANAGE_STUDENT.setBackground(mousein);
+    }//GEN-LAST:event_MANAGE_STUDENTMouseExited
 
-    private void book_queue1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queue1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_queue1MouseClicked
+    private void MANAGE_LIBRARIANMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_LIBRARIANMouseClicked
+        Librarian_Management lm = new Librarian_Management(id);
+        lm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MANAGE_LIBRARIANMouseClicked
 
-    private void book_queue1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queue1MouseEntered
+    private void MANAGE_LIBRARIANMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_LIBRARIANMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_book_queue1MouseEntered
+        Color mousein = new Color(51,51,51);
+        MANAGE_LIBRARIAN.setBackground(mousein);
+    }//GEN-LAST:event_MANAGE_LIBRARIANMouseEntered
 
-    private void book_queue1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queue1MouseExited
+    private void MANAGE_LIBRARIANMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_LIBRARIANMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_book_queue1MouseExited
+        Color mouseout = new Color(0,0,0);
+        MANAGE_LIBRARIAN.setBackground(mouseout);
+    }//GEN-LAST:event_MANAGE_LIBRARIANMouseExited
 
-    private void reading1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reading1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_reading1MouseClicked
+    private void MANAGE_MOPDARATORMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseClicked
+        Modarator_Management mm = new Modarator_Management(id);
+        mm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MANAGE_MOPDARATORMouseClicked
 
-    private void reading1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reading1MouseEntered
+    private void MANAGE_MOPDARATORMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_reading1MouseEntered
+        Color mousein = new Color(51,51,51);
+        MANAGE_MOPDARATOR.setBackground(mousein);
+    }//GEN-LAST:event_MANAGE_MOPDARATORMouseEntered
 
-    private void reading1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reading1MouseExited
+    private void MANAGE_MOPDARATORMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_reading1MouseExited
+        Color mouseout = new Color(0,0,0);
+        MANAGE_MOPDARATOR.setBackground(mouseout);
+    }//GEN-LAST:event_MANAGE_MOPDARATORMouseExited
 
-    private void Retrun1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Retrun1MouseClicked
+    private void MANGE_ADMINMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANGE_ADMINMouseClicked
+        Admin_Management am = new Admin_Management(id);
+        am.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MANGE_ADMINMouseClicked
 
-    private void Retrun1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Retrun1MouseEntered
+    private void MANGE_ADMINMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANGE_ADMINMouseEntered
+        Color mousein = new Color(51,51,51);
+        MANGE_ADMIN.setBackground(mousein);
+    }//GEN-LAST:event_MANGE_ADMINMouseEntered
 
-    private void Retrun1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Retrun1MouseExited
+    private void MANGE_ADMINMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANGE_ADMINMouseExited
+        Color mousein = new Color(0,0,0);
+        MANGE_ADMIN.setBackground(mousein);
+    }//GEN-LAST:event_MANGE_ADMINMouseExited
 
-    private void retrurnded1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurnded1MouseClicked
+    private void MANAGE_BOOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_BOOKMouseClicked
+        Book_Management  bm = new Book_Management(id);
+        bm.setVisible(true);
+        this.dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_retrurnded1MouseClicked
+    }//GEN-LAST:event_MANAGE_BOOKMouseClicked
 
-    private void retrurnded1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurnded1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_retrurnded1MouseEntered
+    private void MANAGE_BOOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_BOOKMouseEntered
+        Color mousein = new Color(51,51,51);
+        MANAGE_BOOK.setBackground(mousein);
+    }//GEN-LAST:event_MANAGE_BOOKMouseEntered
 
-    private void retrurnded1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurnded1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_retrurnded1MouseExited
+    private void MANAGE_BOOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_BOOKMouseExited
+        Color mousein = new Color(0,0,0);
+        MANAGE_BOOK.setBackground(mousein);
+    }//GEN-LAST:event_MANAGE_BOOKMouseExited
+
+    private void ALL_HISTORYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ALL_HISTORYMouseClicked
+        all_history ah = new all_history(id);
+        ah.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_ALL_HISTORYMouseClicked
+
+    private void ALL_HISTORYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ALL_HISTORYMouseEntered
+        Color mousein = new Color(51,51,51);
+        ALL_HISTORY.setBackground(mousein);
+    }//GEN-LAST:event_ALL_HISTORYMouseEntered
+
+    private void ALL_HISTORYMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ALL_HISTORYMouseExited
+        Color mousein = new Color(0,0,0);
+        ALL_HISTORY.setBackground(mousein);
+    }//GEN-LAST:event_ALL_HISTORYMouseExited
+
+    private void CUSTOM_OPRATIONMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CUSTOM_OPRATIONMouseClicked
+        Custom_Opration co = new Custom_Opration(id);
+        co.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_CUSTOM_OPRATIONMouseClicked
+
+    private void CUSTOM_OPRATIONMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CUSTOM_OPRATIONMouseEntered
+        Color mousein = new Color(51,51,51);
+        CUSTOM_OPRATION.setBackground(mousein);
+    }//GEN-LAST:event_CUSTOM_OPRATIONMouseEntered
+
+    private void CUSTOM_OPRATIONMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CUSTOM_OPRATIONMouseExited
+        Color mousein = new Color(0,0,0);
+        CUSTOM_OPRATION.setBackground(mousein);
+    }//GEN-LAST:event_CUSTOM_OPRATIONMouseExited
+
+    private void NOTIFYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseClicked
+        Notify nf = new Notify(id);
+        nf.setVisible(true);
+    }//GEN-LAST:event_NOTIFYMouseClicked
+
+    private void NOTIFYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseEntered
+        Color mousein = new Color(51,51,51);
+        NOTIFY.setBackground(mousein);
+    }//GEN-LAST:event_NOTIFYMouseEntered
+
+    private void NOTIFYMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseExited
+        Color mousein = new Color(0,0,0);
+        NOTIFY.setBackground(mousein);
+    }//GEN-LAST:event_NOTIFYMouseExited
+
+    private void HOME_PAGEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOME_PAGEMouseExited
+        Color mouseout = new Color(0,0,0);
+        HOME_PAGE.setBackground(mouseout);
+    }//GEN-LAST:event_HOME_PAGEMouseExited
+
+    private void HOME_PAGEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOME_PAGEMouseEntered
+        Color mousein = new Color(51,51,51);
+        HOME_PAGE.setBackground(mousein);
+    }//GEN-LAST:event_HOME_PAGEMouseEntered
+
+    private void HOME_PAGEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOME_PAGEMouseClicked
+Admin_home AH= new Admin_home(id);
+AH.setVisible(true);
+this.dispose();
+    }//GEN-LAST:event_HOME_PAGEMouseClicked
+
+    private void LOGOUTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseClicked
+        int a = JOptionPane.showConfirmDialog(this,"Do you want to Logout?","woring",JOptionPane.YES_NO_OPTION);
+        if(a == 0){
+            admin_login al = new admin_login();
+            al.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_LOGOUTMouseClicked
+
+    private void LOGOUTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseEntered
+        Color mousein = new Color(51,51,51);
+        LOGOUT.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUTMouseEntered
+
+    private void LOGOUTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseExited
+        Color mousein = new Color(0,0,0);
+        LOGOUT.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUTMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel ALL_HISTORY;
+    private javax.swing.JPanel CUSTOM_OPRATION;
+    private javax.swing.JPanel HOME_PAGE;
+    private javax.swing.JPanel LMS_DESHBOARD;
+    private javax.swing.JPanel LOGOUT;
+    private javax.swing.JPanel MANAGE_BOOK;
+    private javax.swing.JPanel MANAGE_LIBRARIAN;
+    private javax.swing.JPanel MANAGE_MOPDARATOR;
+    private javax.swing.JPanel MANAGE_STUDENT;
+    private javax.swing.JPanel MANGE_ADMIN;
     private javax.swing.JPanel MENU_BAR;
-    private javax.swing.JPanel Retrun;
-    private javax.swing.JPanel Retrun1;
+    private javax.swing.JPanel NOTIFY;
     private javax.swing.JPanel WELCOME;
-    private javax.swing.JPanel all_history;
-    private javax.swing.JPanel book_issue;
-    private javax.swing.JPanel book_issue1;
-    private javax.swing.JPanel book_queue;
-    private javax.swing.JPanel book_queue1;
     private javax.swing.JLabel close;
     private javax.swing.JLabel home;
     private javax.swing.JLabel jLabel1;
@@ -931,12 +935,8 @@ public void showPieChart(){
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel name;
     private javax.swing.JPanel pi_chart;
-    private javax.swing.JPanel reading;
-    private javax.swing.JPanel reading1;
-    private javax.swing.JPanel retrurnded;
-    private javax.swing.JPanel retrurnded1;
     // End of variables declaration//GEN-END:variables
 public static void main(String [] args){
-    xxx x = new xxx(345);
+    Admin_home x = new Admin_home(345);
     x.setVisible(true);
 }}

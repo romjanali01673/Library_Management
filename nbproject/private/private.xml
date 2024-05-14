@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/admin_file/notification.java</file>
-            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/modarator_file/contact_with_student.java</file>
-            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/admin_file/xxx.java</file>
-            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/admin_file/Notify.java</file>
+            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/librarian_file/Receive_book.java</file>
+            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/modarator_login.java</file>
+            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/user_file/change_info.java</file>
+            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/librarian_file/Notify.java</file>
+            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/admin_file/Admin_Management.java</file>
+            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/DB_connection.java</file>
+            <file>file:/C:/Users/romja/Desktop/library/Library_Management/src/jframe/signup.java</file>
         </group>
     </open-files>
 </project-private>

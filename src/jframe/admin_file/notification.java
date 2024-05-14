@@ -247,7 +247,7 @@ public class notification extends javax.swing.JFrame {
         MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
 
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
         home.setToolTipText("GO TO HOME");
         home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -292,8 +292,8 @@ public class notification extends javax.swing.JFrame {
     }//GEN-LAST:event_NotificationMouseExited
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
-        home_page hp = new home_page();
-        hp.setVisible(true);
+        Admin_home ah = new Admin_home(id);
+        ah.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
 

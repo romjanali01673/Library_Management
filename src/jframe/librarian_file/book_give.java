@@ -17,10 +17,10 @@ import jframe.modarator_file.contact_with_boss;
 import jframe.home_page;
 import jframe.modarator_file.modarator_portal;
 
-public class approve_issue_book extends javax.swing.JFrame {
+public class book_give extends javax.swing.JFrame {
     int id;
 
-    public approve_issue_book(int id) {
+    public book_give(int id) {
         this.id = id;
         initComponents();
         set_profile();
@@ -888,13 +888,13 @@ public class approve_issue_book extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(approve_issue_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(book_give.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(approve_issue_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(book_give.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(approve_issue_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(book_give.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(approve_issue_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(book_give.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 

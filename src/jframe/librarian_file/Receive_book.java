@@ -46,48 +46,6 @@ public class Receive_book extends javax.swing.JFrame {
         }catch(Exception e ){
             e.printStackTrace();
         }
-
-    }
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

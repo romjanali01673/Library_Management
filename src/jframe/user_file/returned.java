@@ -10,9 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.modarator_file.approve_student;
-import jframe.modarator_file.contact_with_boss;
-import jframe.modarator_file.contact_with_student;
 import jframe.home_page;
 import jframe.modarator_file.modarator_portal;
 
@@ -43,47 +40,7 @@ public class returned extends javax.swing.JFrame {
         }
 
     }
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
-    }
+ 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -99,9 +56,7 @@ public class returned extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         book_issue = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        get_book_details = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        all_history1 = new javax.swing.JPanel();
+        all_history = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
         close = new javax.swing.JLabel();
@@ -226,47 +181,26 @@ public class returned extends javax.swing.JFrame {
 
         jPanel2.add(book_issue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
 
-        get_book_details.setBackground(new java.awt.Color(0, 0, 0));
-        get_book_details.addMouseListener(new java.awt.event.MouseAdapter() {
+        all_history.setBackground(new java.awt.Color(0, 0, 0));
+        all_history.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                get_book_detailsMouseClicked(evt);
+                all_historyMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                get_book_detailsMouseEntered(evt);
+                all_historyMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                get_book_detailsMouseExited(evt);
+                all_historyMouseExited(evt);
             }
         });
-        get_book_details.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Get Book Details");
-        get_book_details.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(get_book_details, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 200, 40));
-
-        all_history1.setBackground(new java.awt.Color(0, 0, 0));
-        all_history1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                all_history1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                all_history1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                all_history1MouseExited(evt);
-            }
-        });
-        all_history1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        all_history.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("All History");
-        all_history1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        all_history.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
-        jPanel2.add(all_history1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
+        jPanel2.add(all_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
@@ -412,33 +346,32 @@ public class returned extends javax.swing.JFrame {
     }//GEN-LAST:event_book_queueMouseExited
 
     private void book_queueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseClicked
-           approve_student as = new approve_student(id);
-           as.setVisible(true);
-           this.dispose();
+queue ue = new queue(id);
+ue.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_book_queueMouseClicked
 
     private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
-            returned ac = new returned(id);
-            ac.setVisible(true);
-            this.dispose();
+reading rd = new reading (id);
+rd.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_readingMouseClicked
 
     private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
-        // TODO add your handling code here:
         Color mousein = new Color(51,51,51);
         reading.setBackground(mousein);
     }//GEN-LAST:event_readingMouseEntered
 
     private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
         // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
+        Color mousein = new Color(0,0,0);
         reading.setBackground(mousein);
     }//GEN-LAST:event_readingMouseExited
 
     private void retrurndedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseClicked
-        contact_with_boss cwb =  new contact_with_boss(id);
-        cwb.setVisible(true);
-        this.dispose();
+returned rd = new returned(id);
+rd.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_retrurndedMouseClicked
 
     private void retrurndedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseEntered
@@ -449,14 +382,14 @@ public class returned extends javax.swing.JFrame {
 
     private void retrurndedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseExited
         // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
+        Color mouseout = new Color(255,0,0);
         retrurnded.setBackground(mouseout);
     }//GEN-LAST:event_retrurndedMouseExited
 
     private void RetrunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseClicked
-        contact_with_student cws = new contact_with_student(id);
-        cws.setVisible(true);
-        this.dispose();
+    Return rn = new Return(id);
+    rn.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_RetrunMouseClicked
 
     private void RetrunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseEntered
@@ -472,9 +405,9 @@ public class returned extends javax.swing.JFrame {
     }//GEN-LAST:event_RetrunMouseExited
 
     private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
-          modarator_portal mp = new modarator_portal(id );
-          mp.setVisible(true);
-          this.dispose();
+book_issue bi = new book_issue(id);
+bi.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_book_issueMouseClicked
 
     private void book_issueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseEntered
@@ -492,20 +425,6 @@ public class returned extends javax.swing.JFrame {
         hp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
-
-    private void get_book_detailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_get_book_detailsMouseClicked
-        // TODO add your handling code here:
-        get_book_details gbd = newe get_book_details(id);
-        gbd.setVisible(true);
-    }//GEN-LAST:event_get_book_detailsMouseClicked
-
-    private void get_book_detailsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_get_book_detailsMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_get_book_detailsMouseEntered
-
-    private void get_book_detailsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_get_book_detailsMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_get_book_detailsMouseExited
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
@@ -527,54 +446,30 @@ public class returned extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel17MouseClicked
 
-    private void all_history1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_history1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_history1MouseClicked
+    private void all_historyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseClicked
+all_history ah = new all_history(id);
+ah.setVisible(true);
+this.dispose();
+    }//GEN-LAST:event_all_historyMouseClicked
 
-    private void all_history1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_history1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_history1MouseEntered
+    private void all_historyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseEntered
+               Color mouseout = new Color(51,51,51);
+        all_history.setBackground(mouseout);
+    }//GEN-LAST:event_all_historyMouseEntered
 
-    private void all_history1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_history1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_history1MouseExited
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(returned.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(returned.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(returned.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(returned.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
+    private void all_historyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseExited
+               Color mouseout = new Color(0,0,0);
+        all_history.setBackground(mouseout);
+    }//GEN-LAST:event_all_historyMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Retrun;
     private javax.swing.JPanel WELCOME;
-    private javax.swing.JPanel all_history1;
+    private javax.swing.JPanel all_history;
     private javax.swing.JPanel book_issue;
     private javax.swing.JPanel book_queue;
     private javax.swing.JLabel close;
-    private javax.swing.JPanel get_book_details;
     private javax.swing.JLabel home;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -585,7 +480,6 @@ public class returned extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel name;
@@ -593,4 +487,9 @@ public class returned extends javax.swing.JFrame {
     private javax.swing.JPanel reading;
     private javax.swing.JPanel retrurnded;
     // End of variables declaration//GEN-END:variables
+public static void main(String[] args){
+    returned rn = new returned(546);
+    rn.setVisible(true);
+
+}
 }

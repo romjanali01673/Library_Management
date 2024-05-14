@@ -10,11 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.modarator_file.approve_student;
-import jframe.modarator_file.contact_with_boss;
-import jframe.modarator_file.contact_with_student;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
 
 public class reading extends javax.swing.JFrame {
     int id;
@@ -28,7 +24,7 @@ public class reading extends javax.swing.JFrame {
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name from modarator_data where user_id = ?";
+            String sql = "?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -43,47 +39,7 @@ public class reading extends javax.swing.JFrame {
         }
 
     }
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
-    }
+ 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -420,9 +376,9 @@ public class reading extends javax.swing.JFrame {
     }//GEN-LAST:event_book_queueMouseExited
 
     private void book_queueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseClicked
-           approve_student as = new approve_student(id);
-           as.setVisible(true);
-           this.dispose();
+ queue ue = new queue(id);
+ue.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_book_queueMouseClicked
 
     private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
@@ -444,9 +400,9 @@ public class reading extends javax.swing.JFrame {
     }//GEN-LAST:event_readingMouseExited
 
     private void retrurndedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseClicked
-        contact_with_boss cwb =  new contact_with_boss(id);
-        cwb.setVisible(true);
-        this.dispose();
+returned rd = new returned(id);
+rd.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_retrurndedMouseClicked
 
     private void retrurndedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseEntered
@@ -462,9 +418,9 @@ public class reading extends javax.swing.JFrame {
     }//GEN-LAST:event_retrurndedMouseExited
 
     private void RetrunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseClicked
-        contact_with_student cws = new contact_with_student(id);
-        cws.setVisible(true);
-        this.dispose();
+Return rn = new Return(id);
+rn.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_RetrunMouseClicked
 
     private void RetrunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseEntered
@@ -480,9 +436,9 @@ public class reading extends javax.swing.JFrame {
     }//GEN-LAST:event_RetrunMouseExited
 
     private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
-          modarator_portal mp = new modarator_portal(id );
-          mp.setVisible(true);
-          this.dispose();
+book_issue bi = new book_issue(id);
+bi.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_book_issueMouseClicked
 
     private void book_issueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseEntered
@@ -502,7 +458,9 @@ public class reading extends javax.swing.JFrame {
     }//GEN-LAST:event_homeMouseClicked
 
     private void all_historyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseClicked
-        // TODO add your handling code here:
+      all_history ah = new all_history(id);
+ah.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_all_historyMouseClicked
 
     private void all_historyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseEntered
@@ -533,32 +491,6 @@ public class reading extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel17MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(reading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(reading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(reading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(reading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MENU_BAR;
@@ -588,4 +520,8 @@ public class reading extends javax.swing.JFrame {
     private javax.swing.JPanel reading;
     private javax.swing.JPanel retrurnded;
     // End of variables declaration//GEN-END:variables
+public static void main(String []args){
+    reading  re = new reading(4534);
+    re.setVisible(true);
+}
 }

@@ -1,9 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package jframe;
 
+package jframe;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -12,6 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 import java.util.Date;
 import java.util.logging.Level;
@@ -23,6 +23,13 @@ public class signup extends javax.swing.JFrame {
     public boolean bod_date_valid = false;
     String passwd ;
     int ids = 00;
+    
+            
+    public signup() {
+        initComponents();
+        R_date();
+
+    }
     
     public long get_nid_or_birth_number(){
         
@@ -40,6 +47,36 @@ public class signup extends javax.swing.JFrame {
         
         return NID_B_Number;
     }
+    public boolean check_valid_date (){
+        LocalDate bod = get_Birth_Date().toLocalDate();
+        LocalDate today = LocalDate.now();
+        
+        long x =ChronoUnit.YEARS.between(bod, today);
+        boolean ans = true;
+        if(x==0 || x<=7){
+            JOptionPane.showMessageDialog(this, "enter valid birth Date!");
+            System.out.print(x);
+            ans = false;
+        }
+        
+
+        return ans;
+    }
+
+    public  java.sql.Date R_date(){
+        LocalDate today = LocalDate.now();
+        
+        // Convert LocalDate to java.sql.Date
+        java.sql.Date sqlDate = java.sql.Date.valueOf(today);
+        return sqlDate;
+    }
+    public java.sql.Time R_time(){
+        LocalTime now_time = LocalTime.now();
+        java.sql.Time time = java.sql.Time.valueOf(now_time);
+        
+        return time;
+    }
+    
     
     public java.sql.Date get_Birth_Date(){
         bod_date_valid = false;// ai method er " bod_date_valid"  er value akbar change hoila joto e event hok na kano er default value asbe na. last changes e takba.
@@ -78,11 +115,7 @@ public class signup extends javax.swing.JFrame {
         return passwd;
     }
     
-        
-    public signup() {
-        initComponents();
 
-    }
     public boolean  necessary_data_insarted(){
         
         boolean res = true;
@@ -129,6 +162,9 @@ public class signup extends javax.swing.JFrame {
 
             res =  false;
         }
+        else if(!check_valid_date ()){
+            res = false;
+        }
         else if (ID_Of_Institute_Office.equals("")){
             JOptionPane.showMessageDialog(this,  "Enter your ID number of \"institute or Office:\" ");
 
@@ -167,7 +203,7 @@ public class signup extends javax.swing.JFrame {
         
         try {
             Connection con = DB_connection.getConnection();
-            String sql =  "insert into user_info(fast_name, last_name, phone, email, gender, nid_birth_number, date_of_birth, institute_office, id_number, full_address,pass) values(?,?,?,?,?,?,?,?,?,?,?)";
+            String sql =  "insert into registed_student_data( fast_name, last_name, phone, email, gender, dob, nid_birth, institute_office, ins_office_id, full_address, pass, registation_time, registation_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1, F_name);
@@ -181,6 +217,8 @@ public class signup extends javax.swing.JFrame {
             pst.setString(9, ID_Of_Institute_Office);
             pst.setString(10, F_address);
             pst.setString(11, passwd);
+            pst.setTime(11, R_time());
+            pst.setDate(11, R_date());
             
             int updatedRowCount = pst.executeUpdate();
        

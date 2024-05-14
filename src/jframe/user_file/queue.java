@@ -10,11 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.modarator_file.approve_student;
-import jframe.modarator_file.contact_with_boss;
-import jframe.modarator_file.contact_with_student;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
+
 
 public class queue extends javax.swing.JFrame {
     int id;
@@ -44,64 +41,11 @@ public class queue extends javax.swing.JFrame {
         }
 
     }
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        book_queue = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        reading = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        Retrun = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        retrurnded = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        book_issue = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        all_history = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
         close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
@@ -112,34 +56,146 @@ public class queue extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         rSTableMetro2 = new rojeru_san.complementos.RSTableMetro();
+        jPanel2 = new javax.swing.JPanel();
+        reading = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        Retrun = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        retrurnded = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        book_issue = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        all_history = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        book_queue = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
+        MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        book_queue.setBackground(new java.awt.Color(255, 0, 0));
-        book_queue.addMouseListener(new java.awt.event.MouseAdapter() {
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setToolTipText("Click For Exit ");
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                book_queueMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                book_queueMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                book_queueMouseExited(evt);
+                closeMouseClicked(evt);
             }
         });
-        book_queue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Book Queue");
-        book_queue.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
+        name.setText("User");
+        name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameMouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
 
-        jPanel2.add(book_queue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("User Portal");
+        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
+
+        home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
+        home.setToolTipText("GO TO HOME");
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeMouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/icons8_Secured_Letter_50px.png"))); // NOI18N
+        jLabel3.setText("NOTIFICATION");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 170, 50));
+
+        getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
+
+        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
+        WELCOME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel1.setText("You was applyed for this book these book, please collect this book.");
+
+        rSTableMetro2.setBackground(new java.awt.Color(204, 255, 204));
+        rSTableMetro2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, "dfasd", "dfdfsd", null, null, "dfdsf"},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Book ID", "Book Name", "Book Author", "Book Type", "Book Part", "Issue Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        rSTableMetro2.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
+        rSTableMetro2.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        rSTableMetro2.setColorBordeHead(new java.awt.Color(0, 0, 255));
+        rSTableMetro2.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        rSTableMetro2.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
+        rSTableMetro2.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setColorSelForeground(new java.awt.Color(0, 0, 0));
+        rSTableMetro2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rSTableMetro2.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rSTableMetro2.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rSTableMetro2.setRowHeight(30);
+        rSTableMetro2.setShowHorizontalLines(true);
+        rSTableMetro2.setShowVerticalLines(true);
+        jScrollPane3.setViewportView(rSTableMetro2);
+
+        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
+        WELCOME.setLayout(WELCOMELayout);
+        WELCOMELayout.setHorizontalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+            .addGroup(WELCOMELayout.createSequentialGroup()
+                .addGap(203, 203, 203)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        WELCOMELayout.setVerticalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(188, 188, 188))
+        );
+
+        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
+
+        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         reading.setBackground(new java.awt.Color(0, 0, 0));
         reading.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -246,127 +302,28 @@ public class queue extends javax.swing.JFrame {
 
         jPanel2.add(all_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
 
+        book_queue.setBackground(new java.awt.Color(255, 0, 0));
+        book_queue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                book_queueMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                book_queueMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                book_queueMouseExited(evt);
+            }
+        });
+        book_queue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Book Queue");
+        book_queue.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(book_queue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
-
-        MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
-        MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
-
-        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
-        name.setText("User");
-        name.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
-        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
-
-        home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
-        home.setToolTipText("GO TO HOME");
-        home.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                homeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 50));
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/icons8_Secured_Letter_50px.png"))); // NOI18N
-        jLabel3.setText("NOTIFICATION");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 170, 50));
-
-        getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
-
-        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
-        WELCOME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel1.setText("You are reading these book/Returnable books.");
-
-        rSTableMetro2.setBackground(new java.awt.Color(204, 255, 204));
-        rSTableMetro2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, "dfasd", "dfdfsd", null, null, "dfdsf"},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Book ID", "Book Name", "Book Author", "Book Type", "Book Part", "Issue Date"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        rSTableMetro2.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
-        rSTableMetro2.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        rSTableMetro2.setColorBordeHead(new java.awt.Color(0, 0, 255));
-        rSTableMetro2.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
-        rSTableMetro2.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
-        rSTableMetro2.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorSelForeground(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setRowHeight(30);
-        rSTableMetro2.setShowHorizontalLines(true);
-        rSTableMetro2.setShowVerticalLines(true);
-        jScrollPane3.setViewportView(rSTableMetro2);
-
-        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
-        WELCOME.setLayout(WELCOMELayout);
-        WELCOMELayout.setHorizontalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(203, 203, 203)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
-        );
-        WELCOMELayout.setVerticalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
-        );
-
-        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -384,103 +341,22 @@ public class queue extends javax.swing.JFrame {
 
     private void book_queueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseExited
         // TODO add your handling code here:
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(255,0,0);
         book_queue.setBackground(mousein);
     }//GEN-LAST:event_book_queueMouseExited
 
     private void book_queueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseClicked
-           approve_student as = new approve_student(id);
-           as.setVisible(true);
-           this.dispose();
+queue ue = new queue(id);
+ue.setVisible(true);
+this.dispose();
+
     }//GEN-LAST:event_book_queueMouseClicked
-
-    private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
-            queue ac = new queue(id);
-            ac.setVisible(true);
-            this.dispose();
-    }//GEN-LAST:event_readingMouseClicked
-
-    private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseEntered
-
-    private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
-        // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseExited
-
-    private void retrurndedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseClicked
-        contact_with_boss cwb =  new contact_with_boss(id);
-        cwb.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_retrurndedMouseClicked
-
-    private void retrurndedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        retrurnded.setBackground(mousein);
-    }//GEN-LAST:event_retrurndedMouseEntered
-
-    private void retrurndedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseExited
-        // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
-        retrurnded.setBackground(mouseout);
-    }//GEN-LAST:event_retrurndedMouseExited
-
-    private void RetrunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseClicked
-        contact_with_student cws = new contact_with_student(id);
-        cws.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_RetrunMouseClicked
-
-    private void RetrunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        Retrun.setBackground(mousein);
-    }//GEN-LAST:event_RetrunMouseEntered
-
-    private void RetrunMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseExited
-        // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
-        Retrun.setBackground(mouseout);
-    }//GEN-LAST:event_RetrunMouseExited
-
-    private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
-          modarator_portal mp = new modarator_portal(id );
-          mp.setVisible(true);
-          this.dispose();
-    }//GEN-LAST:event_book_issueMouseClicked
-
-    private void book_issueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseEntered
-        Color mousein = new Color(51,51,51);
-        book_issue.setBackground(mousein);
-    }//GEN-LAST:event_book_issueMouseEntered
-
-    private void book_issueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseExited
-        Color mouseout = new Color(0,0,0);
-        book_issue.setBackground(mouseout);
-    }//GEN-LAST:event_book_issueMouseExited
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
         hp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
-
-    private void all_historyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseClicked
-
-    private void all_historyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseEntered
-
-    private void all_historyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_all_historyMouseExited
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
@@ -502,32 +378,94 @@ public class queue extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(queue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(queue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(queue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(queue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
+    private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
+reading rd = new reading (id);
+rd.setVisible(true);
+this.dispose();
+    }//GEN-LAST:event_readingMouseClicked
+
+    private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
+        // TODO add your handling code here:
+        Color mousein = new Color(51,51,51);
+        reading.setBackground(mousein);
+    }//GEN-LAST:event_readingMouseEntered
+
+    private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
+        // TODO add your handling code here:
+        Color mousein = new Color(0,0,0);
+        reading.setBackground(mousein);
+    }//GEN-LAST:event_readingMouseExited
+
+    private void RetrunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseClicked
+        Return cws = new Return(id);
+        cws.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_RetrunMouseClicked
+
+    private void RetrunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseEntered
+        // TODO add your handling code here:
+        Color mousein = new Color(51,51,51);
+        Retrun.setBackground(mousein);
+    }//GEN-LAST:event_RetrunMouseEntered
+
+    private void RetrunMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RetrunMouseExited
+        // TODO add your handling code here:
+        Color mouseout = new Color(0,0,0);
+        Retrun.setBackground(mouseout);
+    }//GEN-LAST:event_RetrunMouseExited
+
+    private void retrurndedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseClicked
+returned rd = new returned(id);
+rd.setVisible(true);
+this.dispose();
+
+    }//GEN-LAST:event_retrurndedMouseClicked
+
+    private void retrurndedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseEntered
+        // TODO add your handling code here:
+        Color mousein = new Color(51,51,51);
+        retrurnded.setBackground(mousein);
+    }//GEN-LAST:event_retrurndedMouseEntered
+
+    private void retrurndedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurndedMouseExited
+        // TODO add your handling code here:
+        Color mouseout = new Color(0,0,0);
+        retrurnded.setBackground(mouseout);
+    }//GEN-LAST:event_retrurndedMouseExited
+
+    private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
+        book_issue bi = new book_issue (id );
+        bi.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_book_issueMouseClicked
+
+    private void book_issueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseEntered
+        Color mousein = new Color(51,51,51);
+        book_issue.setBackground(mousein);
+    }//GEN-LAST:event_book_issueMouseEntered
+
+    private void book_issueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseExited
+        Color mouseout = new Color(0,0,0);
+        book_issue.setBackground(mouseout);
+    }//GEN-LAST:event_book_issueMouseExited
+
+    private void all_historyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseClicked
+all_history ah = new all_history(id);
+ah.setVisible(true);
+this.dispose();
+    }//GEN-LAST:event_all_historyMouseClicked
+
+    private void all_historyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseEntered
+        Color mousein = new Color(51,51,51);
+        all_history.setBackground(mousein);
+    }//GEN-LAST:event_all_historyMouseEntered
+
+    private void all_historyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseExited
+        Color mousein = new Color(0,0,0);
+        all_history.setBackground(mousein);
+    }//GEN-LAST:event_all_historyMouseExited
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MENU_BAR;
@@ -554,4 +492,7 @@ public class queue extends javax.swing.JFrame {
     private javax.swing.JPanel reading;
     private javax.swing.JPanel retrurnded;
     // End of variables declaration//GEN-END:variables
-}
+public static void main(String [] args){
+    queue ue = new queue(453);
+    ue.setVisible(true);
+}}

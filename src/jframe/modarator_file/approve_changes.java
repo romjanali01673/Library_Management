@@ -646,12 +646,9 @@ public class approve_changes extends javax.swing.JFrame {
                     .addGroup(WELCOMELayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addComponent(jLabel30)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addComponent(jLabel30)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(WELCOMELayout.createSequentialGroup()
                                 .addComponent(fast_name1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -735,15 +732,16 @@ public class approve_changes extends javax.swing.JFrame {
     }//GEN-LAST:event_approve_studentMouseExited
 
     private void approve_studentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_approve_studentMouseClicked
-           approve_student as = new approve_student(id);
-           as.setVisible(true);
-           this.dispose();
+approve_student as = new approve_student(id);
+as.setVisible(true);
+this.dispose();
+
     }//GEN-LAST:event_approve_studentMouseClicked
 
     private void approve_changesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_approve_changesMouseClicked
             approve_changes ac = new approve_changes(id);
-            ac.setVisible(true);
-            this.dispose();
+ac.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_approve_changesMouseClicked
 
     private void approve_changesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_approve_changesMouseEntered
@@ -884,33 +882,7 @@ public class approve_changes extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel31MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(approve_changes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(approve_changes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(approve_changes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(approve_changes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSMaterialButtonCircle APPROVE;
     private javax.swing.JPanel MENU_BAR;
@@ -979,4 +951,9 @@ public class approve_changes extends javax.swing.JFrame {
     private app.bolivia.swing.JCTextField student_id;
     private javax.swing.JPanel welcome;
     // End of variables declaration//GEN-END:variables
-}
+public static void main(String[]args){
+approve_changes ac;
+        ac = new approve_changes(56);
+
+ac.setVisible(true);
+}}

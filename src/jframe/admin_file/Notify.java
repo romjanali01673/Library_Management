@@ -90,18 +90,15 @@ public class Notify extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         Notification = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jCTextField1 = new app.bolivia.swing.JCTextField();
         jCTextField2 = new app.bolivia.swing.JCTextField();
-        jCTextField4 = new app.bolivia.swing.JCTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
@@ -152,18 +149,8 @@ public class Notify extends javax.swing.JFrame {
 
         jPanel2.add(Notification, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
 
-        jCTextField1.setText("jCTextField1");
-        jPanel2.add(jCTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, -1, -1));
-
         jCTextField2.setText("jCTextField1");
         jPanel2.add(jCTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, -1, -1));
-
-        jCTextField4.setText("jCTextField1");
-        jPanel2.add(jCTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel3.setText("Message Time");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 102));
@@ -181,20 +168,16 @@ public class Notify extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, 960, 450));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel6.setText("Message Date");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
-
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jTextArea2.setText("rdhfghsdfghsjdfhgdkfj iorutoierutiuewr ierutieurtiueryteru iert \ntueriutierytiu\n\n\n\n\n\n\n\n\n\n\n\n\n\neroituerotu\nreutoert\noerutoeiur\noierutoeruit\noieruteriu\nrioteruit\nerotuoei");
         jScrollPane2.setViewportView(jTextArea2);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 280, 260));
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 280, 260));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel7.setText("Message");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, -1, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
 
         rSMaterialButtonCircle1.setText("send");
         rSMaterialButtonCircle1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -211,45 +194,48 @@ public class Notify extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setText("To");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Student");
-        jPanel2.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, -1, -1));
+        jPanel2.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, -1));
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Librarian");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, -1, -1));
+        jPanel2.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, -1, -1));
 
+        buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("Modarator");
-        jPanel2.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, -1, -1));
+        jPanel2.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
 
         jCTextField3.setText("jCTextField3");
-        jPanel2.add(jCTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 560, -1, -1));
+        jPanel2.add(jCTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, -1, -1));
 
         jButton1.setText("jButton1");
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 610, 90, -1));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 600, 90, -1));
 
         jCTextField5.setText("jCTextField5");
-        jPanel2.add(jCTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 620, -1, -1));
+        jPanel2.add(jCTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 590, -1, -1));
 
         jCTextField7.setText("jCTextField7");
-        jPanel2.add(jCTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 550, -1, -1));
+        jPanel2.add(jCTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 590, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("His/Her ID");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("His/Her Full Nmae ");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 590, -1, -1));
+        jLabel10.setText("His/Her NID No ");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 560, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("His/Her Full Nmae ");
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 520, -1, -1));
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 560, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1360, 670));
 
@@ -400,13 +386,12 @@ public class Notify extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Notification;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel close;
     private javax.swing.JLabel home;
     private javax.swing.JButton jButton1;
-    private app.bolivia.swing.JCTextField jCTextField1;
     private app.bolivia.swing.JCTextField jCTextField2;
     private app.bolivia.swing.JCTextField jCTextField3;
-    private app.bolivia.swing.JCTextField jCTextField4;
     private app.bolivia.swing.JCTextField jCTextField5;
     private app.bolivia.swing.JCTextField jCTextField7;
     private javax.swing.JLabel jLabel1;
@@ -414,10 +399,8 @@ public class Notify extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
