@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package jframe;
 import jframe.librarian_file.book_give;
 import java.sql.Connection;
@@ -16,6 +13,7 @@ public class librarian_login extends javax.swing.JFrame {
     int user_id;
     String passwd;
     String newpass = "";
+    String position;
 
     public librarian_login() {
         initComponents();
@@ -28,11 +26,13 @@ public class librarian_login extends javax.swing.JFrame {
             try{
             //method 1: 
             Connection con = DB_connection.getConnection();
-            String sql = "update librarian_data set pass = ? where id = ?";
+            String sql = "update employee_data set pass = ? where user_id = ? and position = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1,newpass);
             pst.setInt(2,id);
+            pst.setString(3,position);
+            
             pst.executeUpdate();
             
             //method 2:
@@ -54,11 +54,12 @@ public class librarian_login extends javax.swing.JFrame {
         if(validity()){
         try{
         Connection con = DB_connection.getConnection();
-        String sql = "select * from librarian_data where id =? and pass = ? ";
+        String sql = "select * from employee_data where user_id =? and pass = ? and position = ? ";
         PreparedStatement pst = con.prepareStatement(sql);
         
         pst.setInt(1, user_id);
         pst.setString(2,passwd);
+        pst.setString(3,position);
         
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
@@ -80,11 +81,13 @@ public class librarian_login extends javax.swing.JFrame {
         boolean result = false;
         try{
         Connection con = DB_connection.getConnection();
-        String sql = "select * from librarian_data where id = ? and another_name = ?";
+        String sql = "select * from employee_data where user_id = ? and last_name = ? and position = ?";
         
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setString(2,name);
         pst.setInt(1, id);
+        pst.setString(3,position);
+        
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
             result = true;
@@ -109,7 +112,23 @@ public class librarian_login extends javax.swing.JFrame {
         }
         return result;
     }
-    
+        public String remove_white_space(String str){
+        // Remove leading whitespaces
+        int start = 0;
+        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
+            start++;
+        }
+
+        // Remove trailing whitespaces
+        int end = str.length() - 1;
+        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
+            end--;
+        }
+        String sub_string = str.substring(start, end+1);
+
+        // Return the substring without leading and trailing whitespaces
+        return sub_string;
+    }
     public boolean get_login_data(){
     boolean result = true;
     try{
@@ -298,7 +317,9 @@ public class librarian_login extends javax.swing.JFrame {
     private void forgotMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotMouseClicked
         // TODO add your handling code here:
         String i =JOptionPane.showInputDialog(this, "what is your user id?");
-        String name = JOptionPane.showInputDialog(this, "What is your \"last name\" name?");
+        i = remove_white_space(i);
+        String name = JOptionPane.showInputDialog(this, "What is your \"Last Name\" name?");
+        name = remove_white_space(name);
         int id = Integer.valueOf(i);
         if(forgotten_pass(id,name)){
             String pass = JOptionPane.showInputDialog(this, "Enter new password:");

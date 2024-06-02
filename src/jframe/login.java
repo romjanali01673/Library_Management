@@ -15,7 +15,6 @@ public class login extends javax.swing.JFrame {
 
     int user_id;
     String passwd;
-    String newpass = "";
 
     public login() {
         initComponents();
@@ -28,7 +27,7 @@ public class login extends javax.swing.JFrame {
             try{
             //method 1: 
             Connection con = DB_connection.getConnection();
-            String sql = "update user_info set pass = ? where id = ?";
+            String sql = "update student_data set pass = ? where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1,newpass);
@@ -54,7 +53,7 @@ public class login extends javax.swing.JFrame {
         if(validity()){
         try{
         Connection con = DB_connection.getConnection();
-        String sql = "select * from user_info where id =? and pass = ? ";
+        String sql = "select * from student_data where user_id =? and pass = ? ";
         PreparedStatement pst = con.prepareStatement(sql);
         
         pst.setInt(1, user_id);
@@ -64,7 +63,7 @@ public class login extends javax.swing.JFrame {
         if(rs.next()){
             JOptionPane.showMessageDialog(this,"You have successfully Logined");
             result = true;
-            this.dispose();
+            
         }
         else{
             JOptionPane.showMessageDialog(this,"User not found!");
@@ -80,7 +79,7 @@ public class login extends javax.swing.JFrame {
         boolean result = false;
         try{
         Connection con = DB_connection.getConnection();
-        String sql = "select * from user_info where id = ? and last_name = ?";
+        String sql = "select * from student_data where user_id = ? and last_name = ?";
         
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setString(2,name);
@@ -96,6 +95,24 @@ public class login extends javax.swing.JFrame {
     }
         return result;
     }
+        public String remove_white_space(String str){
+        // Remove leading whitespaces
+        int start = 0;
+        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
+            start++;
+        }
+
+        // Remove trailing whitespaces
+        int end = str.length() - 1;
+        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
+            end--;
+        }
+        String sub_string = str.substring(start, end+1);
+
+        // Return the substring without leading and trailing whitespaces
+        return sub_string;
+    }
+        
     public boolean validity(){
         get_login_data();
         boolean result= true;
@@ -145,7 +162,7 @@ public class login extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
-        user_id_number.setPlaceholder("User ID/Number ");
+        user_id_number.setPlaceholder("User ID-");
         user_id_number.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 user_id_numberActionPerformed(evt);
@@ -284,7 +301,7 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_loginActionPerformed
 
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
-        signup s = new signup();
+        registation s = new registation();
         s.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_signupActionPerformed
@@ -292,7 +309,9 @@ public class login extends javax.swing.JFrame {
     private void forgotMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotMouseClicked
         // TODO add your handling code here:
         String i =JOptionPane.showInputDialog(this, "what is your user id?");
+        i = remove_white_space(i);
         String name = JOptionPane.showInputDialog(this, "What is your \"last name\" name?");
+        name = remove_white_space(name);
         int id = Integer.valueOf(i);
         if(forgotten_pass(id,name)){
             String pass = JOptionPane.showInputDialog(this, "Enter new password:");

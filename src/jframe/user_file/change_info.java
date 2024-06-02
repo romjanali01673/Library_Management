@@ -41,7 +41,25 @@ String passr;
         set_user_data();
         
     }
-    public void set_user_data(){
+    
+        public String remove_white_space(String str){
+        // Remove leading whitespaces
+        int start = 0;
+        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
+            start++;
+        }
+
+        // Remove trailing whitespaces
+        int end = str.length() - 1;
+        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
+            end--;
+        }
+        String sub_string = str.substring(start, end+1);
+
+        // Return the substring without leading and trailing whitespaces
+        return sub_string;
+    }
+public void set_user_data(){
 fast_name.setText(fast_namer);
  last_name.setText(last_namer);
  phone .setText(phoner);
@@ -67,7 +85,7 @@ else{
     public void get_pastdata(int id){     
     try {
     Connection con = DB_connection.getConnection();
-    String sql = "SELECT * FROM user_info WHERE id = ?";
+    String sql = "SELECT * FROM student_data WHERE user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setInt(1,id);
 
@@ -79,10 +97,10 @@ else{
         phoner = rs.getString("phone"); 
         emailr = rs.getString("email"); 
         genderr = rs.getString("gender"); 
-        nid_birth_numberr = rs.getLong("nid_birth_number"); 
-        Date_of_birthr = rs.getDate("date_of_birth"); 
+        nid_birth_numberr = rs.getLong("nid_birth"); 
+        Date_of_birthr = rs.getDate("dob"); 
         institute_officer = rs.getString("institute_office"); 
-        id_numberr = rs.getString("id_number"); // 
+        id_numberr = rs.getString("ins_office_id"); // 
         full_addressr = rs.getString("full_address");
         passr = rs.getString("pass");
     } else {
@@ -94,12 +112,11 @@ else{
     e.printStackTrace();
 
 }
-
     }
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from user_info where id = ?";
+            String sql = "select fast_name, last_name from student_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -240,8 +257,8 @@ else{
     
 
     
-    // method insart values into user table 
-    public void insartSignUpDetails(){
+    // method insart  new values into user table 
+    public void update(){
         
         String F_name  = fast_name.getText().toUpperCase();
         String L_name = last_name.getText().toUpperCase();
@@ -255,30 +272,35 @@ else{
         
         try {
             Connection con = DB_connection.getConnection();
-            String sql =  "update user_info set fast_name =?, last_name  =?,phone =?, email =?, gender =?, nid_birth_number =?, date_of_birth =?, institute_office =?, id_number =?, full_address =?,pass =? where id = ?";
+            String sql =  "insert into changes_student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , remark,user_id,) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql1 = "update student_data set pass = ? where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
+            PreparedStatement pst1 = con.prepareStatement(sql1);
             
-            pst.setString(1, F_name);
-            pst.setString(2, L_name);
-            pst.setString(3, Phone);
-            pst.setString(4, Email);
+            pst1.setString(1, pass());
+            pst1.setInt(2, id);
+            
+            pst.setString(1, remove_white_space(F_name));
+            pst.setString(2, remove_white_space(L_name));
+            pst.setString(3, remove_white_space(Phone));
+            pst.setString(4, remove_white_space(Email));
             pst.setString(5, Gender);
             pst.setLong(6, get_nid_or_birth_number());
             pst.setDate(7, get_Birth_Date());
-            pst.setString(8, Institute_Office);
-            pst.setString(9, ID_Of_Institute_Office);
-            pst.setString(10, F_address);
-            pst.setString(11, passwd);
-            
-            pst.setInt(12, id);
-            
+            pst.setString(8, remove_white_space(Institute_Office));
+            pst.setString(9, remove_white_space(ID_Of_Institute_Office));
+            pst.setString(10, remove_white_space(F_address));
+            pst.setString(11,remove_white_space(remarktf.getText()));
+            pst.setInt(12,id);
+
             int updatedRowCount = pst.executeUpdate();
+            int updatedRowCount1 = pst1.executeUpdate();
        
            
-            if ( updatedRowCount > 0){
+            if ( updatedRowCount > 0 && updatedRowCount1>0){
                JOptionPane.showMessageDialog(this, "Account Update request was send");
                JOptionPane.showMessageDialog(this, "visit our office with all necesary document..");
-               
+               JOptionPane.showMessageDialog(this, "Remamber, Password has been updated");
            }
            else{
                JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
@@ -332,7 +354,7 @@ else{
         jLabel11 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        remarktf = new javax.swing.JTextArea();
         MENU_BAR = new javax.swing.JPanel();
         close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
@@ -613,18 +635,18 @@ else{
         jScrollPane1.setAutoscrolls(true);
         jScrollPane1.setFocusTraversalPolicyProvider(true);
 
-        jTextArea3.setColumns(15);
-        jTextArea3.setLineWrap(true);
-        jTextArea3.setRows(4);
-        jTextArea3.setTabSize(4);
-        jTextArea3.setText("Remark Here...");
-        jTextArea3.setToolTipText("More Details = More Possiblity To Approve Your Request.");
-        jTextArea3.setWrapStyleWord(true);
-        jTextArea3.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextArea3.setPreferredSize(new java.awt.Dimension(0, 0));
-        jTextArea3.setSelectedTextColor(new java.awt.Color(51, 0, 255));
-        jTextArea3.setSelectionColor(new java.awt.Color(153, 153, 255));
-        jScrollPane1.setViewportView(jTextArea3);
+        remarktf.setColumns(15);
+        remarktf.setLineWrap(true);
+        remarktf.setRows(4);
+        remarktf.setTabSize(4);
+        remarktf.setText("Remark Here...");
+        remarktf.setToolTipText("More Details = More Possiblity To Approve Your Request.");
+        remarktf.setWrapStyleWord(true);
+        remarktf.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        remarktf.setPreferredSize(new java.awt.Dimension(0, 0));
+        remarktf.setSelectedTextColor(new java.awt.Color(51, 0, 255));
+        remarktf.setSelectionColor(new java.awt.Color(153, 153, 255));
+        jScrollPane1.setViewportView(remarktf);
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
@@ -632,39 +654,40 @@ else{
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(id_of_institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(WELCOMELayout.createSequentialGroup()
-                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(fast_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(59, 59, 59)
-                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(custom)
-                                .addComponent(female)
-                                .addComponent(date_of_birth, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(nid_birth_number, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(male)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addComponent(confirm_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(full_address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(36, 36, 36)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addContainerGap(60, Short.MAX_VALUE)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(id_of_institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(WELCOMELayout.createSequentialGroup()
+                                    .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(fast_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(59, 59, 59)
+                                    .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(custom)
+                                        .addComponent(female)
+                                        .addComponent(date_of_birth, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nid_birth_number, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(male)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(WELCOMELayout.createSequentialGroup()
+                                .addComponent(confirm_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(full_address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(36, 36, 36)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(57, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -824,8 +847,7 @@ else{
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
 
-        if (necessary_data_insarted()){
-        insartSignUpDetails();}
+
     }//GEN-LAST:event_submitActionPerformed
 
     private void nid_birth_numberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nid_birth_numberActionPerformed
@@ -956,7 +978,8 @@ else{
         // TODO add your handling code here:
         String x = JOptionPane.showInputDialog(this,"enter your current password.");
         if (x .equals(passr)){
-            JOptionPane.showMessageDialog(this,"account Updatted!");
+                    if (necessary_data_insarted()){
+                    update();}
         }
         else{
             JOptionPane.showMessageDialog(this,"Wrong Password!!!");
@@ -985,7 +1008,7 @@ else{
     }//GEN-LAST:event_jLabel17MouseClicked
 
     public static void main(String args[]) {
-        change_info cf = new change_info(95);
+        change_info cf = new change_info(0000003);
         cf.setVisible(true);
         
         try {
@@ -1042,7 +1065,6 @@ else{
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea3;
     private app.bolivia.swing.JCTextField last_name;
     private javax.swing.JCheckBox last_namecb;
     private javax.swing.JRadioButton male;
@@ -1053,6 +1075,7 @@ else{
     private rojerusan.RSPasswordTextPlaceHolder password;
     private app.bolivia.swing.JCTextField phone;
     private javax.swing.JCheckBox phonecb;
+    private javax.swing.JTextArea remarktf;
     private rojerusan.RSMaterialButtonCircle submit;
     // End of variables declaration//GEN-END:variables
 }

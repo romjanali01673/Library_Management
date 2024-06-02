@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package jframe;
 
 import javax.swing.JOptionPane;
@@ -15,6 +12,7 @@ import java.sql.ResultSet;
 public class admin_login extends javax.swing.JFrame {
     String user_names;
     String passwd;
+    String position;
     
     public admin_login() {
         initComponents();
@@ -27,11 +25,13 @@ public class admin_login extends javax.swing.JFrame {
             try{
             //method 1: 
             Connection con = DB_connection.getConnection();
-            String sql = "update admin_data set PASSWORD = ? where user_name = ?";
+            String sql = "update employee_data set pass = ? where user_id = ? and position = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1,newpass);
             pst.setString(2,U_name);
+            pst.setString(3,position);
+            
             pst.executeUpdate();
             
             }catch (Exception e){
@@ -40,15 +40,33 @@ public class admin_login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"password updated.");
         }
     }
+        public String remove_white_space(String str){
+        // Remove leading whitespaces
+        int start = 0;
+        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
+            start++;
+        }
+
+        // Remove trailing whitespaces
+        int end = str.length() - 1;
+        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
+            end--;
+        }
+        String sub_string = str.substring(start, end+1);
+
+        // Return the substring without leading and trailing whitespaces
+        return sub_string;
+    }
       public void valid(){
         if(validity()){
         try{
         Connection con = DB_connection.getConnection();
-        String sql = "select * from modarator_data where user_id =? and password = ? ";
+        String sql = "select * from employee_data where user_id =? and pass = ? and position = ? ";
         PreparedStatement pst = con.prepareStatement(sql);
         
         pst.setString(1, user_names);
         pst.setString(2,passwd);
+        pst.setString(3,position);
         
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
@@ -65,15 +83,17 @@ public class admin_login extends javax.swing.JFrame {
         }
         }
     }
-    public boolean forgotten_pass(String user_name, String name){
+    public boolean forgotten_pass(int id, String name){
         boolean result = false;
         try{
         Connection con = DB_connection.getConnection();
-        String sql = "select * from admin_data where user_name = ? and another_name = ?";
+        String sql = "select * from employee_data where user_id = ? and last_name = ? and position = ?";
         
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setString(2,name);
-        pst.setString(1, user_name);
+        pst.setInt(1, id);
+        pst.setString(3,position);
+        
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
             result = true;
@@ -213,9 +233,12 @@ public class admin_login extends javax.swing.JFrame {
 
     private void forgotMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotMouseClicked
         // TODO add your handling code here:
-        String U_name =JOptionPane.showInputDialog(this, "what is user_name?");
-        String A_name = JOptionPane.showInputDialog(this, "What is your \"Another name\" name?");
-        if(forgotten_pass(U_name,A_name)){
+        String U_name =JOptionPane.showInputDialog(this, "what is user_id?");
+        U_name = remove_white_space(U_name);
+        int user_id = Integer.parseInt(U_name);
+        String A_name = JOptionPane.showInputDialog(this, "What is your \"Last Name\" name?");
+        A_name = remove_white_space(A_name);
+        if(forgotten_pass(user_id,A_name)){
             String pass = JOptionPane.showInputDialog(this, "Enter new password:");
             updatepass(U_name, pass);
         }

@@ -116,7 +116,7 @@
       <SubComponents>
         <Component class="app.bolivia.swing.JCTextField" name="user_id_number">
           <Properties>
-            <Property name="placeholder" type="java.lang.String" value="User ID/Number "/>
+            <Property name="placeholder" type="java.lang.String" value="User ID-"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="user_id_numberActionPerformed"/>

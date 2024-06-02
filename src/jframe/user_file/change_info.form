@@ -302,47 +302,50 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jLabel11" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
-                  <EmptySpace pref="60" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="institute_office" min="-2" pref="333" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                          <Component id="id_of_institute_office" min="-2" pref="128" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="phone" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="email" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="fast_name" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="last_name" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="submit" min="-2" pref="133" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace pref="60" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="institute_office" min="-2" pref="333" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                  <Component id="id_of_institute_office" min="-2" pref="128" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="phone" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="email" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="fast_name" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="last_name" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="59" pref="59" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="custom" min="-2" max="-2" attributes="0"/>
+                                          <Component id="female" min="-2" max="-2" attributes="0"/>
+                                          <Component id="date_of_birth" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
+                                          <Component id="nid_birth_number" min="-2" pref="230" max="-2" attributes="0"/>
+                                          <Component id="male" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel3" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="59" pref="59" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="custom" min="-2" max="-2" attributes="0"/>
-                                  <Component id="female" min="-2" max="-2" attributes="0"/>
-                                  <Component id="date_of_birth" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
-                                  <Component id="nid_birth_number" min="-2" pref="230" max="-2" attributes="0"/>
-                                  <Component id="male" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="confirm_password" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="password" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="full_address" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jScrollPane1" pref="498" max="32767" attributes="0"/>
+                              <Component id="jLabel5" min="-2" pref="497" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="confirm_password" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="password" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="full_address" alignment="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jScrollPane1" pref="498" max="32767" attributes="0"/>
-                      <Component id="jLabel5" min="-2" pref="497" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="57" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="submit" min="-2" pref="275" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -588,7 +591,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea3">
+            <Component class="javax.swing.JTextArea" name="remarktf">
               <Properties>
                 <Property name="columns" type="int" value="15"/>
                 <Property name="lineWrap" type="boolean" value="true"/>

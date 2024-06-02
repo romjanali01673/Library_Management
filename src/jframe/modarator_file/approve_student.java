@@ -8,26 +8,226 @@ import jframe.modarator_file.contact_with_boss;
 import jframe.modarator_file.contact_with_student;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import jframe.DB_connection;
 import jframe.home_page;
 
 public class approve_student extends javax.swing.JFrame {
     int id;
+    String Student_pass = "";
     
     approve_student(int id){
         this.id=id;
-        initComponents();
-        set_profile();
-        
+        initComponents();// main function always fast compile korta hoiba
+        set_profile();  
+        set_table();
     }
+  
+    public java.sql.Date string_to_date(String dateString){
+        // Define the format of the input date string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            // Parse the date string into a java.util.Date object
+            java.util.Date parsedUtilDate = dateFormat.parse(dateString);
+
+            // Convert the java.util.Date object to a java.sql.Date object
+            java.sql.Date sqlDate = new java.sql.Date(parsedUtilDate.getTime());
+
+            // Print the java.sql.Date object
+            System.out.println("Converted java.sql.Date: " + sqlDate);
+            return sqlDate;
+        } catch (ParseException e) {
+            // Handle parsing errors
+            e.printStackTrace();
+        }
+        return null;
+    }
+        public java.sql.Time string_to_time(String dateString){
+        // Define the format of the input date string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+
+        try {
+            // Parse the date string into a java.util.Date object
+            java.util.Date parsedUtilDate = dateFormat.parse(dateString);
+
+            // Convert the java.util.Date object to a java.sql.Date object
+            java.sql.Time sqlTime = new java.sql.Time(parsedUtilDate.getTime());
+
+            // Print the java.sql.Date object
+            System.out.println("Converted java.sql.Date: " + sqlTime);
+            return sqlTime;
+        } catch (ParseException e) {
+            // Handle parsing errors
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public  java.sql.Date R_date(){
+        LocalDate today = LocalDate.now();
+        
+        // Convert LocalDate to java.sql.Date
+        java.sql.Date sqlDate = java.sql.Date.valueOf(today);
+        return sqlDate;
+    }
+    public java.sql.Time R_time(){
+        LocalTime now_time = LocalTime.now();
+        java.sql.Time time = java.sql.Time.valueOf(now_time);
+        return time;
+    }
+    public boolean confirm_approve(){
+        boolean result = true;
+
+        try{
+        Connection con = DB_connection.getConnection();
+        String sql1 = "delete from registaed_student_data where nid_birth = ? ";
+        String sql = "insert into student_data(fast_name, last_name, phone, email, gender, dob , nid_birth, institute_office, ins_office_id, full_address, pass, registation_time, registation_date, approve_time, approve_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst1 = con.prepareStatement(sql1);
+        pst1.setLong(1, Long.parseLong(nid_birth.getText()));
+        
+        pst.setString(1,fast_name.getText());
+        pst.setString(2,last_name.getText());
+        pst.setString(3,phone.getText());
+        pst.setString(4,email.getText());
+        pst.setString(5,gender.getText());
+        pst.setDate(6, string_to_date(dob.getText()));
+        pst.setLong(7,Long.parseLong(nid_birth.getText()));
+        pst.setString(8,institute_office.getText());
+        pst.setString(9,ins_office_id.getText());
+        pst.setString(10,full_address.getText());
+        pst.setString(11,Student_pass);
+        pst.setTime(12,string_to_time(registed_time.getText()));//registation time
+        pst.setDate(13,string_to_date(registed_date.getText()));//registation date
+        pst.setTime(14,R_time());//approve time
+        pst.setDate(15,R_date());//approve date
+
+        pst1.executeUpdate();
+        int rs = pst.executeUpdate();
+        if(rs>0){
+            JOptionPane.showMessageDialog(this,"Approved.");
+        }else{
+            result = false;
+        }
+        }catch (Exception e){
+            e.printStackTrace();
+            result = false;
+            JOptionPane.showMessageDialog(this,"server Disconnected!");
+        }
+        return result;
+    }
+    // the method help to find someone by any type of spacific data.
+    public void find_by_id(){
+
+        String query = String.valueOf(info.getText()).toUpperCase();
+        
+        DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table_data.setRowSorter(sorter);
+        sorter.setRowFilter(RowFilter.regexFilter(query));
+    }
+        
+    public long get_nid_birth_from_table(){
+        DefaultTableModel model = (DefaultTableModel)table_data.getModel();
+        //get row Number as index number;
+        int row = table_data.getSelectedRow();
+        long nid_birth = (long) model.getValueAt(row,1);//nid_birth column index is : 1
+        return nid_birth;
+    }
+    public void set_data_in_textfield(){
+        try{
+            
+        Connection con = DB_connection.getConnection();
+        String sql = "select * from registaed_student_data where nid_birth = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setLong(1,get_nid_birth_from_table());
+        
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+                String fast_name = rs.getString("fast_name");
+                String last_name = rs.getString("last_name");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String gender = rs.getString("gender");
+                java.sql.Date dob = rs.getDate("dob");
+                Long nid_birth = rs.getLong("nid_birth");
+                String institute_office = rs.getString("institute_office");
+                String ins_office_id = rs.getString("ins_office_id");
+                String full_address = rs.getString("full_address");
+                Student_pass = rs.getString("pass");
+                java.sql.Time registation_time = rs.getTime("registation_time");
+                java.sql.Date registation_date = rs.getDate("registation_date");
+                
+                //set data in TextField
+                this.fast_name.setText(fast_name);
+                this.last_name.setText(last_name);
+                this.phone.setText(phone);
+                this.email.setText(email);
+                this.gender.setText(gender);
+                this.dob.setText(dob.toString());
+                this.nid_birth.setText(nid_birth.toString());
+                this.institute_office.setText(institute_office);
+                this.ins_office_id.setText(ins_office_id);
+                this.full_address.setText(full_address);
+                this.registed_date.setText(registation_date.toString());
+                this.registed_time.setText(registation_time.toString());
+        }
+        
+        }catch (Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"server Disconnected!");
+
+        }
+    }
+  public void set_table(){
+       try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
+            Statement st = con.createStatement();
+            String sql = "select * from registaed_student_data";
+            ResultSet rs = st.executeQuery(sql);
+            // the while loop will add a row by eatch 1 looping.
+            while(rs.next()){
+                String fast_name = rs.getString("fast_name");
+                String last_name = rs.getString("last_name");
+                String phone = rs.getString("phone");
+                //String email = rs.getString("email");
+                //String gender = rs.getString("gender");
+                //java.sql.Date dob = rs.getDate("dob");
+                Long nid_birth = rs.getLong("nid_birth");
+                //String institute_office = rs.getString("institute_office");
+                //String ins_office_id = rs.getString("ins_office_id");
+                //String fill_address = rs.getString("full_address");
+                //String pass = rs.getString("pass");
+                //java.sql.Time registation_time = rs.getTime("registation_time");
+                java.sql.Date registation_date = rs.getDate("registation_date");
+                //set data in table
+                Object[] obj = {fast_name+" "+last_name,nid_birth,registation_date,phone};
+                DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+                model.addRow(obj);
+            }
+       }catch(Exception E){
+           System.out.println("erroes");
+           E.printStackTrace();
+       }}
+    
     public void set_profile(){
         System.out.print(id);
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select full_name from modarator_data where user_id = ?";
+            String sql = "select * from employee_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -35,7 +235,6 @@ public class approve_student extends javax.swing.JFrame {
             if(rs.next()){
                 String a = rs.getString("full_name");
                 name.setText(a);
-                
             }
         }catch(Exception e ){
             e.printStackTrace();
@@ -43,48 +242,7 @@ public class approve_student extends javax.swing.JFrame {
 
     }
 
-    
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
-    }
+            
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -112,8 +270,8 @@ public class approve_student extends javax.swing.JFrame {
         APPROVE = new rojerusan.RSMaterialButtonCircle();
         last_name = new app.bolivia.swing.JCTextField();
         institute_office = new app.bolivia.swing.JCTextField();
-        id_of_institute_office = new app.bolivia.swing.JCTextField();
-        nid_birth_number = new app.bolivia.swing.JCTextField();
+        ins_office_id = new app.bolivia.swing.JCTextField();
+        nid_birth = new app.bolivia.swing.JCTextField();
         email = new app.bolivia.swing.JCTextField();
         jLabel3 = new javax.swing.JLabel();
         full_address = new app.bolivia.swing.JCTextField();
@@ -127,12 +285,20 @@ public class approve_student extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
-        student_id = new app.bolivia.swing.JCTextField();
-        jButton1 = new javax.swing.JButton();
+        info = new app.bolivia.swing.JCTextField();
         dob = new app.bolivia.swing.JCTextField();
-        jCTextField1 = new app.bolivia.swing.JCTextField();
+        gender = new app.bolivia.swing.JCTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_data = new rojeru_san.complementos.RSTableMetro();
+        jLabel1 = new javax.swing.JLabel();
+        registed_date = new app.bolivia.swing.JCTextField();
+        registed_time = new app.bolivia.swing.JCTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -289,7 +455,7 @@ public class approve_student extends javax.swing.JFrame {
         });
         MENU_BAR.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 170, 50));
 
-        getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
+        getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 50));
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -334,15 +500,15 @@ public class approve_student extends javax.swing.JFrame {
             }
         });
 
-        id_of_institute_office.setEditable(false);
-        id_of_institute_office.setPlaceholder("ID number of institute/office");
+        ins_office_id.setEditable(false);
+        ins_office_id.setPlaceholder("ID number of institute/office");
 
-        nid_birth_number.setEditable(false);
-        nid_birth_number.setToolTipText("nid -10,13,17 digit and birth 16,17 digit");
-        nid_birth_number.setPlaceholder("NID/Birth number ");
-        nid_birth_number.addActionListener(new java.awt.event.ActionListener() {
+        nid_birth.setEditable(false);
+        nid_birth.setToolTipText("nid -10,13,17 digit and birth 16,17 digit");
+        nid_birth.setPlaceholder("NID/Birth number ");
+        nid_birth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nid_birth_numberActionPerformed(evt);
+                nid_birthActionPerformed(evt);
             }
         });
 
@@ -378,23 +544,22 @@ public class approve_student extends javax.swing.JFrame {
 
         jLabel28.setText("EMAIL ADDRESS");
 
-        jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel30.setText("applyed student info");
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel30.setText("Applyed Student Info");
 
-        student_id.setPlaceholder("Find by NID/Birth No :");
-        student_id.addActionListener(new java.awt.event.ActionListener() {
+        info.setPlaceholder("Find by Any Type of Data : ");
+        info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                student_idActionPerformed(evt);
+                infoActionPerformed(evt);
+            }
+        });
+        info.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                infoKeyReleased(evt);
             }
         });
 
-        jButton1.setText("Find");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
-
+        dob.setEditable(false);
         dob.setPlaceholder("Date of birth");
         dob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,69 +567,132 @@ public class approve_student extends javax.swing.JFrame {
             }
         });
 
-        jCTextField1.setPlaceholder("Gender");
+        gender.setEditable(false);
+        gender.setPlaceholder("Gender");
+
+        table_data.setAutoCreateRowSorter(true);
+        table_data.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Full Name", "NID_birth No", "Regidted Date", "Phone"
+            }
+        ));
+        table_data.setColorBackgoundHead(new java.awt.Color(255, 102, 102));
+        table_data.setColorBordeFilas(new java.awt.Color(51, 0, 255));
+        table_data.setColorBordeHead(new java.awt.Color(0, 204, 204));
+        table_data.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        table_data.setColorFilasBackgound2(new java.awt.Color(255, 204, 204));
+        table_data.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        table_data.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        table_data.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        table_data.setRowHeight(30);
+        table_data.setRowMargin(1);
+        table_data.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_dataMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_data);
+        if (table_data.getColumnModel().getColumnCount() > 0) {
+            table_data.getColumnModel().getColumn(0).setMinWidth(200);
+            table_data.getColumnModel().getColumn(1).setMinWidth(120);
+        }
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Select Student from Here.");
+
+        registed_date.setEditable(false);
+        registed_date.setPlaceholder("Registation Date");
+        registed_date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registed_dateActionPerformed(evt);
+            }
+        });
+
+        registed_time.setEditable(false);
+        registed_time.setPlaceholder("Registation Time");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setText("Registation Time");
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel11.setText("Registation Date");
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel16.setText("Find Student By Any Type of Data -");
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
         WELCOMELayout.setHorizontalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(54, 54, 54)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addContainerGap())
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(id_of_institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(24, 24, 24)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addComponent(jCTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 653, Short.MAX_VALUE))
+                                .addComponent(ins_office_id, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9))
+                            .addComponent(jLabel14)
+                            .addComponent(last_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fast_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(full_address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel15)
                             .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, WELCOMELayout.createSequentialGroup()
                                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel12)
                                     .addComponent(jLabel13)
-                                    .addComponent(jLabel28))
-                                .addGap(59, 59, 59)
+                                    .addComponent(jLabel28)
+                                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel25)
                                     .addComponent(jLabel26)
-                                    .addComponent(nid_birth_number, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(nid_birth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(last_name, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                                .addComponent(fast_name, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(full_address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel15)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                                .addComponent(student_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(111, 111, 111))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                                .addComponent(APPROVE, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(81, 81, 81))))))
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(481, 481, 481)
-                .addComponent(jLabel30)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(165, 165, 165))
+                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(registed_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(registed_time, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(WELCOMELayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(196, 196, 196))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(WELCOMELayout.createSequentialGroup()
+                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(WELCOMELayout.createSequentialGroup()
+                                        .addComponent(info, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                                        .addGap(130, 130, 130))
+                                    .addGroup(WELCOMELayout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(APPROVE, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39))))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGap(481, 481, 481)
+                        .addComponent(jLabel30)))
+                .addContainerGap())
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,56 +700,76 @@ public class approve_student extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel30)
                 .addGap(29, 29, 29)
-                .addComponent(jLabel10)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel1))
                 .addGap(12, 12, 12)
-                .addComponent(fast_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jLabel12)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(student_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel26))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fast_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel12)
+                        .addGap(0, 0, 0)
+                        .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel26))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(WELCOMELayout.createSequentialGroup()
+                                .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel28)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(WELCOMELayout.createSequentialGroup()
+                                .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel25)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nid_birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel25)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel11))
+                        .addGap(4, 4, 4)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(registed_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(registed_time, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(full_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nid_birth_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(48, 48, 48)
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(full_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(jLabel15)
-                .addGap(5, 5, 5)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(APPROVE, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel23)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(id_of_institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59))
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(institute_office, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(59, 75, Short.MAX_VALUE))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(ins_office_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(40, 40, 40))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(APPROVE, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(WELCOMELayout.createSequentialGroup()
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(19, 19, 19))))))
         );
 
-        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
+        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1150, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -637,17 +885,13 @@ public class approve_student extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dobActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        int s_id = Integer.parseInt(student_id.getText());
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    private void student_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_idActionPerformed
+    private void infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_student_idActionPerformed
+    }//GEN-LAST:event_infoActionPerformed
 
-    private void nid_birth_numberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nid_birth_numberActionPerformed
+    private void nid_birthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nid_birthActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nid_birth_numberActionPerformed
+    }//GEN-LAST:event_nid_birthActionPerformed
 
     private void institute_officeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_institute_officeActionPerformed
         // TODO add your handling code here:
@@ -658,11 +902,17 @@ public class approve_student extends javax.swing.JFrame {
     }//GEN-LAST:event_APPROVEActionPerformed
 
     private void APPROVEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_APPROVEMouseClicked
+
         // TODO add your handling code here:
-        int confirm = JOptionPane.showConfirmDialog(this,"Do you want Approve.","Confirm",JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(this,"Do you want Approve.","Confirmation",JOptionPane.YES_NO_OPTION);
         if(confirm == 0){
-            confirm_approve();
+            if(confirm_approve()){
+                approve_student aps= new approve_student(id);
+                aps.setVisible(true);
+                this.dispose();
+            }
         }
+        
     }//GEN-LAST:event_APPROVEMouseClicked
 
     private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
@@ -673,31 +923,24 @@ public class approve_student extends javax.swing.JFrame {
 
     }//GEN-LAST:event_fast_nameActionPerformed
 
+    private void table_dataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_dataMouseClicked
+        set_data_in_textfield();
+    }//GEN-LAST:event_table_dataMouseClicked
+
+    private void registed_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registed_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_registed_dateActionPerformed
+
+    private void infoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_infoKeyReleased
+       find_by_id();
+    }//GEN-LAST:event_infoKeyReleased
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(approve_student.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(approve_student.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(approve_student.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(approve_student.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        approve_student ap = new approve_student(324);
+        ap.setVisible(true);
         
     }
 
@@ -714,16 +957,19 @@ public class approve_student extends javax.swing.JFrame {
     private app.bolivia.swing.JCTextField email;
     private app.bolivia.swing.JCTextField fast_name;
     private app.bolivia.swing.JCTextField full_address;
+    private app.bolivia.swing.JCTextField gender;
     private javax.swing.JLabel home2;
-    private app.bolivia.swing.JCTextField id_of_institute_office;
+    private app.bolivia.swing.JCTextField info;
+    private app.bolivia.swing.JCTextField ins_office_id;
     private app.bolivia.swing.JCTextField institute_office;
-    private javax.swing.JButton jButton1;
-    private app.bolivia.swing.JCTextField jCTextField1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
@@ -737,12 +983,16 @@ public class approve_student extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private app.bolivia.swing.JCTextField last_name;
     private javax.swing.JLabel name;
-    private app.bolivia.swing.JCTextField nid_birth_number;
+    private app.bolivia.swing.JCTextField nid_birth;
     private app.bolivia.swing.JCTextField phone;
-    private app.bolivia.swing.JCTextField student_id;
+    private app.bolivia.swing.JCTextField registed_date;
+    private app.bolivia.swing.JCTextField registed_time;
+    private rojeru_san.complementos.RSTableMetro table_data;
     private javax.swing.JPanel welcome;
     // End of variables declaration//GEN-END:variables
 }

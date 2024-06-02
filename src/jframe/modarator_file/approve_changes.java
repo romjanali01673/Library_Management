@@ -14,7 +14,34 @@ import jframe.home_page;
 
 public class approve_changes extends javax.swing.JFrame {
     int id;
-
+    
+        String fast_namer; 
+        String last_namer ;
+        String phoner ;
+        String emailr;
+        String genderr;
+        Long nid_birth_numberr ;
+        java.sql.Date Date_of_birthr;
+        String institute_officer ;
+        String id_numberr ;
+        String full_addressr;
+        String remarkr;
+        
+        String fast_namerc ;
+        String last_namerc ; 
+        String phonerc ;
+        String emailrc ;
+        String genderrc ;
+        Long nid_birth_numberrc ; 
+        java.sql.Date Date_of_birthrc ; 
+        String institute_officerc ; 
+        String id_numberrc ;
+        String full_addressrc ;
+        
+        int student_id;
+        
+        
+        
     public approve_changes(int id) {
         this.id = id;
         initComponents();
@@ -22,17 +49,45 @@ public class approve_changes extends javax.swing.JFrame {
         
     }
 
+    
+    public void set_info(){
+        fast_name.setText(fast_namer);
+        last_name.setText(last_namer);
+        phone .setText(phoner);
+        email .setText(emailr);
+        gender.setText(genderr);
+        nid_birth_number.setText(String.valueOf(nid_birth_numberr));
+        dob.setText(Date_of_birthr.toString());
+        institute_office .setText(institute_officer);
+        id_of_institute_office.setText(id_numberr);
+        full_address .setText(full_addressr);
+        remark.setText(remarkr);
+
+        fast_name1.setText(fast_namerc);
+        last_name1.setText(last_namerc);
+        phone1 .setText(phonerc);
+        email1 .setText(emailrc);
+        gender1.setText(genderrc);
+        nid_birth_number1.setText(String.valueOf(nid_birth_numberrc));
+        dob1.setText(Date_of_birthrc.toString());
+        institute_office1 .setText(institute_officerc);
+        id_of_institute_office1.setText(id_numberrc);
+        full_address1 .setText(full_addressrc);
+
+    }
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select full_name from modarator_data where user_id = ?";
+            String sql = "select fast_name, last_name from employee_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                String a = rs.getString("full_name");
-                name.setText(a);
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
+                String formattedNumber = String.format("%08d", id);
+                name.setText(a+" "+ b + "-"+formattedNumber);
                 
             }
         }catch(Exception e ){
@@ -40,16 +95,100 @@ public class approve_changes extends javax.swing.JFrame {
         }
 
     }
-    public void confirm_approve(){
-        // 
-    }
-    public void get_info(){
-        
-    }
-    public void set_info(){
-        
-    }
+    public void get_info(int student_id){  
+        this.student_id = student_id;
+    try {
+        //wanted data
     
+    Connection con = DB_connection.getConnection();
+    String sql = "SELECT * FROM changes_student_data WHERE user_id = ?";
+    PreparedStatement pst = con.prepareStatement(sql);
+    pst.setInt(1,student_id);
+
+    ResultSet rs = pst.executeQuery(); // Changed executeUpdate() to executeQuery()
+
+    if (rs.next()) {
+       
+        fast_namer = rs.getString("fast_name");
+        last_namer = rs.getString("last_name"); 
+        phoner = rs.getString("phone"); 
+        emailr = rs.getString("email"); 
+        genderr = rs.getString("gender"); 
+        nid_birth_numberr = rs.getLong("nid_birth"); 
+        Date_of_birthr = rs.getDate("dob"); 
+        institute_officer = rs.getString("institute_office"); 
+        id_numberr = rs.getString("ins_office_id"); // 
+        full_addressr = rs.getString("full_address");
+        remarkr = rs.getString("remark");    
+    }
+    // current data
+    String sql1 = "select * from student_data where user_id =? ";
+         PreparedStatement pst1 = con.prepareStatement(sql1);
+        pst1.setInt(1,student_id);
+
+    ResultSet rs1 = pst1.executeQuery(); // Changed executeUpdate() to executeQuery()
+
+    if (rs1.next()) {
+       
+        fast_namerc = rs1.getString("fast_name");
+        last_namerc = rs1.getString("last_name"); 
+        phonerc = rs1.getString("phone"); 
+        emailrc = rs1.getString("email"); 
+        genderrc = rs1.getString("gender"); 
+        nid_birth_numberrc = rs1.getLong("nid_birth"); 
+        Date_of_birthrc = rs1.getDate("dob"); 
+        institute_officerc = rs1.getString("institute_office"); 
+        id_numberrc = rs1.getString("ins_office_id"); // 
+        full_addressrc = rs1.getString("full_address");
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "Targeted Student  Not Found!"); 
+        
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+
+}
+}
+
+    public void update(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "update student_data set fast_name =?, last_name  =?,phone=? , email =?, gender =?, nid_birth=? , dob =?, institute_office=? , ins_office_id =?, full_address =? where user_id=?";
+            String sql1 = "delete from changes_student_data where user_id=?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            PreparedStatement pst1 = con.prepareStatement(sql1);
+            
+            pst1.setInt(1, student_id);
+            
+            pst.setString(1, fast_namer);
+            pst.setString(2, last_namer);
+            pst.setString(3, phoner);
+            pst.setString(4, emailr);
+            pst.setString(5, genderr);
+            pst.setLong(6, nid_birth_numberr);
+            pst.setDate(7, Date_of_birthr);
+            pst.setString(8, institute_officer);
+            pst.setString(9, id_numberr);
+            pst.setString(10, full_addressr);
+            pst.setInt(11, student_id);
+
+            int updatedRowCount = pst.executeUpdate();
+            int updatedRowCount1 = pst1.executeUpdate();
+       
+           
+            if ( updatedRowCount > 0 && updatedRowCount1>0){
+               JOptionPane.showMessageDialog(this, "Account Updated.");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+       
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -93,7 +232,7 @@ public class approve_changes extends javax.swing.JFrame {
         last_name1 = new app.bolivia.swing.JCTextField();
         fast_name1 = new app.bolivia.swing.JCTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        remark = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -114,12 +253,12 @@ public class approve_changes extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
-        student_id = new app.bolivia.swing.JCTextField();
+        student_id_number = new app.bolivia.swing.JCTextField();
         jButton1 = new javax.swing.JButton();
         dob = new app.bolivia.swing.JCTextField();
         dob1 = new app.bolivia.swing.JCTextField();
-        jCTextField1 = new app.bolivia.swing.JCTextField();
-        jCTextField2 = new app.bolivia.swing.JCTextField();
+        gender = new app.bolivia.swing.JCTextField();
+        gender1 = new app.bolivia.swing.JCTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -405,9 +544,10 @@ public class approve_changes extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        remark.setEditable(false);
+        remark.setColumns(20);
+        remark.setRows(5);
+        jScrollPane1.setViewportView(remark);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("FAST NAME");
@@ -455,15 +595,15 @@ public class approve_changes extends javax.swing.JFrame {
         jLabel28.setText("NID/BIRTH NUMBER");
 
         jLabel29.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel29.setText("Carrent Info ");
+        jLabel29.setText("Wanted Info");
 
         jLabel30.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel30.setText("Wanted Info");
+        jLabel30.setText("Current Info");
 
-        student_id.setPlaceholder("Find by Student ID");
-        student_id.addActionListener(new java.awt.event.ActionListener() {
+        student_id_number.setPlaceholder("Find by Student NID/Birth NO :");
+        student_id_number.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                student_idActionPerformed(evt);
+                student_id_numberActionPerformed(evt);
             }
         });
 
@@ -474,6 +614,7 @@ public class approve_changes extends javax.swing.JFrame {
             }
         });
 
+        dob.setEditable(false);
         dob.setPlaceholder("Date of birth");
         dob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -481,6 +622,7 @@ public class approve_changes extends javax.swing.JFrame {
             }
         });
 
+        dob1.setEditable(false);
         dob1.setPlaceholder("Date of birth");
         dob1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -488,9 +630,16 @@ public class approve_changes extends javax.swing.JFrame {
             }
         });
 
-        jCTextField1.setPlaceholder("Gender");
+        gender.setEditable(false);
+        gender.setPlaceholder("Gender");
 
-        jCTextField2.setPlaceholder("Gender");
+        gender1.setEditable(false);
+        gender1.setPlaceholder("Gender");
+        gender1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gender1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
@@ -520,7 +669,7 @@ public class approve_changes extends javax.swing.JFrame {
                                             .addComponent(jLabel25)
                                             .addComponent(jLabel24)
                                             .addComponent(dob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addComponent(jCTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(full_address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
                                     .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -534,9 +683,9 @@ public class approve_changes extends javax.swing.JFrame {
                             .addGroup(WELCOMELayout.createSequentialGroup()
                                 .addGap(190, 190, 190)
                                 .addComponent(jLabel29)))
-                        .addGap(18, 18, 18)
+                        .addGap(38, 38, 38)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(28, 28, 28)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
                                 .addComponent(jLabel30)
@@ -564,7 +713,8 @@ public class approve_changes extends javax.swing.JFrame {
                                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(jLabel26)
                                                     .addComponent(jLabel28))
-                                                .addGap(0, 0, Short.MAX_VALUE))))
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(gender1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(WELCOMELayout.createSequentialGroup()
                                         .addComponent(jLabel21)
                                         .addGap(202, 202, 202)
@@ -578,15 +728,10 @@ public class approve_changes extends javax.swing.JFrame {
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(APPROVE, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addComponent(student_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(student_id_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1)))))
                 .addContainerGap())
-            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(WELCOMELayout.createSequentialGroup()
-                    .addGap(850, 850, 850)
-                    .addComponent(jCTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(58, 58, 58)))
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -614,7 +759,7 @@ public class approve_changes extends javax.swing.JFrame {
                                         .addGap(25, 25, 25)
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jCTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(64, 64, 64)
                                         .addComponent(jLabel25)
                                         .addGap(9, 9, 9)))
@@ -654,9 +799,13 @@ public class approve_changes extends javax.swing.JFrame {
                                 .addComponent(fast_name1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(last_name1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(16, 16, 16)))
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(last_name1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(gender1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel18)
@@ -694,7 +843,7 @@ public class approve_changes extends javax.swing.JFrame {
                     .addGroup(WELCOMELayout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(student_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(student_id_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                         .addComponent(APPROVE, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -702,11 +851,6 @@ public class approve_changes extends javax.swing.JFrame {
                     .addGroup(WELCOMELayout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())))
-            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(WELCOMELayout.createSequentialGroup()
-                    .addGap(96, 96, 96)
-                    .addComponent(jCTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(542, Short.MAX_VALUE)))
         );
 
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
@@ -826,7 +970,7 @@ this.dispose();
         // TODO add your handling code here:
         int confirm = JOptionPane.showConfirmDialog(this,"Do you want Approve.","Confirm",JOptionPane.YES_NO_OPTION);
         if(confirm == 0){
-            confirm_approve();
+           update();
         }
     }//GEN-LAST:event_APPROVEMouseClicked
 
@@ -858,9 +1002,9 @@ this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_fast_name1ActionPerformed
 
-    private void student_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_idActionPerformed
+    private void student_id_numberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_id_numberActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_student_idActionPerformed
+    }//GEN-LAST:event_student_id_numberActionPerformed
 
     private void dobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dobActionPerformed
         // TODO add your handling code here:
@@ -871,8 +1015,18 @@ this.dispose();
     }//GEN-LAST:event_dob1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        int s_id = Integer.parseInt(student_id.getText());
-        
+int s_id=000;
+try{
+     s_id= Integer.parseInt(student_id_number.getText());
+
+}catch(Exception e){
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "search by Valid Info");
+}
+if(s_id!=0){
+        get_info(s_id);
+        set_info();
+}
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jLabel31MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel31MouseClicked
@@ -881,6 +1035,10 @@ this.dispose();
         n.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel31MouseClicked
+
+    private void gender1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gender1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gender1ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -900,14 +1058,14 @@ this.dispose();
     private app.bolivia.swing.JCTextField fast_name1;
     private app.bolivia.swing.JCTextField full_address;
     private app.bolivia.swing.JCTextField full_address1;
+    private app.bolivia.swing.JCTextField gender;
+    private app.bolivia.swing.JCTextField gender1;
     private javax.swing.JLabel home;
     private app.bolivia.swing.JCTextField id_of_institute_office;
     private app.bolivia.swing.JCTextField id_of_institute_office1;
     private app.bolivia.swing.JCTextField institute_office;
     private app.bolivia.swing.JCTextField institute_office1;
     private javax.swing.JButton jButton1;
-    private app.bolivia.swing.JCTextField jCTextField1;
-    private app.bolivia.swing.JCTextField jCTextField2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -940,7 +1098,6 @@ this.dispose();
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private app.bolivia.swing.JCTextField last_name;
     private app.bolivia.swing.JCTextField last_name1;
     private javax.swing.JLabel name;
@@ -948,7 +1105,8 @@ this.dispose();
     private app.bolivia.swing.JCTextField nid_birth_number1;
     private app.bolivia.swing.JCTextField phone;
     private app.bolivia.swing.JCTextField phone1;
-    private app.bolivia.swing.JCTextField student_id;
+    private javax.swing.JTextArea remark;
+    private app.bolivia.swing.JCTextField student_id_number;
     private javax.swing.JPanel welcome;
     // End of variables declaration//GEN-END:variables
 public static void main(String[]args){

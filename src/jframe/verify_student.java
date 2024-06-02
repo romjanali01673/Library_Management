@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import jframe.user_file.get_book_details;
+
 
 public class verify_student extends javax.swing.JFrame {
 
@@ -33,7 +33,7 @@ String full_address ;
          
     }
     public void showoutput(){
-         useridtf.setText(Integer.toString(user_id));
+         useridtf.setText(String.format("%08d", user_id));
          fullnametf.setText(fast_name+" "+last_name);
          phonetf.setText(phone);
          emailtf.setText(email);
@@ -94,7 +94,7 @@ String full_address ;
         boolean result = true;
     try {
     Connection con = DB_connection.getConnection();
-    String sql = "SELECT id, fast_name, last_name, phone, email, gender, nid_birth_number, date_of_birth, institute_office, id_number, full_address FROM user_info WHERE nid_birth_number = ? AND date_of_birth = ?";
+    String sql = "SELECT * FROM student_data WHERE nid_birth = ? AND dob = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setLong(1, get_nid_or_birth_number()); // Assuming 1 is the id you're searching for
     pst.setDate(2, get_Birth_Date());
@@ -102,16 +102,16 @@ String full_address ;
     ResultSet rs = pst.executeQuery(); // Changed executeUpdate() to executeQuery()
 
     if (rs.next()) {
-        user_id = rs.getInt("id");
+        user_id = rs.getInt("user_id");
         fast_name = rs.getString("fast_name");
         last_name = rs.getString("last_name"); 
         phone = rs.getString("phone"); 
         email = rs.getString("email"); 
         gender = rs.getString("gender"); 
-        nid_birth_number = rs.getLong("nid_birth_number"); 
-        Date_of_birth = rs.getDate("date_of_birth"); 
+        nid_birth_number = rs.getLong("nid_birth"); 
+        Date_of_birth = rs.getDate("dob"); 
         institute_office = rs.getString("institute_office"); 
-        id_number = rs.getString("id_number"); // 
+        id_number = rs.getString("ins_office_id"); // 
         full_address = rs.getString("full_address");
     } else {
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
@@ -208,7 +208,7 @@ String full_address ;
                 fullnametfActionPerformed(evt);
             }
         });
-        jPanel1.add(fullnametf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 150, 270, 30));
+        jPanel1.add(fullnametf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 150, 360, 30));
 
         fullnamel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fullnamel.setText("Full Name :");
@@ -247,7 +247,7 @@ String full_address ;
                 useridtfActionPerformed(evt);
             }
         });
-        jPanel1.add(useridtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 270, 30));
+        jPanel1.add(useridtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 360, 30));
 
         emailtf.setEditable(false);
         emailtf.setBackground(new java.awt.Color(153, 255, 204));
@@ -258,7 +258,7 @@ String full_address ;
                 emailtfActionPerformed(evt);
             }
         });
-        jPanel1.add(emailtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 230, 270, 30));
+        jPanel1.add(emailtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 230, 360, 30));
 
         gendertf.setEditable(false);
         gendertf.setBackground(new java.awt.Color(153, 255, 204));
@@ -269,7 +269,7 @@ String full_address ;
                 gendertfActionPerformed(evt);
             }
         });
-        jPanel1.add(gendertf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 270, 30));
+        jPanel1.add(gendertf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 360, 30));
 
         nidbirthtf.setEditable(false);
         nidbirthtf.setBackground(new java.awt.Color(153, 255, 204));
@@ -280,7 +280,7 @@ String full_address ;
                 nidbirthtfActionPerformed(evt);
             }
         });
-        jPanel1.add(nidbirthtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, 270, 30));
+        jPanel1.add(nidbirthtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, 360, 30));
 
         dobtf.setEditable(false);
         dobtf.setBackground(new java.awt.Color(153, 255, 204));
@@ -291,7 +291,7 @@ String full_address ;
                 dobtfActionPerformed(evt);
             }
         });
-        jPanel1.add(dobtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 270, 30));
+        jPanel1.add(dobtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 360, 30));
 
         instituteofficetf.setEditable(false);
         instituteofficetf.setBackground(new java.awt.Color(153, 255, 204));
@@ -302,7 +302,7 @@ String full_address ;
                 instituteofficetfActionPerformed(evt);
             }
         });
-        jPanel1.add(instituteofficetf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 390, 270, 30));
+        jPanel1.add(instituteofficetf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 390, 360, 30));
 
         idofinstitute.setEditable(false);
         idofinstitute.setBackground(new java.awt.Color(153, 255, 204));
@@ -324,7 +324,7 @@ String full_address ;
                 phonetfActionPerformed(evt);
             }
         });
-        jPanel1.add(phonetf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 270, 30));
+        jPanel1.add(phonetf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 380, 30));
 
         fulladdresstf.setEditable(false);
         fulladdresstf.setBackground(new java.awt.Color(153, 255, 204));
@@ -335,7 +335,7 @@ String full_address ;
                 fulladdresstfActionPerformed(evt);
             }
         });
-        jPanel1.add(fulladdresstf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 470, 270, 30));
+        jPanel1.add(fulladdresstf, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 470, 370, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Untitled design (7).png"))); // NOI18N
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, 300));
@@ -348,7 +348,7 @@ String full_address ;
         });
         jPanel1.add(rSMaterialButtonCircle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, 50));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 530));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 670));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 204, 204));
         jMenuBar1.setBorder(null);
@@ -435,7 +435,7 @@ String full_address ;
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         // TODO add your handling code here:
-        signup s = new signup();
+        registation s = new registation();
         s.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenu1MouseClicked

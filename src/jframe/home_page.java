@@ -194,7 +194,7 @@ public class home_page extends javax.swing.JFrame {
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         // TODO add your handling code here:
-       signup s = new signup();
+       registation s = new registation();
        s.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jMenu1MouseClicked

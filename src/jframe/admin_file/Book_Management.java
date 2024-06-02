@@ -30,10 +30,10 @@ public class Book_Management extends javax.swing.JFrame {
     public void search_book(){
         
     }
-    public void set_profile(){
+        public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from user_info where id = ?";
+            String sql = "select fast_name, last_name from employee_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -41,7 +41,8 @@ public class Book_Management extends javax.swing.JFrame {
             if(rs.next()){
                 String a = rs.getString("fast_name");
                 String b = rs.getString("last_name");
-                name.setText(a+" "+b+ " - "+ id);
+                String formattedNumber = String.format("%08d", id);
+                name.setText(a+" "+ b + "-"+formattedNumber);
                 
             }
         }catch(Exception e ){

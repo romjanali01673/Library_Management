@@ -1,40 +1,89 @@
 
 package jframe;
 import java.awt.Desktop;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class signup extends javax.swing.JFrame {
+public class registation extends javax.swing.JFrame {
 
     public String Gender = "MALE";
     public boolean bod_date_valid = false;
-    String passwd ;
-    int ids = 00;
+   
     
             
-    public signup() {
+    public registation() {
         initComponents();
-        R_date();
-
     }
-    
+    public boolean student_exist(long nid_birth){
+        boolean res= false;
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "select fast_name from student_data where nid_birth =?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setLong(1, nid_birth);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+            res=true;
+            }
+            rs.close();
+        }catch(Exception E){
+            E.printStackTrace();
+        }
+        
+        return res;
+    }
+    public boolean already_registaed(long nid_birth){
+        boolean res= false;
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "select fast_name from registaed_student_data where nid_birth =?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setLong(1, nid_birth);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+            res=true;
+            }
+            rs.close();
+        }catch(Exception E){
+            E.printStackTrace();
+        }
+        
+        return res;
+    }
+    public String remove_white_space(String str){
+        // Remove leading whitespaces
+        int start = 0;
+        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
+            start++;
+        }
+
+        // Remove trailing whitespaces
+        int end = str.length() - 1;
+        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
+            end--;
+        }
+        String sub_string = str.substring(start, end+1);
+
+        // Return the substring without leading and trailing whitespaces
+        return sub_string;
+    }
+
     public long get_nid_or_birth_number(){
         
         long NID_B_Number = 0L;
-        String NID_B_number = nid_birth_number.getText();
+        String NID_B_number = remove_white_space(nid_birth_number.getText());
         try{
             NID_B_Number = Long.parseLong(NID_B_number);
             if(NID_B_number.length()>17){
@@ -47,21 +96,7 @@ public class signup extends javax.swing.JFrame {
         
         return NID_B_Number;
     }
-    public boolean check_valid_date (){
-        LocalDate bod = get_Birth_Date().toLocalDate();
-        LocalDate today = LocalDate.now();
-        
-        long x =ChronoUnit.YEARS.between(bod, today);
-        boolean ans = true;
-        if(x==0 || x<=7){
-            JOptionPane.showMessageDialog(this, "enter valid birth Date!");
-            System.out.print(x);
-            ans = false;
-        }
-        
 
-        return ans;
-    }
 
     public  java.sql.Date R_date(){
         LocalDate today = LocalDate.now();
@@ -77,11 +112,24 @@ public class signup extends javax.swing.JFrame {
         return time;
     }
     
-    
+    public boolean check_valid_date (){
+        LocalDate bod = get_Birth_Date().toLocalDate();
+        LocalDate today = LocalDate.now();
+        
+        long x =ChronoUnit.YEARS.between(bod, today);
+        boolean ans = true;
+        if(x<=7){
+            JOptionPane.showMessageDialog(this, "AGE RESTICTION FOR (0-7)");
+            System.out.print(x);
+            ans = false;
+        }
+
+        return ans;
+    }
     public java.sql.Date get_Birth_Date(){
         bod_date_valid = false;// ai method er " bod_date_valid"  er value akbar change hoila joto e event hok na kano er default value asbe na. last changes e takba.
         
-        java.sql.Date DATE_OF_BIRTH = new java.sql.Date(2004-02-01);
+        java.sql.Date DATE_OF_BIRTH = new java.sql.Date(2004-02-01);//it's here for try_catch variable can't access return type.
         try{
         // we will get the util-date from the compunents and we have to use the method getDatoFecha()
         // to save the date in database we have to convart in sql-date
@@ -89,7 +137,6 @@ public class signup extends javax.swing.JFrame {
         Date DOB = date_of_birth.getDatoFecha();//util date
         Long dateofbirth = DOB.getTime();//long date
         DATE_OF_BIRTH = new java.sql.Date(dateofbirth);//sql date 
-        System.out.println("ha ha ");
         }catch (Exception e ){
             JOptionPane.showMessageDialog(this,"Enter your Date of Birth!");
             bod_date_valid = true;
@@ -98,7 +145,7 @@ public class signup extends javax.swing.JFrame {
     }
     
     public String pass(){
-        
+        String passwd="";
         char[] Password = password.getPassword();
         char[] C_Password = confirm_password.getPassword();
         String Pass1 = String.valueOf(Password);//fast way
@@ -106,11 +153,9 @@ public class signup extends javax.swing.JFrame {
         //System.out.println(Password);
         if (Pass1.equals(Pass2)){
            passwd =Pass2; 
-           
         }
         else{
             JOptionPane.showMessageDialog(this, "Confirm password doesn't matched");
-
         }
         return passwd;
     }
@@ -121,13 +166,13 @@ public class signup extends javax.swing.JFrame {
         boolean res = true;
         get_Birth_Date();
         
-        String F_name  = fast_name.getText();
-        String L_name = last_name.getText();
-        String Phone = phone.getText();
-        String Email = email.getText();
-        String Institute_Office = institute_office.getText();
-        String ID_Of_Institute_Office = id_of_institute_office.getText();
-        String F_address  = full_address.getText();
+        String F_name  = remove_white_space(fast_name.getText());
+        String L_name = remove_white_space(last_name.getText());
+        String Phone = remove_white_space(phone.getText());
+        String Email = remove_white_space(email.getText());
+        String Institute_Office = remove_white_space(institute_office.getText());
+        String ID_Of_Institute_Office = remove_white_space(id_of_institute_office.getText());
+        String F_address  = remove_white_space(full_address.getText());
         
         
         if (F_name.equals("")){
@@ -180,6 +225,14 @@ public class signup extends javax.swing.JFrame {
 
             res = false;
         }
+        else if(student_exist( get_nid_or_birth_number())){
+            res=false;
+            JOptionPane.showMessageDialog(this,"The Student Already Exist!");
+        }
+        else if(already_registaed(get_nid_or_birth_number())){
+            res=false;
+            JOptionPane.showMessageDialog(this,"You Have Already Registaed");
+        }
         return res ;
     }
     
@@ -191,19 +244,17 @@ public class signup extends javax.swing.JFrame {
     // method insart values into user table 
     public void insartSignUpDetails(){
         
-        String F_name  = fast_name.getText().toUpperCase();
-        String L_name = last_name.getText().toUpperCase();
-        String Phone = phone.getText().toUpperCase();
-        String Email = email.getText().toUpperCase();
-        String Institute_Office = institute_office.getText().toUpperCase();
-        String ID_Of_Institute_Office = id_of_institute_office.getText().toUpperCase();
-        String F_address  = full_address.getText().toUpperCase();
-
-        
+        String F_name  = remove_white_space(fast_name.getText().toUpperCase());
+        String L_name = remove_white_space(last_name.getText().toUpperCase());
+        String Phone = remove_white_space(phone.getText().toUpperCase());
+        String Email = remove_white_space(email.getText().toUpperCase());
+        String Institute_Office = remove_white_space(institute_office.getText().toUpperCase());
+        String ID_Of_Institute_Office = remove_white_space(id_of_institute_office.getText().toUpperCase());
+        String F_address  = remove_white_space(full_address.getText().toUpperCase());
         
         try {
             Connection con = DB_connection.getConnection();
-            String sql =  "insert into registed_student_data( fast_name, last_name, phone, email, gender, dob, nid_birth, institute_office, ins_office_id, full_address, pass, registation_time, registation_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql =  "insert into registaed_student_data( fast_name, last_name, phone, email, gender, dob, nid_birth, institute_office, ins_office_id, full_address, pass, registation_time, registation_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1, F_name);
@@ -211,24 +262,22 @@ public class signup extends javax.swing.JFrame {
             pst.setString(3, Phone);
             pst.setString(4, Email);
             pst.setString(5, Gender);
-            pst.setLong(6, get_nid_or_birth_number());
-            pst.setDate(7, get_Birth_Date());
+            pst.setDate(6, get_Birth_Date());
+            pst.setLong(7, get_nid_or_birth_number());
             pst.setString(8, Institute_Office);
             pst.setString(9, ID_Of_Institute_Office);
             pst.setString(10, F_address);
-            pst.setString(11, passwd);
-            pst.setTime(11, R_time());
-            pst.setDate(11, R_date());
+            pst.setString(11, pass());
+            pst.setTime(12, R_time());
+            pst.setDate(13, R_date());
             
             int updatedRowCount = pst.executeUpdate();
-       
-           
+      
             if ( updatedRowCount > 0){
                JOptionPane.showMessageDialog(this, "Accout Created Successfully!");
                JOptionPane.showMessageDialog(this, "wait for approved your accout.");
                
                login l = new login();
-               get_id();
                l.setVisible(true);
                this.dispose();
            }
@@ -241,6 +290,7 @@ public class signup extends javax.swing.JFrame {
        
         }
     }
+    /*
     public void get_id(){
         try{
             String sql = "select id from user_info where nid_birth_number = ?";
@@ -260,7 +310,8 @@ public class signup extends javax.swing.JFrame {
         }
         JOptionPane.showMessageDialog(this, "note your user_id:-  " +ids );
     }
-
+*\
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -576,7 +627,7 @@ public class signup extends javax.swing.JFrame {
             URI condition  = new URI("https://docs.google.com/document/d/1JZcUPBCoDkCpqa7lu0yaVy0PyEK05KHIEoyry6jD7iA/edit?usp=sharing");
             Desktop.getDesktop().browse(condition);        
         } catch (URISyntaxException ex) {
-            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(registation.class.getName()).log(Level.SEVERE, null, ex);
         }catch(Exception e ){
             e.printStackTrace();
         }
@@ -598,20 +649,21 @@ public class signup extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new signup().setVisible(true);
+                new registation().setVisible(true);
             }
         });
     }
