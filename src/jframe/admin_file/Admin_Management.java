@@ -24,11 +24,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import jframe.DB_connection;
 import jframe.admin_login;
-import jframe.modarator_file.approve_student;
-import jframe.modarator_file.contact_with_boss;
-import jframe.modarator_file.contact_with_student;
+import jframe.moderator_file.approve_student;
+import jframe.moderator_file.contact_with_boss;
+import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
+import jframe.moderator_file.modarator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -530,6 +530,7 @@ public class Admin_Management extends javax.swing.JFrame {
         female = new javax.swing.JRadioButton();
         custom = new javax.swing.JRadioButton();
         dob = new rojeru_san.componentes.RSDateChooser();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         LMS_DESHBOARD = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -760,6 +761,10 @@ public class Admin_Management extends javax.swing.JFrame {
         buttonGroup3.add(custom);
         custom.setText("Custom");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Admin Management ");
+
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
         WELCOMELayout.setHorizontalGroup(
@@ -799,6 +804,9 @@ public class Admin_Management extends javax.swing.JFrame {
                                         .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap(23, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(221, 221, 221)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -842,7 +850,9 @@ public class Admin_Management extends javax.swing.JFrame {
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(WELCOMELayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                                .addComponent(ROOT)
+                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ROOT)
+                                    .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel33)
@@ -1221,7 +1231,7 @@ public class Admin_Management extends javax.swing.JFrame {
     }//GEN-LAST:event_MANAGE_LIBRARIANMouseExited
 
     private void MANAGE_MOPDARATORMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseClicked
-        Modarator_Management mm = new Modarator_Management(id);
+        Moderator_Management mm = new Moderator_Management(id);
         mm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_MANAGE_MOPDARATORMouseClicked
@@ -1454,6 +1464,7 @@ this.dispose();
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;

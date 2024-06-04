@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import jframe.DB_connection;
 import jframe.Help;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
+import jframe.moderator_file.modarator_portal;
 
 public class Notify extends javax.swing.JFrame {
     int id;

@@ -14,9 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.modarator_file.contact_with_boss;
+import jframe.moderator_file.contact_with_boss;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
+import jframe.moderator_file.modarator_portal;
 
 public class Book_Management extends javax.swing.JFrame {
     int id;
@@ -409,7 +409,7 @@ public class Book_Management extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGap(18, 33, Short.MAX_VALUE)
+                        .addGap(18, 43, Short.MAX_VALUE)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(WELCOMELayout.createSequentialGroup()
                                 .addComponent(APPROVE2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -492,7 +492,7 @@ public class Book_Management extends javax.swing.JFrame {
                 .addGap(199, 199, 199))
         );
 
-        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
+        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1150, 670));
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -542,7 +542,7 @@ public class Book_Management extends javax.swing.JFrame {
         });
         MENU_BAR.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 140, 50));
 
-        getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
+        getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 50));
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -919,7 +919,7 @@ public class Book_Management extends javax.swing.JFrame {
     }//GEN-LAST:event_MANAGE_LIBRARIANMouseExited
 
     private void MANAGE_MOPDARATORMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseClicked
-        Modarator_Management mm = new Modarator_Management(id);
+        Moderator_Management mm = new Moderator_Management(id);
         mm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_MANAGE_MOPDARATORMouseClicked

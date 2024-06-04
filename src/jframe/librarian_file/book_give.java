@@ -13,9 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.modarator_file.contact_with_boss;
+import jframe.moderator_file.contact_with_boss;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
+import jframe.moderator_file.modarator_portal;
 
 public class book_give extends javax.swing.JFrame {
     int id;

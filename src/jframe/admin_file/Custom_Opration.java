@@ -12,11 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
-import jframe.modarator_file.approve_student;
-import jframe.modarator_file.contact_with_boss;
-import jframe.modarator_file.contact_with_student;
+import jframe.moderator_file.approve_student;
+import jframe.moderator_file.contact_with_boss;
+import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
+import jframe.moderator_file.modarator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -472,7 +472,7 @@ public class Custom_Opration extends javax.swing.JFrame {
     }//GEN-LAST:event_MANAGE_LIBRARIANMouseExited
 
     private void MANAGE_MOPDARATORMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseClicked
-        Modarator_Management mm = new Modarator_Management(id);
+        Moderator_Management mm = new Moderator_Management(id);
         mm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_MANAGE_MOPDARATORMouseClicked

@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.DB_connection;
 import jframe.home_page;
-import jframe.modarator_file.modarator_portal;
+import jframe.moderator_file.modarator_portal;
 
 public class returned extends javax.swing.JFrame {
     int id;

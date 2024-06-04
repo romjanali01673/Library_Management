@@ -1,7 +1,7 @@
 
 package jframe;
 
-import jframe.modarator_file.modarator_portal;
+import jframe.moderator_file.modarator_portal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
