@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.Box$Filler" name="filler1">
+      <Properties>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[32767, 32767]"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.Glue"/>
+      </AuxValues>
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="undecorated" type="boolean" value="true"/>
@@ -42,68 +54,63 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jLabel11" max="32767" attributes="0"/>
-                                      <Component id="jLabel12" pref="163" max="32767" attributes="0"/>
+                                      <Component id="jLabel11" min="-2" pref="163" max="-2" attributes="0"/>
+                                      <Component id="jLabel12" min="-2" pref="163" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="book_name" pref="283" max="32767" attributes="0"/>
-                                      <Component id="author_name" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="book_name" min="-2" pref="283" max="-2" attributes="0"/>
+                                      <Component id="book_author" min="-2" pref="283" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel3" max="32767" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" pref="145" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                                  <Component id="book_type" max="32767" attributes="0"/>
+                                  <Component id="book_type" min="-2" pref="283" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jLabel13" max="32767" attributes="0"/>
-                                      <Component id="jLabel10" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="jLabel13" min="-2" pref="164" max="-2" attributes="0"/>
+                                      <Component id="jLabel10" min="-2" pref="164" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="book_parts" pref="283" max="32767" attributes="0"/>
-                                      <Component id="book_price" max="32767" attributes="0"/>
+                                      <Component id="book_part" min="-2" pref="283" max="-2" attributes="0"/>
+                                      <Component id="book_price" min="-2" pref="283" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPanel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
-                                              <Component id="jLabel1" min="-2" pref="283" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                              <Component id="book_id" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="search" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
+                                      <Component id="jLabel1" min="-2" pref="283" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                                      <Component id="book_id" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="search" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                                  <Component id="book_available" min="-2" pref="382" max="-2" attributes="0"/>
-                              </Group>
+                              <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                          <Component id="book_available" min="-2" pref="382" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
@@ -116,24 +123,29 @@
                                       <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="book_name4" min="-2" pref="271" max="-2" attributes="0"/>
+                                      <Component id="phone" min="-2" pref="271" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="book_name1" pref="271" max="32767" attributes="0"/>
-                                          <Component id="book_name2" max="32767" attributes="0"/>
+                                          <Component id="fast_name" min="-2" pref="271" max="-2" attributes="0"/>
+                                          <Component id="last_name" min="-2" pref="271" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="book_name6" min="-2" pref="271" max="-2" attributes="0"/>
+                                      <Component id="gender" min="-2" pref="271" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="confirm_book_request" min="-2" pref="485" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="1" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Component id="jLabel18" min="-2" pref="244" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                                          <Component id="book_name5" min="-2" pref="161" max="-2" attributes="0"/>
+                                          <Component id="otp" min="-2" pref="161" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                          <Component id="confirm_book_request1" min="-2" pref="137" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="confirm_book_request" min="-2" pref="281" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
@@ -142,7 +154,7 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                          <Component id="book_name3" min="-2" pref="167" max="-2" attributes="0"/>
+                          <Component id="student_id" min="-2" pref="167" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                           <Component id="search1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="153" max="32767" attributes="0"/>
@@ -174,7 +186,7 @@
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel12" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="author_name" alignment="3" max="32767" attributes="0"/>
+                      <Component id="book_author" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -184,25 +196,25 @@
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel10" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="book_parts" alignment="3" max="32767" attributes="0"/>
+                      <Component id="book_part" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel13" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="book_price" alignment="3" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="book_name3" alignment="3" max="32767" attributes="0"/>
+                      <Component id="student_id" alignment="3" max="32767" attributes="0"/>
                       <Component id="search1" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                          <Component id="book_name1" max="32767" attributes="0"/>
+                          <Component id="fast_name" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
@@ -212,7 +224,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                          <Component id="book_name2" max="32767" attributes="0"/>
+                          <Component id="last_name" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
@@ -221,27 +233,30 @@
                   </Group>
                   <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="book_name4" alignment="3" max="32767" attributes="0"/>
+                      <Component id="phone" alignment="3" max="32767" attributes="0"/>
                       <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                      <Component id="book_name6" min="-2" max="-2" attributes="0"/>
+                      <Component id="gender" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                          <Component id="book_name5" max="32767" attributes="0"/>
+                          <Component id="otp" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="confirm_book_request" min="-2" pref="55" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="confirm_book_request" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="confirm_book_request1" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -278,6 +293,7 @@
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="book_type">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -357,8 +373,9 @@
             <Property name="text" type="java.lang.String" value="Part of the book"/>
           </Properties>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="book_parts">
+        <Component class="app.bolivia.swing.JCTextField" name="book_part">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -371,7 +388,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_partsActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_partActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
@@ -385,6 +402,7 @@
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="book_name">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -409,8 +427,9 @@
             <Property name="text" type="java.lang.String" value="The author name is "/>
           </Properties>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="author_name">
+        <Component class="app.bolivia.swing.JCTextField" name="book_author">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -423,13 +442,16 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="author_nameActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_authorActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="book_available">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="0" red="33" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="So far, you have not searched any books. "/>
@@ -437,6 +459,7 @@
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="book_price">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -466,11 +489,13 @@
             <Property name="text" type="java.lang.String" value="Confirm book request"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="confirm_book_requestMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="confirm_book_requestActionPerformed"/>
           </Events>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="book_name1">
+        <Component class="app.bolivia.swing.JCTextField" name="fast_name">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -483,11 +508,12 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_name1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fast_nameActionPerformed"/>
           </Events>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="book_name2">
+        <Component class="app.bolivia.swing.JCTextField" name="last_name">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -500,10 +526,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_name2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="last_nameActionPerformed"/>
           </Events>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="book_name3">
+        <Component class="app.bolivia.swing.JCTextField" name="student_id">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
@@ -517,7 +543,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_name3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="student_idActionPerformed"/>
           </Events>
         </Component>
         <Component class="rojerusan.RSMaterialButtonCircle" name="search1">
@@ -529,8 +555,9 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="search1ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="book_name4">
+        <Component class="app.bolivia.swing.JCTextField" name="phone">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -543,10 +570,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_name4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="phoneActionPerformed"/>
           </Events>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="book_name5">
+        <Component class="app.bolivia.swing.JCTextField" name="otp">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
@@ -554,13 +581,13 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
             </Property>
-            <Property name="placeholder" type="java.lang.String" value="Enter code here."/>
+            <Property name="placeholder" type="java.lang.String" value="Enter OTP here."/>
             <Property name="selectionColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="66" type="rgb"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_name5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="otpActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel14">
@@ -568,7 +595,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Student Name :"/>
+            <Property name="text" type="java.lang.String" value="Student Last Name :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
@@ -576,7 +603,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Student Name :"/>
+            <Property name="text" type="java.lang.String" value="Student Phone Number :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel16">
@@ -584,7 +611,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Student Name :"/>
+            <Property name="text" type="java.lang.String" value="Student Fast Name :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel17">
@@ -592,11 +619,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Student Name :"/>
+            <Property name="text" type="java.lang.String" value="Student Gender :"/>
           </Properties>
         </Component>
-        <Component class="app.bolivia.swing.JCTextField" name="book_name6">
+        <Component class="app.bolivia.swing.JCTextField" name="gender">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="cc" type="rgb"/>
             </Property>
@@ -609,7 +637,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="book_name6ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genderActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel18">
@@ -619,6 +647,15 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Book issue confirm request code :"/>
           </Properties>
+        </Component>
+        <Component class="rojerusan.RSMaterialButtonCircle" name="confirm_book_request1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="delete"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="confirm_book_request1MouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="confirm_book_request1ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

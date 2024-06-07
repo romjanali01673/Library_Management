@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package jframe.librarian_file;
 
 import jframe.user_file.*;
@@ -11,14 +7,21 @@ import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Random;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
-import jframe.moderator_file.contact_with_boss;
+import jframe.method_romjanali01673.DB_connection;
+import jframe.moderator_file.contact_employee;
 import jframe.home_page;
+import jframe.method_romjanali01673.necessaryMethod;
 import jframe.moderator_file.modarator_portal;
 
 public class Receive_book extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
+    
     int id;
+    int student_ids=0, book_ids = 0;
 
     public Receive_book(int id) {
         this.id = id;
@@ -26,13 +29,184 @@ public class Receive_book extends javax.swing.JFrame {
         set_profile();
         
     }
-    public void search_book(){
+    public boolean input_valid(){
+        boolean res = true;
+        try{
+            student_ids= Integer.valueOf(student_id.getText());
+            book_ids= Integer.valueOf(book_id.getText());
+        }catch(Exception e){
+            e.printStackTrace();
+            res = false;
+            JOptionPane.showMessageDialog(this, "Enter Valid Data");
+        }
+        return res;
+    }
+    
+    
+    
+    public void set_data(){
+        //student data
+        try{
+            
+        Connection con = DB_connection.getConnection();
+        String sql = "select * from student_data where user_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1,student_ids);
         
+        
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+                String fast_name = rs.getString("fast_name");
+                String last_name = rs.getString("last_name");
+                String phone = rs.getString("phone");
+                String gender = rs.getString("gender");
+                
+                //set data in TextField
+                this.fast_name.setText(fast_name);
+                this.last_name.setText(last_name);
+                this.phone.setText(phone);
+                this.gender.setText(gender);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Student Not Found!");
+        }
+        
+        }catch (Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"server Disconnected!");
+
+        }
+        //book data
+       try{
+            
+        Connection con = DB_connection.getConnection();
+        String sql1 = "select * from book_data where book_id = ?";
+        PreparedStatement pst1 = con.prepareStatement(sql1);
+        pst1.setInt(1,book_ids);
+        
+        
+        ResultSet rs = pst1.executeQuery();
+        if(rs.next()){
+                String book_name = rs.getString("book_name");
+                String author = rs.getString("author");
+                String type = rs.getString("book_type");
+                String part = rs.getString("Book_part");
+                String price = rs.getString("price");
+                
+                //set data in TextField
+                this.book_name.setText(book_name);
+                this.author.setText(author);
+                this.type.setText(type);
+                this.part.setText(part);
+                this.price.setText(price);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Book Not Found!");
+        }
+        
+        }catch (Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"server Disconnected!");
+
+        }
+    }
+    public void delete(){
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "delete from book_history where student_id = ? and book_id=? and T_status = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, student_ids);
+            pst.setInt(2, book_ids);
+            pst.setString(3, "GAVE");
+            
+            int rs = pst.executeUpdate();
+            if(rs>0){
+                JOptionPane.showMessageDialog(this, "deleted!");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "ReChacked");
+            }
+        }catch(Exception e ){
+            e.printStackTrace();
+        }
+    }
+    public boolean varify_transaction(){
+        boolean res = false;
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "select * from  book_history where student_id = ? and book_id=?  and T_status = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, student_ids);
+            pst.setInt(2, book_ids);
+            pst.setString(3,"GAVE");
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                res = true;
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Invalid");
+            }
+        }catch(Exception e ){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+
+    public boolean request_valid(){
+        boolean k = false;
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "select * from book_history where book_id=? and T_status=? and T_date =? and student_id =? and employee_id =?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, book_ids);
+            pst.setString(2, "RETURNED");
+            pst.setDate(3,  nm.getTodayDate());
+            pst.setInt(4, student_ids);
+            pst.setInt(5, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+               JOptionPane.showMessageDialog(this,"Already Requested!"); 
+                k = true;
+            }
+        }catch(Exception e ){
+            JOptionPane.showMessageDialog(this,"server Error!");
+            e.printStackTrace();
+        }
+        return k;
+    }
+    
+    public void book_received(){
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "insert into book_history(book_id, T_status,T_time,T_date,student_id,employee_id,otp) values(?,?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, book_ids);
+            pst.setString(2, "RETURNED");
+            pst.setTime(3, nm.getNowTime());
+            pst.setDate(4, nm.getTodayDate());
+            pst.setInt(5, student_ids);
+            pst.setInt(6, id);
+            pst.setString(7,nm.genarateOtp());
+            
+            int rs = pst.executeUpdate();
+            if(rs>0){
+                JOptionPane.showMessageDialog(this, "Successed.");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Failed.");
+            }
+        }catch(Exception e ){
+            e.printStackTrace();
+        }
     }
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from user_info where id = ?";
+            String sql = "select fast_name, last_name from employee_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -51,34 +225,6 @@ public class Receive_book extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        WELCOME = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        book_type = new app.bolivia.swing.JCTextField();
-        search = new rojerusan.RSMaterialButtonCircle();
-        jPanel3 = new javax.swing.JPanel();
-        book_id = new app.bolivia.swing.JCTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        book_parts = new app.bolivia.swing.JCTextField();
-        jLabel11 = new javax.swing.JLabel();
-        book_name = new app.bolivia.swing.JCTextField();
-        jLabel12 = new javax.swing.JLabel();
-        author_name = new app.bolivia.swing.JCTextField();
-        book_available = new javax.swing.JLabel();
-        book_price = new app.bolivia.swing.JCTextField();
-        jLabel13 = new javax.swing.JLabel();
-        confirm_book_request = new rojerusan.RSMaterialButtonCircle();
-        book_name1 = new app.bolivia.swing.JCTextField();
-        book_name2 = new app.bolivia.swing.JCTextField();
-        book_name3 = new app.bolivia.swing.JCTextField();
-        search1 = new rojerusan.RSMaterialButtonCircle();
-        book_name4 = new app.bolivia.swing.JCTextField();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        book_name6 = new app.bolivia.swing.JCTextField();
         MENU_BAR = new javax.swing.JPanel();
         close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
@@ -96,373 +242,36 @@ public class Receive_book extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         Retrun1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        WELCOME = new javax.swing.JPanel();
+        type = new app.bolivia.swing.JCTextField();
+        search = new rojerusan.RSMaterialButtonCircle();
+        book_id = new app.bolivia.swing.JCTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        part = new app.bolivia.swing.JCTextField();
+        jLabel11 = new javax.swing.JLabel();
+        book_name = new app.bolivia.swing.JCTextField();
+        jLabel12 = new javax.swing.JLabel();
+        author = new app.bolivia.swing.JCTextField();
+        price = new app.bolivia.swing.JCTextField();
+        jLabel13 = new javax.swing.JLabel();
+        confirm_book_request = new rojerusan.RSMaterialButtonCircle();
+        fast_name = new app.bolivia.swing.JCTextField();
+        last_name = new app.bolivia.swing.JCTextField();
+        student_id = new app.bolivia.swing.JCTextField();
+        phone = new app.bolivia.swing.JCTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        gender = new app.bolivia.swing.JCTextField();
+        confirm_book_request1 = new rojerusan.RSMaterialButtonCircle();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
-
-        jPanel1.setBackground(new java.awt.Color(0, 204, 0));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Check the book is available or not!");
-
-        book_type.setBackground(new java.awt.Color(204, 255, 204));
-        book_type.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_type.setPlaceholder("So far, you have not searched any books. ");
-        book_type.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_type.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_typeActionPerformed(evt);
-            }
-        });
-
-        search.setText("search");
-        search.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchMouseClicked(evt);
-            }
-        });
-        search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchActionPerformed(evt);
-            }
-        });
-
-        jPanel3.setBackground(new java.awt.Color(0, 204, 0));
-        jPanel3.setPreferredSize(new java.awt.Dimension(513, 8));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 513, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 8, Short.MAX_VALUE)
-        );
-
-        book_id.setBackground(new java.awt.Color(204, 255, 204));
-        book_id.setPlaceholder("Enter Your Book ID :");
-        book_id.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_idActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("Book type");
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel10.setText("Part of the book");
-
-        book_parts.setBackground(new java.awt.Color(204, 255, 204));
-        book_parts.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_parts.setPlaceholder("So far, you have not searched any books. ");
-        book_parts.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_parts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_partsActionPerformed(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel11.setText("The book name is");
-
-        book_name.setBackground(new java.awt.Color(204, 255, 204));
-        book_name.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_name.setPlaceholder("So far, you have not searched any books. ");
-        book_name.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_nameActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel12.setText("The author name is ");
-
-        author_name.setBackground(new java.awt.Color(204, 255, 204));
-        author_name.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        author_name.setPlaceholder("So far, you have not searched any books. ");
-        author_name.setSelectionColor(new java.awt.Color(102, 102, 255));
-        author_name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                author_nameActionPerformed(evt);
-            }
-        });
-
-        book_available.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_available.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        book_available.setText("So far, you have not searched any books. ");
-
-        book_price.setBackground(new java.awt.Color(204, 255, 204));
-        book_price.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_price.setPlaceholder("So far, you have not searched any books. ");
-        book_price.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_price.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_priceActionPerformed(evt);
-            }
-        });
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel13.setText("The book price ");
-
-        confirm_book_request.setText("Confirm book request");
-        confirm_book_request.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirm_book_requestActionPerformed(evt);
-            }
-        });
-
-        book_name1.setBackground(new java.awt.Color(204, 255, 204));
-        book_name1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_name1.setPlaceholder("So far, you did not search any student. ");
-        book_name1.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_name1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_name1ActionPerformed(evt);
-            }
-        });
-
-        book_name2.setBackground(new java.awt.Color(204, 255, 204));
-        book_name2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_name2.setPlaceholder("So far, you did not search any student. ");
-        book_name2.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_name2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_name2ActionPerformed(evt);
-            }
-        });
-
-        book_name3.setBackground(new java.awt.Color(204, 255, 204));
-        book_name3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_name3.setPlaceholder("Enter Student ID");
-        book_name3.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_name3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_name3ActionPerformed(evt);
-            }
-        });
-
-        search1.setText("search");
-        search1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                search1MouseClicked(evt);
-            }
-        });
-        search1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                search1ActionPerformed(evt);
-            }
-        });
-
-        book_name4.setBackground(new java.awt.Color(204, 255, 204));
-        book_name4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_name4.setPlaceholder("So far, you did not search any student. ");
-        book_name4.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_name4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_name4ActionPerformed(evt);
-            }
-        });
-
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel14.setText("Student Phone :");
-
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel15.setText("Email Address");
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel16.setText("Student Name :");
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel17.setText("Full Address");
-
-        book_name6.setBackground(new java.awt.Color(204, 255, 204));
-        book_name6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        book_name6.setPlaceholder("So far, you did not search any student. ");
-        book_name6.setSelectionColor(new java.awt.Color(102, 102, 255));
-        book_name6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                book_name6ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
-        WELCOME.setLayout(WELCOMELayout);
-        WELCOMELayout.setHorizontalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
-                                .addGap(50, 50, 50)
-                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(book_name, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-                                    .addComponent(author_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(68, 68, 68)
-                                .addComponent(book_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(49, 49, 49)
-                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(book_parts, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-                                    .addComponent(book_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(43, 43, 43))
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(WELCOMELayout.createSequentialGroup()
-                                    .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(WELCOMELayout.createSequentialGroup()
-                                            .addGap(124, 124, 124)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(WELCOMELayout.createSequentialGroup()
-                                            .addGap(31, 31, 31)
-                                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGap(135, 135, 135)))
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addComponent(book_available, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(book_name3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(63, 63, 63)
-                                .addComponent(search1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addGap(228, 228, 228)
-                                .addComponent(jLabel17)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                                    .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel14)
-                                        .addComponent(jLabel15)
-                                        .addComponent(jLabel16))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(book_name4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(book_name1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                                            .addComponent(book_name2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGap(90, 90, 90))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                                    .addComponent(confirm_book_request, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(34, 34, 34)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                                .addComponent(book_name6, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(24, 24, 24))))))
-        );
-        WELCOMELayout.setVerticalGroup(
-            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
-                .addGap(17, 17, 17)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(book_available, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(book_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(author_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(38, 38, 38)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(book_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(38, 38, 38)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(book_parts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(39, 39, 39)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(book_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(26, 26, 26))
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(book_name3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(search1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(book_name1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel16)))
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(book_name2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel14)))
-                .addGap(51, 51, 51)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(book_name4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15))
-                .addGap(73, 73, 73)
-                .addComponent(jLabel17)
-                .addGap(18, 18, 18)
-                .addComponent(book_name6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addComponent(confirm_book_request, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
-        );
-
-        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -624,6 +433,322 @@ public class Receive_book extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
+        WELCOME.setBackground(new java.awt.Color(204, 204, 255));
+
+        type.setEditable(false);
+        type.setBackground(new java.awt.Color(255, 204, 204));
+        type.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        type.setPlaceholder("So far, you have not searched any books. ");
+        type.setSelectionColor(new java.awt.Color(102, 102, 255));
+        type.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeActionPerformed(evt);
+            }
+        });
+
+        search.setText("search");
+        search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchMouseClicked(evt);
+            }
+        });
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
+        book_id.setBackground(new java.awt.Color(204, 255, 204));
+        book_id.setPlaceholder("Enter Your Book ID :");
+        book_id.setSelectionColor(new java.awt.Color(102, 102, 255));
+        book_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                book_idActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel3.setText("Book type");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel10.setText("Part of the book");
+
+        part.setEditable(false);
+        part.setBackground(new java.awt.Color(255, 204, 204));
+        part.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        part.setPlaceholder("So far, you have not searched any books. ");
+        part.setSelectionColor(new java.awt.Color(102, 102, 255));
+        part.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                partActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel11.setText("The book name is");
+
+        book_name.setEditable(false);
+        book_name.setBackground(new java.awt.Color(255, 204, 204));
+        book_name.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        book_name.setPlaceholder("So far, you have not searched any books. ");
+        book_name.setSelectionColor(new java.awt.Color(102, 102, 255));
+        book_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                book_nameActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel12.setText("The author name is ");
+
+        author.setEditable(false);
+        author.setBackground(new java.awt.Color(255, 204, 204));
+        author.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        author.setPlaceholder("So far, you have not searched any books. ");
+        author.setSelectionColor(new java.awt.Color(102, 102, 255));
+        author.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                authorActionPerformed(evt);
+            }
+        });
+
+        price.setEditable(false);
+        price.setBackground(new java.awt.Color(255, 204, 204));
+        price.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        price.setPlaceholder("So far, you have not searched any books. ");
+        price.setSelectionColor(new java.awt.Color(102, 102, 255));
+        price.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel13.setText("The book price ");
+
+        confirm_book_request.setText("Confirm book request");
+        confirm_book_request.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirm_book_requestMouseClicked(evt);
+            }
+        });
+        confirm_book_request.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirm_book_requestActionPerformed(evt);
+            }
+        });
+
+        fast_name.setEditable(false);
+        fast_name.setBackground(new java.awt.Color(204, 255, 204));
+        fast_name.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fast_name.setPlaceholder("So far, you did not search any student. ");
+        fast_name.setSelectionColor(new java.awt.Color(102, 102, 255));
+        fast_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fast_nameActionPerformed(evt);
+            }
+        });
+
+        last_name.setEditable(false);
+        last_name.setBackground(new java.awt.Color(204, 255, 204));
+        last_name.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        last_name.setPlaceholder("So far, you did not search any student. ");
+        last_name.setSelectionColor(new java.awt.Color(102, 102, 255));
+        last_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                last_nameActionPerformed(evt);
+            }
+        });
+
+        student_id.setBackground(new java.awt.Color(204, 255, 204));
+        student_id.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        student_id.setPlaceholder("Enter Student ID");
+        student_id.setSelectionColor(new java.awt.Color(102, 102, 255));
+        student_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                student_idActionPerformed(evt);
+            }
+        });
+
+        phone.setEditable(false);
+        phone.setBackground(new java.awt.Color(204, 255, 204));
+        phone.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        phone.setPlaceholder("So far, you did not search any student. ");
+        phone.setSelectionColor(new java.awt.Color(102, 102, 255));
+        phone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel14.setText("Student Last Name :");
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel15.setText("Student Phone Number :");
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel16.setText("Student Fast Name :");
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel17.setText("Student Gender :");
+
+        gender.setEditable(false);
+        gender.setBackground(new java.awt.Color(204, 255, 204));
+        gender.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        gender.setPlaceholder("So far, you did not search any student. ");
+        gender.setSelectionColor(new java.awt.Color(102, 102, 255));
+        gender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genderActionPerformed(evt);
+            }
+        });
+
+        confirm_book_request1.setText("delete");
+        confirm_book_request1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirm_book_request1MouseClicked(evt);
+            }
+        });
+        confirm_book_request1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirm_book_request1ActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel18.setText("Student ID");
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel19.setText("Book ID");
+
+        javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
+        WELCOME.setLayout(WELCOMELayout);
+        WELCOMELayout.setHorizontalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WELCOMELayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(WELCOMELayout.createSequentialGroup()
+                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(50, 50, 50)
+                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(book_name, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(author, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(WELCOMELayout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(68, 68, 68)
+                            .addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(49, 49, 49)
+                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(part, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(phone, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                            .addComponent(gender, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(last_name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fast_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addComponent(confirm_book_request1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(confirm_book_request, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18))
+                        .addGap(43, 43, 43)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(student_id, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(34, 34, 34))
+        );
+        WELCOMELayout.setVerticalGroup(
+            WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WELCOMELayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fast_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16))
+                .addGap(28, 28, 28)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
+                        .addComponent(last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)))
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel15))
+                .addGap(28, 28, 28)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(210, 210, 210)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(confirm_book_request, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(confirm_book_request1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(book_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(student_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(22, 22, 22)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(author, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(part, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(29, 29, 29)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(118, 118, 118))))
+        );
+
+        getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -650,71 +775,6 @@ public class Receive_book extends javax.swing.JFrame {
             System.out.println("you have clicked CANCEL");
         }
     }//GEN-LAST:event_nameMouseClicked
-
-    private void confirm_book_requestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirm_book_requestActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confirm_book_requestActionPerformed
-
-    private void book_priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_priceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_priceActionPerformed
-
-    private void author_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_author_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_author_nameActionPerformed
-
-    private void book_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_nameActionPerformed
-
-    private void book_partsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_partsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_partsActionPerformed
-
-    private void book_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_idActionPerformed
-
-    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchActionPerformed
-
-    private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
-        // TODO add your handling code here:
-        search_book();
-    }//GEN-LAST:event_searchMouseClicked
-
-    private void book_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_typeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_typeActionPerformed
-
-    private void book_name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_name1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_name1ActionPerformed
-
-    private void book_name2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_name2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_name2ActionPerformed
-
-    private void book_name3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_name3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_name3ActionPerformed
-
-    private void search1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_search1MouseClicked
-
-    private void search1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_search1ActionPerformed
-
-    private void book_name4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_name4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_name4ActionPerformed
-
-    private void book_name6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_name6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_book_name6ActionPerformed
 
     private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
         // TODO add your handling code here:
@@ -805,31 +865,93 @@ public class Receive_book extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Retrun1MouseExited
 
+    private void typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeActionPerformed
+
+    private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
+        if(input_valid()){
+            if(varify_transaction()){
+                set_data();
+            }
+        }
+    }//GEN-LAST:event_searchMouseClicked
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void book_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_book_idActionPerformed
+
+    private void partActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_partActionPerformed
+
+    private void book_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_book_nameActionPerformed
+
+    private void authorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_authorActionPerformed
+
+    private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_priceActionPerformed
+
+    private void confirm_book_requestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirm_book_requestMouseClicked
+        if(input_valid()){
+            if(varify_transaction()){
+                if(!request_valid()){
+                    book_received();
+                }
+            }
+        }
+    }//GEN-LAST:event_confirm_book_requestMouseClicked
+
+    private void confirm_book_requestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirm_book_requestActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirm_book_requestActionPerformed
+
+    private void fast_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fast_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fast_nameActionPerformed
+
+    private void last_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_last_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_last_nameActionPerformed
+
+    private void student_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_student_idActionPerformed
+
+    private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneActionPerformed
+
+    private void genderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_genderActionPerformed
+
+    private void confirm_book_request1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirm_book_request1MouseClicked
+        int i = JOptionPane.showConfirmDialog(this, "Do you want to delete the request?", "Confiramation Message", JOptionPane.YES_NO_OPTION);
+        if(i==0){
+            delete();
+        }
+    }//GEN-LAST:event_confirm_book_request1MouseClicked
+
+    private void confirm_book_request1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirm_book_request1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirm_book_request1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Receive_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Receive_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Receive_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Receive_book.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+    Receive_book br =  new Receive_book(879);
+    br.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -837,24 +959,17 @@ public class Receive_book extends javax.swing.JFrame {
     private javax.swing.JPanel Retrun;
     private javax.swing.JPanel Retrun1;
     private javax.swing.JPanel WELCOME;
-    private app.bolivia.swing.JCTextField author_name;
-    private javax.swing.JLabel book_available;
+    private app.bolivia.swing.JCTextField author;
     private app.bolivia.swing.JCTextField book_id;
     private javax.swing.JPanel book_issue;
     private app.bolivia.swing.JCTextField book_name;
-    private app.bolivia.swing.JCTextField book_name1;
-    private app.bolivia.swing.JCTextField book_name2;
-    private app.bolivia.swing.JCTextField book_name3;
-    private app.bolivia.swing.JCTextField book_name4;
-    private app.bolivia.swing.JCTextField book_name6;
-    private app.bolivia.swing.JCTextField book_parts;
-    private app.bolivia.swing.JCTextField book_price;
     private javax.swing.JPanel book_queue;
-    private app.bolivia.swing.JCTextField book_type;
     private javax.swing.JLabel close;
     private rojerusan.RSMaterialButtonCircle confirm_book_request;
+    private rojerusan.RSMaterialButtonCircle confirm_book_request1;
+    private app.bolivia.swing.JCTextField fast_name;
+    private app.bolivia.swing.JCTextField gender;
     private javax.swing.JLabel home;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -863,6 +978,8 @@ public class Receive_book extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
@@ -871,12 +988,15 @@ public class Receive_book extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private app.bolivia.swing.JCTextField last_name;
     private javax.swing.JLabel name;
+    private app.bolivia.swing.JCTextField part;
+    private app.bolivia.swing.JCTextField phone;
+    private app.bolivia.swing.JCTextField price;
     private javax.swing.JPanel reading;
     private rojerusan.RSMaterialButtonCircle search;
-    private rojerusan.RSMaterialButtonCircle search1;
+    private app.bolivia.swing.JCTextField student_id;
+    private app.bolivia.swing.JCTextField type;
     // End of variables declaration//GEN-END:variables
 }

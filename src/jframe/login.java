@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package jframe;
+import jframe.method_romjanali01673.DB_connection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;

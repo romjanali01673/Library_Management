@@ -1,6 +1,7 @@
 
 package jframe;
 
+import jframe.method_romjanali01673.DB_connection;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

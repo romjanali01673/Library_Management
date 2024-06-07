@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.Help;
 import jframe.home_page;
 import jframe.moderator_file.modarator_portal;

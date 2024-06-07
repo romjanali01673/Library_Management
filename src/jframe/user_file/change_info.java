@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
 
 public class change_info extends javax.swing.JFrame {
@@ -21,17 +21,17 @@ public class change_info extends javax.swing.JFrame {
     public boolean bod_date_valid = false;
     String passwd ;
     
-String fast_namer;
-String last_namer;
-String phoner ;
-String emailr ;
-String genderr ;
-long nid_birth_numberr ;
-java.sql.Date Date_of_birthr ; 
-String institute_officer ;
-String id_numberr;
-String full_addressr ;
-String passr;
+String fast_namer = "";
+String last_namer = "";
+String phoner  = "";
+String emailr  = "";
+String genderr  = "";
+long nid_birth_numberr = 0l ;
+java.sql.Date Date_of_birthr=null ; 
+String institute_officer  = "";
+String id_numberr = "";
+String full_addressr  = "";
+String passr = "";
 
     public change_info(int id) {
         this.id = id;
@@ -116,7 +116,7 @@ else{
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from student_data where user_id = ?";
+            String sql = "select fast_name,last_name from user_info where id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -124,13 +124,13 @@ else{
             if(rs.next()){
                 String a = rs.getString("fast_name");
                 String b = rs.getString("last_name");
-                name.setText(a+" "+b+" - "+id);
                 
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
         }catch(Exception e ){
             e.printStackTrace();
         }
-   }
+    }
 
     // creating a mehod for gender 
 
@@ -771,7 +771,7 @@ else{
         MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
 
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
         home.setToolTipText("GO TO HOME");
         home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -805,7 +805,7 @@ else{
     }//GEN-LAST:event_closeMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
-        home_page hp = new home_page();
+        book_issue hp = new book_issue(id);
         hp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked

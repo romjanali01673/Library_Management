@@ -11,9 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import jframe.method_romjanali01673.DB_connection;
+import jframe.admin_login;
 import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_with_boss;
+import jframe.moderator_file.contact_employee;
 import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
 import jframe.moderator_file.modarator_portal;
@@ -31,7 +32,6 @@ public class Admin_home extends javax.swing.JFrame {
         initComponents();
         set_profile();
         showPieChart();
-        
     }
         
 public void showPieChart(){
@@ -82,47 +82,7 @@ public void showPieChart(){
         }
 
     }
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

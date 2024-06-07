@@ -14,12 +14,13 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
 import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_with_boss;
+import jframe.moderator_file.contact_employee;
 import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
+import jframe.method_romjanali01673.necessaryMethod;
 import jframe.moderator_file.modarator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -29,6 +30,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 
 public class Moderator_Management extends javax.swing.JFrame {
+    necessaryMethod nm  = new necessaryMethod();
     int id;
     
         String fast_namer; 
@@ -71,12 +73,12 @@ public class Moderator_Management extends javax.swing.JFrame {
             return DATE_OF_BIRTH ;
     }
     public void updated(int use_id){
-        String fast_names = remove_white_space(fast_name.getText()).toUpperCase();
-        String last_names = remove_white_space(last_name.getText().toUpperCase());
-        String phones = remove_white_space(phone.getText()).toUpperCase();
-        String emails = remove_white_space(email.getText()).toUpperCase();
-        String full_addresss = remove_white_space(full_address.getText()).toUpperCase();
-        String fatrer_names = remove_white_space(ftr_name.getText()).toUpperCase();
+        String fast_names = nm.remove_white_space(fast_name.getText()).toUpperCase();
+        String last_names = nm.remove_white_space(last_name.getText().toUpperCase());
+        String phones = nm.remove_white_space(phone.getText()).toUpperCase();
+        String emails = nm.remove_white_space(email.getText()).toUpperCase();
+        String full_addresss = nm.remove_white_space(full_address.getText()).toUpperCase();
+        String fatrer_names = nm.remove_white_space(ftr_name.getText()).toUpperCase();
         String statiss = "REGULER";
         if(REGULER.isSelected()){
             statiss ="REGULER";
@@ -99,8 +101,8 @@ public class Moderator_Management extends javax.swing.JFrame {
         long father_nids=0L;
         
         try{
-        nid_births= Long.valueOf(remove_white_space(nid_birth_number.getText()));
-        father_nids = Long.valueOf(remove_white_space(ftr_nid.getText()));
+        nid_births= Long.valueOf(nm.remove_white_space(nid_birth_number.getText()));
+        father_nids = Long.valueOf(nm.remove_white_space(ftr_nid.getText()));
         }
         catch(Exception es){
             es.printStackTrace();
@@ -137,12 +139,12 @@ public class Moderator_Management extends javax.swing.JFrame {
     }
     }
     public void add(){
-        String fast_names = remove_white_space(fast_name.getText()).toUpperCase();
-        String last_names = remove_white_space(last_name.getText().toUpperCase());
-        String phones = remove_white_space(phone.getText()).toUpperCase();
-        String emails = remove_white_space(email.getText()).toUpperCase();
-        String full_addresss = remove_white_space(full_address.getText()).toUpperCase();
-        String fatrer_names = remove_white_space(ftr_name.getText()).toUpperCase();
+        String fast_names = nm.remove_white_space(fast_name.getText()).toUpperCase();
+        String last_names = nm.remove_white_space(last_name.getText().toUpperCase());
+        String phones = nm.remove_white_space(phone.getText()).toUpperCase();
+        String emails = nm.remove_white_space(email.getText()).toUpperCase();
+        String full_addresss = nm.remove_white_space(full_address.getText()).toUpperCase();
+        String fatrer_names = nm.remove_white_space(ftr_name.getText()).toUpperCase();
         String statiss = "REGULER";
         if(REGULER.isSelected()){
             statiss ="REGULER";
@@ -165,8 +167,8 @@ public class Moderator_Management extends javax.swing.JFrame {
         long father_nids=0L;
         
         try{
-        nid_births= Long.valueOf(remove_white_space(nid_birth_number.getText()));
-        father_nids = Long.valueOf(remove_white_space(ftr_nid.getText()));
+        nid_births= nm.stringToLong(nid_birth_number.getText());
+        father_nids = nm.stringToLong(ftr_nid.getText());
         }
         catch(Exception es){
             es.printStackTrace();
@@ -265,12 +267,12 @@ public class Moderator_Management extends javax.swing.JFrame {
         boolean res = true;
         get_Birth_Date();
         
-        String F_name  = remove_white_space(fast_name.getText());
-        String L_name = remove_white_space(last_name.getText());
-        String Phone = remove_white_space(phone.getText());
-        String Email = remove_white_space(email.getText());
-        String Institute_Office = remove_white_space(ftr_name.getText());
-        String F_address  = remove_white_space(full_address.getText());
+        String F_name  = nm.remove_white_space(fast_name.getText());
+        String L_name = nm.remove_white_space(last_name.getText());
+        String Phone = nm.remove_white_space(phone.getText());
+        String Email = nm.remove_white_space(email.getText());
+        String Institute_Office = nm.remove_white_space(ftr_name.getText());
+        String F_address  = nm.remove_white_space(full_address.getText());
         
         
         if (F_name.equals("")){
@@ -294,7 +296,7 @@ public class Moderator_Management extends javax.swing.JFrame {
            
             res =  false;
         }
-        else if(get_nid_or_birth_number(remove_white_space(nid_birth_number.getText()))==0L){
+        else if(get_nid_or_birth_number(nm.remove_white_space(nid_birth_number.getText()))==0L){
             
             res =  false;
         }
@@ -308,7 +310,7 @@ public class Moderator_Management extends javax.swing.JFrame {
 
             res =  false;
         }
-        else if(get_nid_or_birth_number(remove_white_space(ftr_nid.getText()))==0L){
+        else if(get_nid_or_birth_number(nm.remove_white_space(ftr_nid.getText()))==0L){
             JOptionPane.showMessageDialog(this, "Enter Your Fater Nid Number");
             res =  false;
         }
@@ -410,28 +412,6 @@ public class Moderator_Management extends javax.swing.JFrame {
 
 }
 }
-    public String remove_white_space(String str){
-        // Remove leading whitespaces
-        int start = 0;
-        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
-            start++;
-        }
-
-        // Remove trailing whitespaces
-        int end = str.length() - 1;
-        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
-            end--;
-        }
-        String sub_string = str.substring(start, end+1);
-
-        // Return the substring without leading and trailing whitespaces
-        return sub_string;
-
-    }
-
-    
-
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1297,7 +1277,7 @@ public class Moderator_Management extends javax.swing.JFrame {
     }//GEN-LAST:event_student_idActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        int s_id = Integer.parseInt(remove_white_space(student_id.getText()));
+        int s_id = nm.stringToint(student_id.getText());
         get_info(s_id);
         set_info();
     }//GEN-LAST:event_jButton1MouseClicked

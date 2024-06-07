@@ -1,17 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package jframe.moderator_file;
 
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import jframe.DB_connection;
+import javax.swing.JOptionPane;
+import jframe.Help;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
+import jframe.method_romjanali01673.necessaryMethod;
 
 public class contact_with_student extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
+    
     int id ;
     
     
@@ -20,6 +22,79 @@ public class contact_with_student extends javax.swing.JFrame {
         initComponents();
         set_profile();
         
+    }
+    public boolean valid(){
+        boolean res = true;
+        if(nm.remove_white_space(subject.getText()).equals("")){
+            JOptionPane.showMessageDialog(this, "Write subject");
+            return false;
+        }
+        else if(nm.remove_white_space(message.getText()).equals("")){
+            JOptionPane.showMessageDialog(this, "Write message");
+            return false;
+        }
+        else if(nm.remove_white_space(description.getText()).equals("")){
+            JOptionPane.showMessageDialog(this, "Write description");
+            return false;
+        }
+        else if(nm.stringToint(student_id.getText())==0){
+            JOptionPane.showMessageDialog(this, "Write student ID");
+            return false;
+        }
+        return res;
+    }
+    public void send(){
+    try{
+        Connection con = DB_connection.getConnection();
+        String str = "insert into notification(subject,student_id,From_who,T_time,T_date,message,description) values(?,?,?,?,?,?,?)";
+        PreparedStatement pst = con.prepareStatement(str);    
+        pst.setString(1, nm.remove_white_space(subject.getText()));
+        pst.setInt(2, nm.stringToint(student_id.getText()));
+        pst.setInt(3,id);
+        pst.setTime(4, nm.getNowTime());
+        pst.setDate(5, nm.getTodayDate());
+        pst.setString(6, nm.remove_white_space(message.getText()));
+        pst.setString(7, nm.remove_white_space(description.getText()));
+        
+        int rs = pst.executeUpdate();
+        if(rs>0){
+            JOptionPane.showMessageDialog(this, "message send!");
+
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Student Dose Not Exist!");
+                    
+        }
+    }catch(Exception e){
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Server Error!");
+    
+    }
+    }
+    public void getData(){
+    try{
+        Connection con = DB_connection.getConnection();
+        String str = "select * from student_data where user_id=?";
+        PreparedStatement pst = con.prepareStatement(str);    
+        pst.setInt(1, nm.stringToint(student_id.getText()));
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            String phone= rs.getString("phone");
+            String f_name= rs.getString("fast_name");
+            String l_name= rs.getString("last_name");
+            
+            this.phone.setText(phone);
+            this.fname.setText(f_name+" "+l_name);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Student Dose Not Exist!");
+                    
+        }
+    }catch(Exception e){
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Server Error!");
+    
+    }
     }
     public void set_profile(){
         try{
@@ -36,50 +111,11 @@ public class contact_with_student extends javax.swing.JFrame {
             }
         }catch(Exception e ){
             e.printStackTrace();
+            
         }
 
     }
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,19 +140,21 @@ public class contact_with_student extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         Notification = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jCTextField2 = new app.bolivia.swing.JCTextField();
+        subject = new app.bolivia.swing.JCTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        description = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        message = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
-        rSMaterialButtonCircle1 = new rojerusan.RSMaterialButtonCircle();
-        jCTextField3 = new app.bolivia.swing.JCTextField();
-        jCTextField5 = new app.bolivia.swing.JCTextField();
-        jCTextField6 = new app.bolivia.swing.JCTextField();
+        submit = new rojerusan.RSMaterialButtonCircle();
+        fname = new app.bolivia.swing.JCTextField();
+        phone = new app.bolivia.swing.JCTextField();
+        student_id = new app.bolivia.swing.JCTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -300,7 +338,7 @@ public class contact_with_student extends javax.swing.JFrame {
         Notification.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel3.add(Notification, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
-        jPanel3.add(jCTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, -1, -1));
+        jPanel3.add(subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 102, 102));
@@ -311,15 +349,15 @@ public class contact_with_student extends javax.swing.JFrame {
         jLabel11.setText("Subject");
         jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        description.setColumns(20);
+        description.setRows(5);
+        jScrollPane1.setViewportView(description);
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 750, 440));
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        message.setColumns(20);
+        message.setRows(5);
+        jScrollPane2.setViewportView(message);
 
         jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 280, 260));
 
@@ -327,35 +365,50 @@ public class contact_with_student extends javax.swing.JFrame {
         jLabel13.setText("Message");
         jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
-        rSMaterialButtonCircle1.setText("send");
-        rSMaterialButtonCircle1.addMouseListener(new java.awt.event.MouseAdapter() {
+        submit.setText("send");
+        submit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rSMaterialButtonCircle1MouseClicked(evt);
+                submitMouseClicked(evt);
             }
         });
-        rSMaterialButtonCircle1.addActionListener(new java.awt.event.ActionListener() {
+        submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonCircle1ActionPerformed(evt);
+                submitActionPerformed(evt);
             }
         });
-        jPanel3.add(rSMaterialButtonCircle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 550, 220, 80));
+        jPanel3.add(submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 550, 220, 80));
 
-        jCTextField3.setPlaceholder("Full Name :   auto insart.");
-        jPanel3.add(jCTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 630, 390, -1));
+        fname.setEditable(false);
+        fname.setPlaceholder("Full Name :   auto insart.");
+        jPanel3.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 630, 390, -1));
 
-        jCTextField5.setPlaceholder("NID/Birth NO : auto insart.");
-        jPanel3.add(jCTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 630, 250, -1));
+        phone.setEditable(false);
+        phone.setPlaceholder("Phone number");
+        jPanel3.add(phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 630, 250, -1));
 
-        jCTextField6.setPlaceholder("Find Student by  User ID");
-        jPanel3.add(jCTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 490, -1, -1));
+        student_id.setPlaceholder("Find Student by  User ID");
+        jPanel3.add(student_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 490, -1, -1));
 
         jButton1.setText("Find");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
         jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 540, -1, -1));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("Student Full Name  - ");
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Student Phone Number  -  ");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 600, -1, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
@@ -399,7 +452,7 @@ public class contact_with_student extends javax.swing.JFrame {
     }//GEN-LAST:event_approve_changesMouseExited
 
     private void contact_with_bossMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_with_bossMouseClicked
-        contact_with_boss cwb= new contact_with_boss(id);
+        contact_employee cwb= new contact_employee(id);
         cwb.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_contact_with_bossMouseClicked
@@ -485,25 +538,35 @@ public class contact_with_student extends javax.swing.JFrame {
         Notification.setBackground(mouseout);
     }//GEN-LAST:event_NotificationMouseExited
 
-    private void rSMaterialButtonCircle1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1MouseClicked
-        // TODO add your handling code here:
-        Help hp = new Help();
-        hp.setVisible(true);
+    private void submitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitMouseClicked
+       if(valid()){
+           send();
+       }
 
-    }//GEN-LAST:event_rSMaterialButtonCircle1MouseClicked
+    }//GEN-LAST:event_submitMouseClicked
 
-    private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
+    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
+    }//GEN-LAST:event_submitActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+if(nm.stringToint(student_id.getText())!=0)  {
+    getData();
+}      
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        contact_with_student cws = new contact_with_student(3456);
+        cws.setVisible(true);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -534,17 +597,17 @@ public class contact_with_student extends javax.swing.JFrame {
     private javax.swing.JLabel close;
     private javax.swing.JPanel contact_with_boss;
     private javax.swing.JPanel contact_with_student;
+    private javax.swing.JTextArea description;
+    private app.bolivia.swing.JCTextField fname;
     private javax.swing.JLabel home;
     private javax.swing.JButton jButton1;
-    private app.bolivia.swing.JCTextField jCTextField2;
-    private app.bolivia.swing.JCTextField jCTextField3;
-    private app.bolivia.swing.JCTextField jCTextField5;
-    private app.bolivia.swing.JCTextField jCTextField6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -555,10 +618,12 @@ public class contact_with_student extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea message;
     private javax.swing.JLabel name;
-    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
+    private app.bolivia.swing.JCTextField phone;
+    private app.bolivia.swing.JCTextField student_id;
+    private app.bolivia.swing.JCTextField subject;
+    private rojerusan.RSMaterialButtonCircle submit;
     private javax.swing.JPanel welcome;
     // End of variables declaration//GEN-END:variables
 }

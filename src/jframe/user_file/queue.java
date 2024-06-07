@@ -8,9 +8,12 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import javax.swing.table.DefaultTableModel;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
+import jframe.method_romjanali01673.notificationStore;
 
 
 public class queue extends javax.swing.JFrame {
@@ -21,27 +24,52 @@ public class queue extends javax.swing.JFrame {
         this.id = id;
         initComponents();
         set_profile();
-        
+        set_table1();
     }
+
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name from modarator_data where user_id = ?";
+            String sql = "select fast_name,last_name from user_info where id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                String a = rs.getString("full_name");
-                name.setText(a);
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
                 
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
         }catch(Exception e ){
             e.printStackTrace();
         }
-
     }
+   public void set_table1(){
+       try{
+            Connection con = DB_connection.getConnection();
+            Statement st = con.createStatement();
+            String sql = "select * from student_book inner join book_data on student_book.book_id=book_data.book_id where student_book.student_id = "+id+ " and T_status = \"ISSUE\"";
+            ResultSet rs = st.executeQuery(sql);
+            // the while loop will add a row by eatch 1 looping.
+            while(rs.next()){
+                
+                String book_id = rs.getString("book_id");
+                String book_name = rs.getString("book_name");
+                String book_author = rs.getString("author");
+                String book_type = rs.getString("book_type");
+                String book_part = rs.getString("book_part");
+                String date = rs.getString("T_date");
+                String time = rs.getString("T_time");
 
+                Object[] obj = {book_id,book_name,book_author,book_type,book_part,date,time};
+                DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+                model.addRow(obj);
+            }
+       }catch(Exception E){
+           E.printStackTrace();
+       }
+   }    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,7 +83,7 @@ public class queue extends javax.swing.JFrame {
         WELCOME = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        rSTableMetro2 = new rojeru_san.complementos.RSTableMetro();
+        table_data = new rojeru_san.complementos.RSTableMetro();
         jPanel2 = new javax.swing.JPanel();
         reading = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -127,69 +155,79 @@ public class queue extends javax.swing.JFrame {
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
         WELCOME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel1.setText("You was applyed for this book these book, please collect this book.");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel1.setText("You applied for The following book, please collect this book.");
 
-        rSTableMetro2.setBackground(new java.awt.Color(204, 255, 204));
-        rSTableMetro2.setModel(new javax.swing.table.DefaultTableModel(
+        table_data.setBackground(new java.awt.Color(204, 255, 204));
+        table_data.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "dfasd", "dfdfsd", null, null, "dfdsf"},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Book ID", "Book Name", "Book Author", "Book Type", "Book Part", "Issue Date"
+                "Book ID", "Book Name", "Book Author", "Book Type", "Part", "Issue Date", "Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        rSTableMetro2.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
-        rSTableMetro2.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        rSTableMetro2.setColorBordeHead(new java.awt.Color(0, 0, 255));
-        rSTableMetro2.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
-        rSTableMetro2.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
-        rSTableMetro2.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorSelForeground(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setRowHeight(30);
-        rSTableMetro2.setShowHorizontalLines(true);
-        rSTableMetro2.setShowVerticalLines(true);
-        jScrollPane3.setViewportView(rSTableMetro2);
+        table_data.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
+        table_data.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        table_data.setColorBordeHead(new java.awt.Color(0, 0, 255));
+        table_data.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        table_data.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
+        table_data.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        table_data.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        table_data.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        table_data.setColorSelForeground(new java.awt.Color(0, 0, 0));
+        table_data.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        table_data.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        table_data.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        table_data.setRowHeight(30);
+        table_data.setShowHorizontalLines(true);
+        table_data.setShowVerticalLines(true);
+        jScrollPane3.setViewportView(table_data);
+        if (table_data.getColumnModel().getColumnCount() > 0) {
+            table_data.getColumnModel().getColumn(0).setMinWidth(90);
+            table_data.getColumnModel().getColumn(0).setMaxWidth(90);
+            table_data.getColumnModel().getColumn(4).setMinWidth(50);
+            table_data.getColumnModel().getColumn(4).setMaxWidth(50);
+            table_data.getColumnModel().getColumn(5).setMinWidth(120);
+            table_data.getColumnModel().getColumn(5).setMaxWidth(120);
+            table_data.getColumnModel().getColumn(6).setMinWidth(100);
+            table_data.getColumnModel().getColumn(6).setMaxWidth(100);
+        }
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
         WELCOMELayout.setHorizontalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(203, 203, 203)
+                .addGap(302, 302, 302)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(323, Short.MAX_VALUE))
+            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(WELCOMELayout.createSequentialGroup()
+                    .addGap(21, 21, 21)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1098, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(21, Short.MAX_VALUE)))
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+            .addGroup(WELCOMELayout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(188, 188, 188))
+                .addContainerGap(631, Short.MAX_VALUE))
+            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(WELCOMELayout.createSequentialGroup()
+                    .addGap(68, 68, 68)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(19, Short.MAX_VALUE)))
         );
 
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
@@ -488,11 +526,11 @@ this.dispose();
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel name;
-    private rojeru_san.complementos.RSTableMetro rSTableMetro2;
     private javax.swing.JPanel reading;
     private javax.swing.JPanel retrurnded;
+    private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables
 public static void main(String [] args){
-    queue ue = new queue(453);
+    queue ue = new queue(87);
     ue.setVisible(true);
 }}

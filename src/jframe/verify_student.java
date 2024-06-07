@@ -4,6 +4,7 @@
  */
 package jframe;
 
+import jframe.method_romjanali01673.DB_connection;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import java.sql.Connection;

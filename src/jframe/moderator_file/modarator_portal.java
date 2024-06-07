@@ -5,13 +5,13 @@
 package jframe.moderator_file;
 
 import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_with_boss;
+import jframe.moderator_file.contact_employee;
 import jframe.moderator_file.contact_with_student;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import jframe.DB_connection;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
 
 public class modarator_portal extends javax.swing.JFrame {
@@ -290,7 +290,7 @@ int id ;
     }//GEN-LAST:event_approve_changesMouseExited
 
     private void contact_with_bossMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_with_bossMouseClicked
-            contact_with_boss cwb = new contact_with_boss(id);
+            contact_employee cwb = new contact_employee(id);
             cwb.setVisible(true);
             this.dispose();
     }//GEN-LAST:event_contact_with_bossMouseClicked

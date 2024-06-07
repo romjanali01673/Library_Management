@@ -42,6 +42,7 @@ public class home_page extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
         help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -140,6 +141,14 @@ public class home_page extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setText("Choice Book");
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu4MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu4);
+
         help.setText("Help");
         help.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -206,6 +215,10 @@ public class home_page extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenu3MouseClicked
 
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+Choice_book cb = new Choice_book();
+cb.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_jMenu4MouseClicked
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -237,9 +250,6 @@ public class home_page extends javax.swing.JFrame {
             }
         });
     }
-
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu help;
     private javax.swing.JMenu home;
@@ -250,6 +260,7 @@ public class home_page extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;

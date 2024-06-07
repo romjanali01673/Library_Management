@@ -398,50 +398,41 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="203" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="24" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane2" min="-2" pref="1093" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="504" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="511" max="-2" attributes="0"/>
               </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" min="-2" pref="1093" max="-2" attributes="0"/>
-                      <EmptySpace pref="24" max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="368" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jScrollPane3" min="-2" pref="1098" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="1093" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="13" max="32767" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="291" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" min="-2" pref="285" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jScrollPane3" min="-2" pref="363" max="-2" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="163" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" min="-2" pref="282" max="-2" attributes="0"/>
-                      <EmptySpace pref="352" max="32767" attributes="0"/>
-                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -450,12 +441,12 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Segoe UI" size="18" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="You are reading these book/Returnable books."/>
+            <Property name="text" type="java.lang.String" value="You are reading these books/Returnable books."/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -477,7 +468,7 @@
                   <Font name="Segoe UI Semibold" size="16" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
-                <Property name="text" type="java.lang.String" value="You have taken these books. &#xa;You must have to returned the book.&#xa;so take care these book like you self.&#xa;&#xa;please visit our library continue &#xa;and take book,return book, explore the author mind.&#xa;&#xa;if yor feel any problem and harasmend by us,&#xa;feel free to contact with us.&#xa;"/>
+                <Property name="text" type="java.lang.String" value="You have taken these books. &#xa;You must have to returned the book.&#xa;so take care these book like you self.&#xa;&#xa;please keep continue visit our library  &#xa;and take book,return book, explore the author mind.&#xa;&#xa;if yor feel any problem and harasmend by us,&#xa;feel free to contact with us.&#xa;"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -500,37 +491,20 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="rojeru_san.complementos.RSTableMetro" name="rSTableMetro2">
+            <Component class="rojeru_san.complementos.RSTableMetro" name="table_data">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="ff" red="cc" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="6" rowCount="5">
+                  <Table columnCount="7" rowCount="0">
                     <Column editable="true" title="Book ID" type="java.lang.Object"/>
-                    <Column editable="true" title="Book Name" type="java.lang.String">
-                      <Data value="dfasd"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
-                    <Column editable="true" title="Book Author" type="java.lang.String">
-                      <Data value="dfdfsd"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
+                    <Column editable="true" title="Book Name" type="java.lang.String"/>
+                    <Column editable="true" title="Book Author" type="java.lang.String"/>
                     <Column editable="true" title="Book Type" type="java.lang.Object"/>
-                    <Column editable="true" title="Book Part" type="java.lang.Object"/>
-                    <Column editable="true" title="Issue Date" type="java.lang.Object">
-                      <Data value="dfdsf"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
+                    <Column editable="true" title="Part" type="java.lang.Object"/>
+                    <Column editable="true" title="Issue Date" type="java.lang.Object"/>
+                    <Column editable="true" title="Time" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="colorBackgoundHead" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -559,6 +533,45 @@
                 </Property>
                 <Property name="colorSelForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                  <TableColumnModel selectionModel="0">
+                    <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="50" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="120" minWidth="120" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                  </TableColumnModel>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>

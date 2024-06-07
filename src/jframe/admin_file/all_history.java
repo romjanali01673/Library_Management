@@ -7,15 +7,16 @@ package jframe.admin_file;
 import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Random;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
-import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_with_boss;
-import jframe.moderator_file.contact_with_student;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
-import jframe.moderator_file.modarator_portal;
 
 public class all_history extends javax.swing.JFrame {
     int id;
@@ -24,65 +25,123 @@ public class all_history extends javax.swing.JFrame {
         this.id = id;
         initComponents();
         set_profile();
-        
     }
-    public void set_profile(){
+    public void set_table2(){
+       try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
+            String sql = "select * from student_history";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            // the while loop will add a row by eatch 1 looping.
+            while(rs.next()){
+                int book_id = rs.getInt("book_id");
+                String book_name = rs.getString("book_name");
+                String author = rs.getString("author");
+                int book_part = rs.getInt("book_part");
+                String book_type = rs.getString("book_type");
+                int price = rs.getInt("price");
+                String few_line = rs.getString("few_i_line");
+
+                //set data in table
+                Object[] obj = {book_id,book_name,author,book_part,book_type};
+                DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+                model.addRow(obj);
+            }
+       }catch(Exception E){
+           System.out.println("erroes");
+           E.printStackTrace();
+       }}
+    public void set_table1(){
+       try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
+            String sql = "select * from book_history";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            // the while loop will add a row by eatch 1 looping.
+            while(rs.next()){
+                int book_id = rs.getInt("book_id");
+                String book_name = rs.getString("book_name");
+                String author = rs.getString("author");
+                int book_part = rs.getInt("book_part");
+                String book_type = rs.getString("book_type");
+                int price = rs.getInt("price");
+                String few_line = rs.getString("few_i_line");
+
+                //set data in table
+                Object[] obj = {book_id,book_name,author,book_part,book_type};
+                DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+                model.addRow(obj);
+            }
+       }catch(Exception E){
+           System.out.println("erroes");
+           E.printStackTrace();
+       }}
+    public void set_table(){
+       try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
+            String sql = "select * from employee_history";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            // the while loop will add a row by eatch 1 looping.
+            while(rs.next()){
+                int book_id = rs.getInt("book_id");
+                String book_name = rs.getString("book_name");
+                String author = rs.getString("author");
+                int book_part = rs.getInt("book_part");
+                String book_type = rs.getString("book_type");
+                int price = rs.getInt("price");
+                String few_line = rs.getString("few_i_line");
+
+                //set data in table
+                Object[] obj = {book_id,book_name,author,book_part,book_type};
+                DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+                model.addRow(obj);
+            }
+       }catch(Exception E){
+           System.out.println("erroes");
+           E.printStackTrace();
+       }}
+           
+    public String genarate_otp(){
+        Random random = new Random();
+        int randomNumber = random.nextInt(1000000);
+        String pin = String.format("%06d", randomNumber);
+        return pin;
+    }
+    public int get_book_id_from_table(){
+        DefaultTableModel model = (DefaultTableModel)table_data.getModel();
+        int row = table_data.getSelectedRow();
+        int book_id = (int) model.getValueAt(row,0);
+        return book_id;
+    }
+    public void find_by_id(){
+
+        String query = String.valueOf(info.getText()).toUpperCase();
+        
+        DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table_data.setRowSorter(sorter);
+        sorter.setRowFilter(RowFilter.regexFilter(query));
+    }    
+        public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name from modarator_data where user_id = ?";
+            String sql = "select fast_name,last_name from employee_data where id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                String a = rs.getString("full_name");
-                name.setText(a);
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
                 
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
         }catch(Exception e ){
             e.printStackTrace();
-        }
-
-    }
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
         }
     }
     @SuppressWarnings("unchecked")
@@ -98,21 +157,8 @@ public class all_history extends javax.swing.JFrame {
         WELCOME = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        rSTableMetro3 = new rojeru_san.complementos.RSTableMetro();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
+        table_data = new rojeru_san.complementos.RSTableMetro();
+        info = new app.bolivia.swing.JCTextField();
         jPanel2 = new javax.swing.JPanel();
         LMS_DESHBOARD = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -199,148 +245,77 @@ public class all_history extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
         jLabel1.setText("The All History In Here.");
 
-        rSTableMetro3.setBackground(new java.awt.Color(204, 255, 204));
-        rSTableMetro3.setModel(new javax.swing.table.DefaultTableModel(
+        table_data.setBackground(new java.awt.Color(204, 255, 204));
+        table_data.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "dfasd", "dfdfsd", null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {"1234567", null, null, null, "12:12:122", "1212-12-122", "SUSPENDED"},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Object", "Object ID", "Time", "Date", "Status"
+                "User ID", "Employee ID", "Book ID", "Quantity", "Time", "Date", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        rSTableMetro3.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
-        rSTableMetro3.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        rSTableMetro3.setColorBordeHead(new java.awt.Color(0, 0, 255));
-        rSTableMetro3.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
-        rSTableMetro3.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
-        rSTableMetro3.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        rSTableMetro3.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        rSTableMetro3.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        rSTableMetro3.setColorSelForeground(new java.awt.Color(0, 0, 0));
-        rSTableMetro3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rSTableMetro3.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro3.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro3.setRowHeight(30);
-        rSTableMetro3.setShowHorizontalLines(true);
-        rSTableMetro3.setShowVerticalLines(true);
-        jScrollPane4.setViewportView(rSTableMetro3);
+        table_data.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
+        table_data.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        table_data.setColorBordeHead(new java.awt.Color(0, 0, 255));
+        table_data.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        table_data.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
+        table_data.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        table_data.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        table_data.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        table_data.setColorSelForeground(new java.awt.Color(0, 0, 0));
+        table_data.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        table_data.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        table_data.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        table_data.setRowHeight(30);
+        table_data.setShowHorizontalLines(true);
+        table_data.setShowVerticalLines(true);
+        jScrollPane4.setViewportView(table_data);
 
-        jCheckBox1.setText("Update Modarator");
-
-        jCheckBox2.setText("Add Modarator");
-
-        jCheckBox4.setText("Remove Librarian");
-
-        jCheckBox5.setText("Add Book");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
+        info.setBackground(new java.awt.Color(204, 255, 204));
+        info.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        info.setPlaceholder("Search Here By Any Type Of Data Type : ");
+        info.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                infoKeyPressed(evt);
             }
         });
-
-        jCheckBox6.setText("Update Book ");
-
-        jCheckBox7.setText("Add Librarian");
-
-        jCheckBox3.setText("C S Status");
-
-        jCheckBox8.setText("Remove Book");
-
-        jCheckBox9.setText("Update Librarian");
-
-        jCheckBox10.setText("Signup Student");
-
-        jCheckBox11.setText("Approve Student");
-
-        jCheckBox12.setText("Approve Changes");
-
-        jCheckBox13.setBackground(new java.awt.Color(255, 204, 204));
-        jCheckBox13.setForeground(new java.awt.Color(255, 0, 0));
-        jCheckBox13.setText("All History");
-
-        jCheckBox14.setText("Remove Modarator");
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
         WELCOMELayout.setHorizontalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1064, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addComponent(jCheckBox5)
-                                .addGap(68, 68, 68))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, WELCOMELayout.createSequentialGroup()
-                                .addComponent(jCheckBox3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox7)
-                            .addComponent(jCheckBox6))
-                        .addGap(43, 43, 43)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox8)
-                            .addComponent(jCheckBox9))
-                        .addGap(41, 41, 41)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addComponent(jCheckBox14)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBox13)))
-                        .addGap(39, 39, 39)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox10))
-                        .addGap(38, 38, 38)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox11))
-                        .addGap(23, 23, 23)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox12)
-                            .addComponent(jCheckBox1))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addGap(155, 155, 155)
+                        .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6)
-                    .addComponent(jCheckBox8)
-                    .addComponent(jCheckBox10)
-                    .addComponent(jCheckBox11)
-                    .addComponent(jCheckBox12)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox7)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox9)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox13)
-                    .addComponent(jCheckBox14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(info, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
@@ -611,10 +586,6 @@ public class all_history extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
-
     private void MANAGE_STUDENTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_STUDENTMouseClicked
         student_management sm = new student_management(id);
         sm.setVisible(true);
@@ -784,6 +755,10 @@ public class all_history extends javax.swing.JFrame {
         LOGOUT.setBackground(mousein);
     }//GEN-LAST:event_LOGOUTMouseExited
 
+    private void infoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_infoKeyPressed
+find_by_id();
+    }//GEN-LAST:event_infoKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -827,20 +802,7 @@ public class all_history extends javax.swing.JFrame {
     private javax.swing.JPanel WELCOME;
     private javax.swing.JLabel close;
     private javax.swing.JLabel home;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox10;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox12;
-    private javax.swing.JCheckBox jCheckBox13;
-    private javax.swing.JCheckBox jCheckBox14;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
-    private javax.swing.JCheckBox jCheckBox9;
+    private app.bolivia.swing.JCTextField info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -859,6 +821,6 @@ public class all_history extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel name;
-    private rojeru_san.complementos.RSTableMetro rSTableMetro3;
+    private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables
 }

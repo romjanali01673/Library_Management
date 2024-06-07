@@ -1,6 +1,7 @@
 
 package jframe;
 
+import jframe.method_romjanali01673.DB_connection;
 import jframe.moderator_file.modarator_portal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

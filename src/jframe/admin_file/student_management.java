@@ -15,10 +15,10 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
 import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_with_boss;
+import jframe.moderator_file.contact_employee;
 import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
 import jframe.login;
@@ -35,7 +35,7 @@ public class student_management extends javax.swing.JFrame {
     public boolean bod_date_valid = false;
     String passwd ;
     
-int st_id;
+int st_id= 0;
 String fast_namer;
 String last_namer;
 String phoner ;
@@ -58,7 +58,7 @@ String statusr= "";
         String institute_officer1 = "";
         String id_numberr1 = "";
         String full_addressr1 = "";
-        String statusr1;
+        String statusr1 = "";
         String remarkr1 = "";
         
     public student_management(int id){
@@ -66,7 +66,7 @@ String statusr= "";
     initComponents();
     set_profile();
 }
-//delete student
+//delete student-----------------------------------------------------
     public void delete(){
         long student_nid=0l;
         student_nid = Long.parseLong(nid_birth_number.getText());
@@ -74,22 +74,13 @@ String statusr= "";
     Connection con = DB_connection.getConnection();
     String sql = "DELETE FROM student_data WHERE nid_birth = ?";
     PreparedStatement pst = con.prepareStatement(sql);
-    pst.setInt(1,id);
+    pst.setLong(1,student_nid);
 
-    ResultSet rs = pst.executeQuery(); // Changed executeUpdate() to executeQuery()
+    int rs = pst.executeUpdate(); // Changed executeUpdate() to executeQuery()
 
-    if (rs.next()) {
-        fast_namer = rs.getString("fast_name");
-        last_namer = rs.getString("last_name"); 
-        phoner = rs.getString("phone"); 
-        emailr = rs.getString("email"); 
-        genderr = rs.getString("gender"); 
-        nid_birth_numberr = rs.getLong("nid_birth"); 
-        Date_of_birthr = rs.getDate("dob"); 
-        institute_officer = rs.getString("institute_office"); 
-        id_numberr = rs.getString("ins_office_id"); // 
-        full_addressr = rs.getString("full_address");
-        statusr = rs.getString("s_status");
+    if (rs>0) {
+        delete1();
+
     } else {
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
         
@@ -99,7 +90,31 @@ String statusr= "";
     e.printStackTrace();
 
 } 
+}
+    public void delete1(){
+        long student_nid=0l;
+        student_nid = Long.parseLong(nid_birth_number.getText());
+    try {
+    Connection con = DB_connection.getConnection();
+    String sql = "DELETE FROM changes_student_data WHERE user_id = ?";
+    PreparedStatement pst = con.prepareStatement(sql);
+    pst.setInt(1,st_id);
+
+    int rs = pst.executeUpdate(); // Changed executeUpdate() to executeQuery()
+
+    if (rs>0) {
+        JOptionPane.showMessageDialog(this, "The student deleted!"); 
+
+    } else {
+        JOptionPane.showMessageDialog(this, "The student does not exist!"); 
+        
     }
+    //System.out.println(Date_of_birth);
+} catch (Exception e) {
+    e.printStackTrace();
+
+} 
+}
 //remove white space -----------------------------------------------
     public String remove_white_space(String str){
         // Remove leading whitespaces
@@ -190,7 +205,7 @@ public void add_student(){
         try {
             Connection con = DB_connection.getConnection();
             String sql =  "insert into student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , s_status) values(?,?,?,?,?,?,?,?,?,?,?)";
-            String sql1 = "delete from registed_student_data where user_id=?";
+            String sql1 = "delete from registaed_student_data where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
             PreparedStatement pst1 = con.prepareStatement(sql1);
             
@@ -244,8 +259,8 @@ public void add_student(){
         
         try {
             Connection con = DB_connection.getConnection();
-            String sql =  "update student_data set fast_name =?, last_name =? ,phone =?, email =?, gender =?, nid_birth =?, dob =?, institute_office =?, ins_office_id =?, full_address =?, where user_id=?;";
-            String sql1 = "delete from change_student_data where user_id=?";
+            String sql =  "update student_data set fast_name =?, last_name =? ,phone =?, email =?, gender =?, nid_birth =?, dob =?, institute_office =?, ins_office_id =?, full_address =? where user_id=?;";
+            String sql1 = "delete from changes_student_data where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
             PreparedStatement pst1 = con.prepareStatement(sql1);
             
@@ -279,8 +294,9 @@ public void add_student(){
        
         }
     }
-// get current student data   
-    public void get_past_data(int id){     
+// get current student data  by id
+    public void get_past_data(int id){  
+        st_id = id;
     try {
     Connection con = DB_connection.getConnection();
     String sql = "SELECT * FROM student_data WHERE user_id = ?";
@@ -333,9 +349,10 @@ public void add_student(){
         id_numberr = rs.getString("ins_office_id"); // 
         full_addressr = rs.getString("full_address");
         statusr = rs.getString("s_status");
+        st_id = rs.getInt("user_id");
     } else {
  
-        String sql1 = "SELECT * FROM registed_student_data WHERE nid_birth = ?" ;
+        String sql1 = "SELECT * FROM registaed_student_data WHERE nid_birth = ?" ;
         PreparedStatement pst1 = con.prepareStatement(sql1);
         pst1.setLong(1,nid_b);
         
@@ -363,7 +380,7 @@ public void add_student(){
 
 }
 }
-//get wanted data
+//get wanted data by user id
     public void get_wanted_data(int id){     
     try {
     Connection con = DB_connection.getConnection();
@@ -397,7 +414,7 @@ public void add_student(){
     public void get_wanted_data(long id){     
     try {
     Connection con = DB_connection.getConnection();
-    String sql = "SELECT * FROM changes_student_data WHERE user_id = ?";
+    String sql = "SELECT * FROM changes_student_data WHERE nid_birth = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setLong(1,id);
 
@@ -455,8 +472,7 @@ public void add_student(){
             e.printStackTrace();
         }
    }
-
-    // creating a mehod for gender 
+ 
 
     
     public long get_nid_or_birth_number(){
@@ -953,6 +969,7 @@ public void add_student(){
         buttonGroup1.add(byid);
         byid.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         byid.setForeground(new java.awt.Color(0, 0, 255));
+        byid.setSelected(true);
         byid.setText("By Student ID");
 
         remark.setColumns(15);
@@ -1570,26 +1587,31 @@ public void add_student(){
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         
         long s_idl= 0l;
+        int s_idi=0;
         
-        try{
-        s_idl = Long.parseLong(find_d.getText());
-
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(this,"Search by Valid Query!");
-        }
-        
-        if(s_idl!=0l){
-            if(byid.isSelected()){
-                int s_idi = Integer.parseInt(find_d.getText());
+        if (byid.isSelected()){
+        try{            
+        s_idi = Integer.parseInt(find_d.getText());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"Search by Valid Query!");
+        } 
+        if(s_idi!=0){
                 get_past_data(s_idi);
                 get_wanted_data(s_idi);
                 set_user_data();  
-            }
-            else{
+            }        
+        }
+        else{
+        try{            
+        s_idl = Long.parseLong(find_d.getText());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"Search by Valid Query!");
+        }   
+        if(s_idl!=0){
             get_past_data(s_idl);
             get_wanted_data(s_idl);
-            set_user_data();
-            }
+            set_user_data();        
+        }
         }
     }//GEN-LAST:event_jButton1MouseClicked
 

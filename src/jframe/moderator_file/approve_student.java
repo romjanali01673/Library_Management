@@ -4,7 +4,7 @@
  */
 package jframe.moderator_file;
 
-import jframe.moderator_file.contact_with_boss;
+import jframe.moderator_file.contact_employee;
 import jframe.moderator_file.contact_with_student;
 import java.awt.Color;
 import java.sql.Connection;
@@ -21,10 +21,12 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import jframe.DB_connection;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
+import jframe.method_romjanali01673.necessaryMethod;
 
 public class approve_student extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
     int id;
     String Student_pass = "";
     
@@ -35,58 +37,9 @@ public class approve_student extends javax.swing.JFrame {
         set_table();
     }
   
-    public java.sql.Date string_to_date(String dateString){
-        // Define the format of the input date string
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        try {
-            // Parse the date string into a java.util.Date object
-            java.util.Date parsedUtilDate = dateFormat.parse(dateString);
 
-            // Convert the java.util.Date object to a java.sql.Date object
-            java.sql.Date sqlDate = new java.sql.Date(parsedUtilDate.getTime());
 
-            // Print the java.sql.Date object
-            System.out.println("Converted java.sql.Date: " + sqlDate);
-            return sqlDate;
-        } catch (ParseException e) {
-            // Handle parsing errors
-            e.printStackTrace();
-        }
-        return null;
-    }
-        public java.sql.Time string_to_time(String dateString){
-        // Define the format of the input date string
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
-
-        try {
-            // Parse the date string into a java.util.Date object
-            java.util.Date parsedUtilDate = dateFormat.parse(dateString);
-
-            // Convert the java.util.Date object to a java.sql.Date object
-            java.sql.Time sqlTime = new java.sql.Time(parsedUtilDate.getTime());
-
-            // Print the java.sql.Date object
-            System.out.println("Converted java.sql.Date: " + sqlTime);
-            return sqlTime;
-        } catch (ParseException e) {
-            // Handle parsing errors
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public  java.sql.Date R_date(){
-        LocalDate today = LocalDate.now();
-        
-        // Convert LocalDate to java.sql.Date
-        java.sql.Date sqlDate = java.sql.Date.valueOf(today);
-        return sqlDate;
-    }
-    public java.sql.Time R_time(){
-        LocalTime now_time = LocalTime.now();
-        java.sql.Time time = java.sql.Time.valueOf(now_time);
-        return time;
-    }
     public boolean confirm_approve(){
         boolean result = true;
 
@@ -103,16 +56,16 @@ public class approve_student extends javax.swing.JFrame {
         pst.setString(3,phone.getText());
         pst.setString(4,email.getText());
         pst.setString(5,gender.getText());
-        pst.setDate(6, string_to_date(dob.getText()));
+        pst.setDate(6, nm.stringToDate(dob.getText()));
         pst.setLong(7,Long.parseLong(nid_birth.getText()));
         pst.setString(8,institute_office.getText());
         pst.setString(9,ins_office_id.getText());
         pst.setString(10,full_address.getText());
         pst.setString(11,Student_pass);
-        pst.setTime(12,string_to_time(registed_time.getText()));//registation time
-        pst.setDate(13,string_to_date(registed_date.getText()));//registation date
-        pst.setTime(14,R_time());//approve time
-        pst.setDate(15,R_date());//approve date
+        pst.setTime(12,nm.stringToTime(registed_time.getText()));//registation time
+        pst.setDate(13,nm.stringToDate(registed_date.getText()));//registation date
+        pst.setTime(14,nm.getNowTime());//approve time
+        pst.setDate(15,nm.getTodayDate());//approve date
 
         pst1.executeUpdate();
         int rs = pst.executeUpdate();
@@ -384,7 +337,7 @@ public class approve_student extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Contact With Boss ");
+        jLabel6.setText("Contact Employee");
         contact_with_boss.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel2.add(contact_with_boss, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 200, 40));
@@ -811,7 +764,7 @@ public class approve_student extends javax.swing.JFrame {
     }//GEN-LAST:event_approve_changesMouseExited
 
     private void contact_with_bossMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_with_bossMouseClicked
-        contact_with_boss cob = new contact_with_boss(id);
+        contact_employee cob = new contact_employee(id);
         cob.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_contact_with_bossMouseClicked

@@ -26,258 +26,6 @@
     <Property name="useNullLayout" type="boolean" value="false"/>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel2">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="99" green="ff" red="99" type="rgb"/>
-        </Property>
-      </Properties>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="50" width="220" height="670"/>
-        </Constraint>
-      </Constraints>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-        <Property name="useNullLayout" type="boolean" value="false"/>
-      </Layout>
-      <SubComponents>
-        <Container class="javax.swing.JPanel" name="book_queue">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="book_queueMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="book_queueMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="book_queueMouseExited"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="70" width="200" height="40"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-            <Property name="useNullLayout" type="boolean" value="false"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel4">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Book Queue"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="10" width="-1" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="reading">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="readingMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="readingMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="readingMouseExited"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="120" width="200" height="40"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-            <Property name="useNullLayout" type="boolean" value="false"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel5">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Reading... "/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="10" width="-1" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="Retrun">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RetrunMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RetrunMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RetrunMouseExited"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="170" width="200" height="40"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-            <Property name="useNullLayout" type="boolean" value="false"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel7">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Returne"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="10" width="-1" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="retrurnded">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retrurndedMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retrurndedMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retrurndedMouseExited"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="220" width="200" height="40"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-            <Property name="useNullLayout" type="boolean" value="false"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel6">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Returnded"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="10" width="-1" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="book_issue">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="book_issueMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="book_issueMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="book_issueMouseExited"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="20" width="200" height="40"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-            <Property name="useNullLayout" type="boolean" value="false"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel8">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Book issue"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="10" width="-1" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="all_history">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="all_historyMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="all_historyMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="all_historyMouseExited"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="270" width="200" height="40"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-            <Property name="useNullLayout" type="boolean" value="false"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel9">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="All History"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="10" width="-1" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-          </SubComponents>
-        </Container>
-      </SubComponents>
-    </Container>
     <Container class="javax.swing.JPanel" name="MENU_BAR">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -349,7 +97,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/adminIcons/home_24px.png"/>
+              <Image iconType="3" name="/AddNewBookIcons/icons8_Rewind_48px.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="GO TO HOME"/>
           </Properties>
@@ -383,7 +131,7 @@
     <Container class="javax.swing.JPanel" name="WELCOME">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="cc" red="cc" type="rgb"/>
+          <Color blue="cc" green="ff" red="cc" type="rgb"/>
         </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="0"/>
@@ -391,7 +139,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="220" y="50" width="1140" height="670"/>
+          <AbsoluteConstraints x="0" y="50" width="1360" height="670"/>
         </Constraint>
       </Constraints>
 
@@ -399,17 +147,14 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane4" min="-2" pref="1093" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="408" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace pref="41" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jScrollPane4" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="553" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="598" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -419,8 +164,8 @@
                   <EmptySpace pref="13" max="32767" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jScrollPane4" min="-2" pref="503" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+                  <Component id="jScrollPane4" min="-2" pref="608" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -434,7 +179,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="your read book and returned books."/>
+            <Property name="text" type="java.lang.String" value="your read/returned books."/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane4">
@@ -444,37 +189,20 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="rojeru_san.complementos.RSTableMetro" name="rSTableMetro3">
+            <Component class="rojeru_san.complementos.RSTableMetro" name="table_data">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="ff" red="cc" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="5">
+                  <Table columnCount="8" rowCount="0">
                     <Column editable="true" title="Book ID" type="java.lang.Object"/>
-                    <Column editable="true" title="Book Name" type="java.lang.String">
-                      <Data value="dfasd"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
-                    <Column editable="true" title="Book Author" type="java.lang.String">
-                      <Data value="dfdfsd"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
+                    <Column editable="true" title="Book Name" type="java.lang.String"/>
+                    <Column editable="true" title="Book Author" type="java.lang.String"/>
                     <Column editable="true" title="Book Type" type="java.lang.Object"/>
-                    <Column editable="true" title="Book Part" type="java.lang.Object"/>
-                    <Column editable="true" title="Date" type="java.lang.Object">
-                      <Data value="dfdsf"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
+                    <Column editable="true" title="Part" type="java.lang.Object"/>
+                    <Column editable="true" title="Time" type="java.lang.Object"/>
+                    <Column editable="true" title="Date" type="java.lang.Object"/>
                     <Column editable="true" title="Status" type="java.lang.Object"/>
                   </Table>
                 </Property>
@@ -504,6 +232,50 @@
                 </Property>
                 <Property name="colorSelForeground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                  <TableColumnModel selectionModel="0">
+                    <Column maxWidth="90" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="50" minWidth="50" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="65" minWidth="65" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="120" minWidth="120" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                  </TableColumnModel>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>

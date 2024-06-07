@@ -6,10 +6,17 @@ package jframe.user_file;
 
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Random;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
 
 
@@ -20,8 +27,9 @@ public class Return extends javax.swing.JFrame {
         this.id = id;
         initComponents();
         set_profile();
-        
+        set_table();
     }
+    
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
@@ -34,13 +42,125 @@ public class Return extends javax.swing.JFrame {
                 String a = rs.getString("fast_name");
                 String b = rs.getString("last_name");
                 
-                name.setText(a+ " "+ b+ " - "+ id);
-                
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
         }catch(Exception e ){
             e.printStackTrace();
         }
+    }
+    
+    public void set_table(){
+       try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
+            String sql = "SELECT * FROM book_history INNER JOIN book_data ON book_history.book_id = book_data.book_id WHERE T_status = \"GAVE\" and student_id = "+id;
 
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+            // the while loop will add a row by eatch 1 looping.
+            while(rs.next()){
+                int book_id = rs.getInt("book_id");
+                String book_name = rs.getString("book_name");
+                String author = rs.getString("author");
+                int book_part = rs.getInt("book_part");
+                java.sql.Date take_date = rs.getDate("T_date");
+
+                //set data in table
+                Object[] obj = {book_id,book_name,author,book_part,take_date};
+                DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+                model.addRow(obj);
+            }
+       }catch(Exception E){
+           System.out.println("erroes");
+           E.printStackTrace();
+       }}
+           
+    public void get_book_id_from_table(){
+        DefaultTableModel model = (DefaultTableModel)table_data.getModel();
+        int row = table_data.getSelectedRow();
+        int book_id = (int) model.getValueAt(row,0);
+        String book_idd = (String.valueOf(book_id));
+        this.book_id.setText(book_idd );
+    }
+    
+    public void find_by_id(){
+
+        String query = String.valueOf(book_id.getText()).toUpperCase();
+        
+        DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table_data.setRowSorter(sorter);
+        sorter.setRowFilter(RowFilter.regexFilter(query));
+    }
+    public String remove_white_space(String str){
+        // Remove leading whitespaces
+        int start = 0;
+        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
+            start++;
+        }
+
+        // Remove trailing whitespaces
+        int end = str.length() - 1;
+        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
+            end--;
+        }
+        String sub_string = str.substring(start, end+1);
+
+        // Return the substring without leading and trailing whitespaces
+        return sub_string;
+    }
+
+    public int get_book_id(){
+        int book=0;
+        try{
+            book=Integer.valueOf(remove_white_space(book_id.getText()));
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Select A Book or Write book ID!");
+        }
+    return book;
+    }
+    public int get_otp(){
+        int book=0;
+        try{
+            book=Integer.valueOf(remove_white_space(otp.getText()));
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Select A Book or Write book ID!");
+        }
+    return book;
+    }
+    public void returned(){
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "select * from  book_history where student_id = ? and book_id=? and otp = ? and T_status = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, id);
+            pst.setInt(2, get_book_id());
+            pst.setString(3, String.valueOf( get_otp()));
+            pst.setString(4,"RETURNED");
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                JOptionPane.showMessageDialog(this, "Successed.");
+                JOptionPane.showMessageDialog(this, "Thanks for having with us.");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Wrong Otp");
+            }
+        }catch(Exception e ){
+            e.printStackTrace();
+        }
+    }
+    public  java.sql.Date R_date(){
+        LocalDate today = LocalDate.now();
+        // Convert LocalDate to java.sql.Date
+        java.sql.Date sqlDate = java.sql.Date.valueOf(today);
+        return sqlDate;
+    }
+    public java.sql.Time R_time(){
+        LocalTime now_time = LocalTime.now();
+        java.sql.Time time = java.sql.Time.valueOf(now_time);
+        return time;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -49,8 +169,6 @@ public class Return extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         book_queue = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        reading = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         Retrun = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         retrurned = new javax.swing.JPanel();
@@ -66,13 +184,14 @@ public class Return extends javax.swing.JFrame {
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        rSTableMetro2 = new rojeru_san.complementos.RSTableMetro();
-        Retrun_code = new app.bolivia.swing.JCTextField();
+        otp = new app.bolivia.swing.JCTextField();
         book_id = new app.bolivia.swing.JCTextField();
         RETURN = new rojerusan.RSMaterialButtonCircle();
         jLabel1 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_data = new rojeru_san.complementos.RSTableMetro();
+        jLabel12 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -102,27 +221,6 @@ public class Return extends javax.swing.JFrame {
         book_queue.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel2.add(book_queue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
-
-        reading.setBackground(new java.awt.Color(0, 0, 0));
-        reading.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                readingMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                readingMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                readingMouseExited(evt);
-            }
-        });
-        reading.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Reading... ");
-        reading.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
-
-        jPanel2.add(reading, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 200, 40));
 
         Retrun.setBackground(new java.awt.Color(255, 0, 0));
         Retrun.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -262,66 +360,37 @@ public class Return extends javax.swing.JFrame {
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
 
-        rSTableMetro2.setBackground(new java.awt.Color(204, 255, 204));
-        rSTableMetro2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, "dfasd", "dfdfsd", null, "dfdsf"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Book ID", "Book Name", "Book Author", "Part", "Date"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        rSTableMetro2.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
-        rSTableMetro2.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        rSTableMetro2.setColorBordeHead(new java.awt.Color(0, 0, 255));
-        rSTableMetro2.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
-        rSTableMetro2.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
-        rSTableMetro2.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorSelForeground(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setRowHeight(30);
-        rSTableMetro2.setShowHorizontalLines(true);
-        rSTableMetro2.setShowVerticalLines(true);
-        jScrollPane2.setViewportView(rSTableMetro2);
-        if (rSTableMetro2.getColumnModel().getColumnCount() > 0) {
-            rSTableMetro2.getColumnModel().getColumn(0).setPreferredWidth(100);
-            rSTableMetro2.getColumnModel().getColumn(1).setMinWidth(78);
-            rSTableMetro2.getColumnModel().getColumn(1).setPreferredWidth(500);
-            rSTableMetro2.getColumnModel().getColumn(1).setMaxWidth(800);
-            rSTableMetro2.getColumnModel().getColumn(2).setPreferredWidth(300);
-            rSTableMetro2.getColumnModel().getColumn(3).setPreferredWidth(100);
-            rSTableMetro2.getColumnModel().getColumn(4).setPreferredWidth(130);
-        }
-
-        Retrun_code.setBackground(new java.awt.Color(0, 153, 153));
-        Retrun_code.setPlaceholder("Enter Return Code");
-        Retrun_code.addActionListener(new java.awt.event.ActionListener() {
+        otp.setBackground(new java.awt.Color(0, 153, 153));
+        otp.setForeground(new java.awt.Color(0, 0, 255));
+        otp.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        otp.setPlaceholder("Enter Return Otp");
+        otp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Retrun_codeActionPerformed(evt);
+                otpActionPerformed(evt);
             }
         });
 
-        book_id.setEditable(false);
         book_id.setBackground(new java.awt.Color(0, 153, 153));
+        book_id.setForeground(new java.awt.Color(51, 51, 51));
+        book_id.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         book_id.setPlaceholder("Select book row");
+        book_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                book_idActionPerformed(evt);
+            }
+        });
+        book_id.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                book_idKeyTyped(evt);
+            }
+        });
 
         RETURN.setText("return");
+        RETURN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RETURNMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Return Code");
@@ -329,44 +398,82 @@ public class Return extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Book ID");
 
+        table_data.setAutoCreateRowSorter(true);
+        table_data.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Book ID", "Book Name", "Book Author", "Part", "Date"
+            }
+        ));
+        table_data.setColorBackgoundHead(new java.awt.Color(255, 102, 102));
+        table_data.setColorBordeFilas(new java.awt.Color(51, 0, 255));
+        table_data.setColorBordeHead(new java.awt.Color(0, 204, 204));
+        table_data.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        table_data.setColorFilasBackgound2(new java.awt.Color(255, 204, 204));
+        table_data.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        table_data.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        table_data.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        table_data.setName(""); // NOI18N
+        table_data.setRowHeight(30);
+        table_data.setRowMargin(1);
+        table_data.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_dataMouseClicked(evt);
+            }
+        });
+        table_data.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                table_dataKeyTyped(evt);
+            }
+        });
+        jScrollPane2.setViewportView(table_data);
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel12.setText("The All Book Here What You  Was Taken. Select Your Book And Return it Within The Committed Time.");
+
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
         WELCOMELayout.setHorizontalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                        .addComponent(RETURN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Retrun_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel11))
-                        .addGap(12, 12, 12))))
+                        .addGap(396, 396, 396)
+                        .addComponent(jLabel11)
+                        .addGap(18, 18, 18)
+                        .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(otp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(RETURN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel12))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(185, 185, 185)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Retrun_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73)
-                .addComponent(RETURN, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(otp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11)
+                        .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1))
+                    .addComponent(RETURN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
 
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
@@ -405,24 +512,6 @@ queue ue = new queue(id);
 ue.setVisible(true);
 this.dispose();
     }//GEN-LAST:event_book_queueMouseClicked
-
-    private void readingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseClicked
-reading rd = new reading (id);
-rd.setVisible(true);
-this.dispose();
-    }//GEN-LAST:event_readingMouseClicked
-
-    private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
-        // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseEntered
-
-    private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
-        // TODO add your handling code here:
-        Color mousein = new Color(0,0,0);
-        reading.setBackground(mousein);
-    }//GEN-LAST:event_readingMouseExited
 
     private void retrurnedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retrurnedMouseClicked
 returned rd = new returned(id);
@@ -500,7 +589,7 @@ this.dispose();
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_ADD_OPTION);
+        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_OPTION);
         if ( s == JOptionPane.YES_OPTION){
             change_info ci = new change_info(id);
             ci.setVisible(true);
@@ -511,9 +600,9 @@ this.dispose();
         }
     }//GEN-LAST:event_nameMouseClicked
 
-    private void Retrun_codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Retrun_codeActionPerformed
+    private void otpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otpActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Retrun_codeActionPerformed
+    }//GEN-LAST:event_otpActionPerformed
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
@@ -529,11 +618,36 @@ this.dispose();
         this.dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
 
+    private void table_dataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_dataMouseClicked
+        get_book_id_from_table();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_table_dataMouseClicked
+
+    private void table_dataKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_table_dataKeyTyped
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_table_dataKeyTyped
+
+    private void book_idKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_book_idKeyTyped
+find_by_id();
+// TODO add your handling code here:
+    }//GEN-LAST:event_book_idKeyTyped
+
+    private void book_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_book_idActionPerformed
+
+    private void RETURNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RETURNMouseClicked
+if(get_otp()!=0 && get_book_id()!=0){
+returned();
+}
+// TODO add your handling code here:
+    }//GEN-LAST:event_RETURNMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MENU_BAR;
     private rojerusan.RSMaterialButtonCircle RETURN;
     private javax.swing.JPanel Retrun;
-    private app.bolivia.swing.JCTextField Retrun_code;
     private javax.swing.JPanel WELCOME;
     private javax.swing.JPanel all_history;
     private app.bolivia.swing.JCTextField book_id;
@@ -544,10 +658,10 @@ this.dispose();
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -555,9 +669,9 @@ this.dispose();
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel name;
-    private rojeru_san.complementos.RSTableMetro rSTableMetro2;
-    private javax.swing.JPanel reading;
+    private app.bolivia.swing.JCTextField otp;
     private javax.swing.JPanel retrurned;
+    private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables
 public static void main(String[] args){
     

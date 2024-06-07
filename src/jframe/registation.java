@@ -1,5 +1,6 @@
 
 package jframe;
+import jframe.method_romjanali01673.DB_connection;
 import java.awt.Desktop;
 import java.net.URI;
 import java.net.URISyntaxException;

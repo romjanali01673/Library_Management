@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2024 at 11:23 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jun 06, 2024 at 11:18 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,8 +61,18 @@ CREATE TABLE `book_data` (
   `price` int(5) DEFAULT NULL,
   `few_i_line` varchar(500) DEFAULT NULL,
   `quantity` int(4) DEFAULT NULL,
-  `avialable_quantity` int(4) DEFAULT NULL
+  `book_source` varchar(200) NOT NULL,
+  `b_status` varchar(10) DEFAULT 'REGULER'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `book_data`
+--
+
+INSERT INTO `book_data` (`book_id`, `book_name`, `author`, `book_part`, `book_type`, `price`, `few_i_line`, `quantity`, `book_source`, `b_status`) VALUES
+(2, '2', '2', 2, '2', 2, '2', 2, '2', 'REGULER'),
+(11, '2', '2', 2, '2', 2, '2', 2, '22', 'SUSPENDED'),
+(22, '2', '2', 2, '2', 2, '2', 2, '2', 'REGULER');
 
 -- --------------------------------------------------------
 
@@ -77,8 +87,27 @@ CREATE TABLE `book_history` (
   `T_date` date DEFAULT NULL,
   `student_id` int(8) DEFAULT NULL,
   `employee_id` int(8) DEFAULT NULL,
-  `quantity` int(8) DEFAULT NULL
+  `quantity` int(8) NOT NULL DEFAULT 1,
+  `otp` varchar(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `book_history`
+--
+
+INSERT INTO `book_history` (`book_id`, `T_status`, `T_time`, `T_date`, `student_id`, `employee_id`, `quantity`, `otp`) VALUES
+(22, 'GAVE', '10:12:06', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:12:09', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:13:51', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:19:56', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:20:59', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:21:03', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:24:57', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:25:09', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '10:27:19', '2024-06-05', 87, 9, 1, NULL),
+(22, 'GAVE', '01:46:23', '2024-06-06', 87, 879, 1, '288751'),
+(22, 'GAVE', '01:47:12', '2024-06-06', 87, 879, 1, '585778'),
+(22, 'RETURNED', '02:04:12', '2024-06-06', 87, 879, 1, '227683');
 
 -- --------------------------------------------------------
 
@@ -98,17 +127,8 @@ CREATE TABLE `changes_student_data` (
   `ins_office_id` varchar(20) DEFAULT NULL,
   `full_address` varchar(500) DEFAULT NULL,
   `remark` varchar(5000) DEFAULT NULL,
-  `user_id` int(8) DEFAULT NULL
+  `user_id` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `changes_student_data`
---
-
-INSERT INTO `changes_student_data` (`fast_name`, `last_name`, `phone`, `email`, `gender`, `nid_birth`, `dob`, `institute_office`, `ins_office_id`, `full_address`, `remark`, `user_id`) VALUES
-('MD ROMJAN', 'ALI', '01779852361', 'ROMJANALI01673@GMAIL.COM', 'Male', 46745, '2004-02-01', 'BRAHMANBARIA POLYTECHNIC INSTITUE', '677844', '350-BAIRA,MURADNAGAR,CUMLLA.', 'Remark Here...1', NULL),
-('MD ROMJAN', 'ALI', '01779852361', 'ROMJANALI01673@GMAIL.COM', 'Male', 1212121, '2004-02-01', 'BRAHMANBARIA POLYTECHNIC INSTITUE', '677844', '350-BAIRA,MURADNAGAR,CUMLLA.', 'Remark Here...1231231223rasdfdsdfcsd sd ', 436),
-('MD ROMJAN', 'ALI', '01779852361', 'ROMJANALI01673@GMAIL.COM', 'Male', 4674583507, '2004-02-01', 'BRAHMANBARIA POLYTECHNIC INSTITUE', '677844', '350-BAIRA,MURADNAGAR,CUMLLA.', 'Remark Here...', 3);
 
 -- --------------------------------------------------------
 
@@ -195,6 +215,28 @@ INSERT INTO `registaed_student_data` (`fast_name`, `last_name`, `phone`, `email`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_book`
+--
+
+CREATE TABLE `student_book` (
+  `student_id` int(8) NOT NULL,
+  `book_id` int(6) NOT NULL,
+  `T_time` time NOT NULL,
+  `T_date` date NOT NULL,
+  `T_status` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_book`
+--
+
+INSERT INTO `student_book` (`student_id`, `book_id`, `T_time`, `T_date`, `T_status`) VALUES
+(0, 23433, '00:00:00', '0000-00-00', ''),
+(234, 0, '00:00:00', '0000-00-00', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student_data`
 --
 
@@ -214,13 +256,6 @@ CREATE TABLE `student_data` (
   `s_status` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `student_data`
---
-
-INSERT INTO `student_data` (`fast_name`, `last_name`, `phone`, `email`, `gender`, `dob`, `nid_birth`, `institute_office`, `ins_office_id`, `full_address`, `pass`, `user_id`, `s_status`) VALUES
-('MD ROMJAN', 'ALI', '01779852361', 'ROMJANALI01673@GMAIL.COM', 'Male', '2004-02-01', 4674583507, 'BRAHMANBARIA POLYTECHNIC INSTITUE', '677844', '350-BAIRA,MURADNAGAR,CUMLLA.', '3', 00000003, 'REGULER');
-
 -- --------------------------------------------------------
 
 --
@@ -235,6 +270,13 @@ CREATE TABLE `student_history` (
   `TIME` time DEFAULT NULL,
   `DATE` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_history`
+--
+
+INSERT INTO `student_history` (`user_id`, `T_status`, `by_who`, `employee_id`, `TIME`, `DATE`) VALUES
+(87, 'registation', NULL, NULL, '09:08:08', '2024-04-09');
 
 --
 -- Indexes for dumped tables
@@ -256,7 +298,8 @@ ALTER TABLE `book_data`
 -- Indexes for table `changes_student_data`
 --
 ALTER TABLE `changes_student_data`
-  ADD PRIMARY KEY (`nid_birth`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `nid_birth` (`nid_birth`);
 
 --
 -- Indexes for table `employee_data`
@@ -431,6 +474,13 @@ CREATE TABLE `pma__recent` (
   `tables` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
 
+--
+-- Dumping data for table `pma__recent`
+--
+
+INSERT INTO `pma__recent` (`username`, `tables`) VALUES
+('root', '[{\"db\":\"library_ms\",\"table\":\"book_history\"},{\"db\":\"library_ms\",\"table\":\"book_data\"},{\"db\":\"library_ms\",\"table\":\"changes_student_data\"},{\"db\":\"library_ms\",\"table\":\"student_data\"},{\"db\":\"library_ms\",\"table\":\"registaed_student_data\"},{\"db\":\"library_ms\",\"table\":\"admin_data\"}]');
+
 -- --------------------------------------------------------
 
 --
@@ -500,6 +550,13 @@ CREATE TABLE `pma__table_uiprefs` (
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
 
+--
+-- Dumping data for table `pma__table_uiprefs`
+--
+
+INSERT INTO `pma__table_uiprefs` (`username`, `db_name`, `table_name`, `prefs`, `last_update`) VALUES
+('root', 'library_ms', 'book_data', '{\"sorted_col\":\"`book_data`.`quantity` ASC\"}', '2024-06-05 02:19:40');
+
 -- --------------------------------------------------------
 
 --
@@ -536,7 +593,7 @@ CREATE TABLE `pma__userconfig` (
 --
 
 INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2024-06-04 09:23:11', '{\"Console\\/Mode\":\"collapse\"}');
+('root', '2024-06-05 17:31:12', '{\"Console\\/Mode\":\"collapse\"}');
 
 -- --------------------------------------------------------
 

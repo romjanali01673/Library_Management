@@ -8,8 +8,10 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
-import jframe.DB_connection;
+import javax.swing.table.DefaultTableModel;
+import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
 
 public class reading extends javax.swing.JFrame {
@@ -19,26 +21,53 @@ public class reading extends javax.swing.JFrame {
         this.id = id;
         initComponents();
         set_profile();
-        
+         set_table1();
     }
+    
     public void set_profile(){
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "?";
+            String sql = "select fast_name,last_name from user_info where id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                String a = rs.getString("full_name");
-                name.setText(a);
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
                 
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
         }catch(Exception e ){
             e.printStackTrace();
         }
+    }    
+   public void set_table1(){
+       try{
+            Connection con = DB_connection.getConnection();
+            Statement st = con.createStatement();
+            String sql = "select * from student_book inner join book_data on student_book.book_id=book_data.book_id where student_book.student_id = "+id+ " and T_status = \"TAKEN\"";
+            ResultSet rs = st.executeQuery(sql);
+            // the while loop will add a row by eatch 1 looping.
+            while(rs.next()){
+                
+                String book_id = rs.getString("book_id");
+                String book_name = rs.getString("book_name");
+                String book_author = rs.getString("author");
+                String book_type = rs.getString("book_type");
+                String book_part = rs.getString("book_part");
+                String date = rs.getString("T_date");
+                String time = rs.getString("T_time");
 
-    }
+                Object[] obj = {book_id,book_name,book_author,book_type,book_part,date,time};
+                DefaultTableModel model = (DefaultTableModel) table_data.getModel();
+                model.addRow(obj);
+            }
+       }catch(Exception E){
+           E.printStackTrace();
+       }
+   }    
+
  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -69,7 +98,7 @@ public class reading extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        rSTableMetro2 = new rojeru_san.complementos.RSTableMetro();
+        table_data = new rojeru_san.complementos.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -259,98 +288,97 @@ public class reading extends javax.swing.JFrame {
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
         WELCOME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel1.setText("You are reading these book/Returnable books.");
+        jLabel1.setText("You are reading these books/Returnable books.");
 
         jScrollPane2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 16)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("You have taken these books. \nYou must have to returned the book.\nso take care these book like you self.\n\nplease visit our library continue \nand take book,return book, explore the author mind.\n\nif yor feel any problem and harasmend by us,\nfeel free to contact with us.\n");
+        jTextArea1.setText("You have taken these books. \nYou must have to returned the book.\nso take care these book like you self.\n\nplease keep continue visit our library  \nand take book,return book, explore the author mind.\n\nif yor feel any problem and harasmend by us,\nfeel free to contact with us.\n");
         jScrollPane2.setViewportView(jTextArea1);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 204));
         jLabel3.setText("Description");
 
-        rSTableMetro2.setBackground(new java.awt.Color(204, 255, 204));
-        rSTableMetro2.setModel(new javax.swing.table.DefaultTableModel(
+        table_data.setBackground(new java.awt.Color(204, 255, 204));
+        table_data.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "dfasd", "dfdfsd", null, null, "dfdsf"},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Book ID", "Book Name", "Book Author", "Book Type", "Book Part", "Issue Date"
+                "Book ID", "Book Name", "Book Author", "Book Type", "Part", "Issue Date", "Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        rSTableMetro2.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
-        rSTableMetro2.setColorBordeFilas(new java.awt.Color(255, 255, 255));
-        rSTableMetro2.setColorBordeHead(new java.awt.Color(0, 0, 255));
-        rSTableMetro2.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
-        rSTableMetro2.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
-        rSTableMetro2.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorForegroundHead(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setColorSelForeground(new java.awt.Color(0, 0, 0));
-        rSTableMetro2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rSTableMetro2.setRowHeight(30);
-        rSTableMetro2.setShowHorizontalLines(true);
-        rSTableMetro2.setShowVerticalLines(true);
-        jScrollPane3.setViewportView(rSTableMetro2);
+        table_data.setColorBackgoundHead(new java.awt.Color(255, 0, 0));
+        table_data.setColorBordeFilas(new java.awt.Color(255, 255, 255));
+        table_data.setColorBordeHead(new java.awt.Color(0, 0, 255));
+        table_data.setColorFilasBackgound1(new java.awt.Color(204, 204, 255));
+        table_data.setColorFilasBackgound2(new java.awt.Color(153, 255, 153));
+        table_data.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        table_data.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        table_data.setColorForegroundHead(new java.awt.Color(0, 0, 0));
+        table_data.setColorSelForeground(new java.awt.Color(0, 0, 0));
+        table_data.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        table_data.setFuenteFilas(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        table_data.setFuenteFilasSelect(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        table_data.setRowHeight(30);
+        table_data.setShowHorizontalLines(true);
+        table_data.setShowVerticalLines(true);
+        jScrollPane3.setViewportView(table_data);
+        if (table_data.getColumnModel().getColumnCount() > 0) {
+            table_data.getColumnModel().getColumn(0).setMinWidth(100);
+            table_data.getColumnModel().getColumn(0).setMaxWidth(100);
+            table_data.getColumnModel().getColumn(4).setMaxWidth(50);
+            table_data.getColumnModel().getColumn(5).setMinWidth(120);
+            table_data.getColumnModel().getColumn(5).setMaxWidth(120);
+            table_data.getColumnModel().getColumn(6).setMinWidth(100);
+            table_data.getColumnModel().getColumn(6).setMaxWidth(100);
+        }
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
         WELCOMELayout.setHorizontalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(203, 203, 203)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(511, 511, 511))
+            .addGroup(WELCOMELayout.createSequentialGroup()
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(504, 504, 504))))
-            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(WELCOMELayout.createSequentialGroup()
-                    .addGap(23, 23, 23)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(24, Short.MAX_VALUE)))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGap(368, 368, 368)
+                        .addComponent(jLabel1))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1098, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(291, 291, 291)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
-            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(WELCOMELayout.createSequentialGroup()
-                    .addGap(36, 36, 36)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(352, Short.MAX_VALUE)))
         );
 
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
@@ -516,12 +544,12 @@ this.dispose();
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel name;
-    private rojeru_san.complementos.RSTableMetro rSTableMetro2;
     private javax.swing.JPanel reading;
     private javax.swing.JPanel retrurnded;
+    private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables
 public static void main(String []args){
-    reading  re = new reading(4534);
+    reading  re = new reading(87);
     re.setVisible(true);
 }
 }
