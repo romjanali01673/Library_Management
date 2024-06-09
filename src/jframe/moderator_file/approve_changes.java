@@ -107,10 +107,10 @@ public class approve_changes extends javax.swing.JFrame {
 
     public void get_info(int student_id){  
         this.student_id = student_id;
+    Connection con = DB_connection.getConnection();
     try {
         //wanted data
     
-    Connection con = DB_connection.getConnection();
     String sql = "SELECT * FROM changes_student_data WHERE user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setInt(1,student_id);
@@ -130,7 +130,8 @@ public class approve_changes extends javax.swing.JFrame {
         id_numberr = rs.getString("ins_office_id"); // 
         full_addressr = rs.getString("full_address");
         remarkr = rs.getString("remark");    
-    }
+    }        pst.close();
+        rs.next();
     // current data
     String sql1 = "select * from student_data where user_id =? ";
          PreparedStatement pst1 = con.prepareStatement(sql1);
@@ -154,16 +155,23 @@ public class approve_changes extends javax.swing.JFrame {
     } else {
         JOptionPane.showMessageDialog(this, "Targeted Student  Not Found!"); 
         
-    }
+    }        pst1.close();
+        rs1.next();
 } catch (Exception e) {
     e.printStackTrace();
 
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
 
     public void update(){
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "update student_data set fast_name =?, last_name  =?,phone=? , email =?, gender =?, nid_birth=? , dob =?, institute_office=? , ins_office_id =?, full_address =? where user_id=?";
             String sql1 = "delete from changes_student_data where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
@@ -192,16 +200,24 @@ public class approve_changes extends javax.swing.JFrame {
            }
            else{
                JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
-           }   
+           }        pst.close();
+                pst1.close();
+          
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
        
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public void update1(){
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into student_history(user_id,T_status,by_who,employee_id,T_time, T_date) values(?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -222,11 +238,18 @@ public class approve_changes extends javax.swing.JFrame {
            }
            else{
                JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
-           }   
+           }           pst.close();
+       
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
        
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     @SuppressWarnings("unchecked")

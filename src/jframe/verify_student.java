@@ -93,8 +93,8 @@ String full_address ;
     }
     public boolean verify_user(){
         boolean result = true;
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "SELECT * FROM student_data WHERE nid_birth = ? AND dob = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setLong(1, get_nid_or_birth_number()); // Assuming 1 is the id you're searching for
@@ -117,11 +117,18 @@ String full_address ;
     } else {
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
         result = false;
-    }
+    }            pst.close();
+            rs.close();
 } catch (Exception e) {
     e.printStackTrace();
     result = false;
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     return result;
     }
     @SuppressWarnings("unchecked")

@@ -4,7 +4,6 @@
  */
 package jframe.admin_file;
 
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -59,9 +58,8 @@ public class all_history extends javax.swing.JFrame {
         }
     }    
     public void set_table2(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             String sql = "select * from student_history";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
@@ -80,14 +78,21 @@ public class all_history extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
+             pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }}
     public void set_table1(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             String sql = "select * from book_history";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
@@ -106,14 +111,21 @@ public class all_history extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
+               pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }}
     public void set_table(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             String sql = "select * from employee_history";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
@@ -132,10 +144,18 @@ public class all_history extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
+               pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }}
            
     public String genarate_otp(){
         Random random = new Random();
@@ -289,11 +309,7 @@ public class all_history extends javax.swing.JFrame {
         table_data.setBackground(new java.awt.Color(204, 255, 204));
         table_data.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1234567", null, null, null, null, "12:12:122", "1212-12-122", "SUSPENDED"},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "User ID", "Employee ID", "Book ID", "Quantity", "Type", "Time", "Date", "Status"
@@ -609,15 +625,6 @@ public class all_history extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
     }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

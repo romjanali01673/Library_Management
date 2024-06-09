@@ -64,16 +64,10 @@ public class update_book extends javax.swing.JFrame {
             }
         }
     }    
-    public update_book() {
-        this.id = id;
-        initComponents();
-     
-    }
-
     public void set_data_in_textfield(){
+        Connection con = DB_connection.getConnection();
         try{
             
-        Connection con = DB_connection.getConnection();
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1,nm.stringToint(book_name3.getText()));
@@ -113,17 +107,24 @@ public class update_book extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "Book Not Found!");
-        }
+        }        pst.close();
+        rs.next();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 //insart book data in data base.
     public void update(){
-        try{
         Connection con= DB_connection.getConnection();
+        try{
         String sql = "update  book_data set book_id=? , book_name=? , author=? , book_part=? , book_type=? , price=? , few_i_line=?  , quantity=?,  book_source=? , b_status=?  where book_id = ? ";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
@@ -141,15 +142,22 @@ public class update_book extends javax.swing.JFrame {
         int rs = pst.executeUpdate();
         if (rs>0){
             update1();
-        }            
+        }                    pst.close();
+        
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public void update1(){
-        try{
         Connection con= DB_connection.getConnection();
+        try{
         String sql = "insert into book_history(book_id, T_status, T_time,T_date,employee_id) values(?,?,?,?,?)";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
@@ -162,9 +170,16 @@ public class update_book extends javax.swing.JFrame {
         if (rs>0){
             JOptionPane.showMessageDialog(this, "Book Data Updated!");
         }            
+                pst.close();
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public boolean take_book_data(){
@@ -235,12 +250,6 @@ public class update_book extends javax.swing.JFrame {
         
         return res;
     }
-
-    
-    
-    
-    
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

@@ -25,9 +25,9 @@ public class librarian_login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"password forgotten failed!");
         }
         else{
+            Connection con = DB_connection.getConnection();
             try{
             //method 1: 
-            Connection con = DB_connection.getConnection();
             String sql = "update employee_data set pass = ? where user_id = ? and position = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -43,10 +43,17 @@ public class librarian_login extends javax.swing.JFrame {
             //System.out.print(sql);
             //Statement statement = con.createStatement(); 
             //statement.executeUpdate(sql);
+                        pst.close();
             
             }catch (Exception e){
             JOptionPane.showMessageDialog(this, "server error");
+            }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
             }
+        }
             JOptionPane.showMessageDialog(this,"password updated.");
         }
     }
@@ -54,8 +61,8 @@ public class librarian_login extends javax.swing.JFrame {
     public boolean valid(){
         boolean result = false;
         if(validity()){
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "select * from employee_data where user_id =? and pass = ? and position = ? ";
         PreparedStatement pst = con.prepareStatement(sql);
         
@@ -72,17 +79,24 @@ public class librarian_login extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(this,"User not found!");
         }
-        
+                    pst.close();
+            rs.close();
         }catch (Exception e){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         }
         return result;
     }
     public boolean forgotten_pass(int id, String name){
         boolean result = false;
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "select * from employee_data where user_id = ? and last_name = ? and position = ?";
         
         PreparedStatement pst = con.prepareStatement(sql);
@@ -94,11 +108,18 @@ public class librarian_login extends javax.swing.JFrame {
         if(rs.next()){
             result = true;
         }
-        
+                    pst.close();
+            rs.close();
         }catch (Exception e ){
             e.printStackTrace();
             
-    }
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
         return result;
     }
     public boolean validity(){

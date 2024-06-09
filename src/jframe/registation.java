@@ -27,8 +27,8 @@ public class registation extends javax.swing.JFrame {
     }
     public boolean student_exist(long nid_birth){
         boolean res= false;
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select fast_name from student_data where nid_birth =?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setLong(1, nid_birth);
@@ -40,14 +40,20 @@ public class registation extends javax.swing.JFrame {
             rs.close();
         }catch(Exception E){
             E.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         
         return res;
     }
     public boolean already_registaed(long nid_birth){
         boolean res= false;
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select fast_name from registaed_student_data where nid_birth =?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setLong(1, nid_birth);
@@ -56,9 +62,16 @@ public class registation extends javax.swing.JFrame {
             if(rs.next()){
             res=true;
             }
+                        pst.close();
             rs.close();
         }catch(Exception E){
             E.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         
         return res;
@@ -253,8 +266,8 @@ public class registation extends javax.swing.JFrame {
         String ID_Of_Institute_Office = remove_white_space(id_of_institute_office.getText().toUpperCase());
         String F_address  = remove_white_space(full_address.getText().toUpperCase());
         
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into registaed_student_data( fast_name, last_name, phone, email, gender, dob, nid_birth, institute_office, ins_office_id, full_address, pass, registation_time, registation_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -284,11 +297,18 @@ public class registation extends javax.swing.JFrame {
            }
            else{
                JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
-           }   
+           }            pst.close();
+             
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"the user already exist");
             e.printStackTrace();
        
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     /*

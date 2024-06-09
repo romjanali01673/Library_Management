@@ -67,9 +67,8 @@ public class returned extends javax.swing.JFrame {
     }
 
     public void set_table(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             String sql = "SELECT * FROM book_history INNER JOIN book_data ON book_history.book_id = book_data.book_id WHERE T_status = \"RETURNED\" and student_id = "+id;
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
@@ -88,11 +87,19 @@ public class returned extends javax.swing.JFrame {
                 Object[] obj = {book_id,book_name,author,book_part,book_type,date};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
            
 
     public int get_book_id_from_table(){
@@ -117,9 +124,9 @@ public class returned extends javax.swing.JFrame {
         sorter.setRowFilter(RowFilter.regexFilter(query));
     }
     public void set_data_in_textfield(){
+        Connection con = DB_connection.getConnection();
         try{
             
-        Connection con = DB_connection.getConnection();
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1,get_book_id_from_table());
@@ -146,11 +153,19 @@ public class returned extends javax.swing.JFrame {
                 this.date.setText(get_date_from_table().toString());
 
         }
-        
+                pst.close();
+        rs.next();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
+        }
+    finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public int get_book_id(){

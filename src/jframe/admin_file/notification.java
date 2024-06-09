@@ -4,7 +4,6 @@
  */
 package jframe.admin_file;
 
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +15,6 @@ import jframe.method_romjanali01673.DB_connection;
 import jframe.Help;
 import jframe.home_page;
 import jframe.method_romjanali01673.notificationStore;
-import jframe.moderator_file.moderator_portal;
 
 public class notification extends javax.swing.JFrame {
     int id;
@@ -63,34 +61,10 @@ public class notification extends javax.swing.JFrame {
             }
         }
     }    
-/*  note-----------------------------
-        Person[] people = new Person[3];
-
-        // Initialize the array with Person objects
-        people[0] = new Person("Alice", 30);
-        people[1] = new Person("Bob", 25);
-        people[2] = new Person("Charlie", 35);
-
-        // Access and modify elements in the array
-        for (Person person : people) {
-            System.out.println(person);
-        }
-
-        // Modify an element in the array
-        people[1].setName("Robert");
-        people[1].setAge(26);
-
-        // Print the array again to see the changes
-        System.out.println("After modification:");
-        for (Person person : people) {
-            System.out.println(person);
-        }
-    */
-    
 
     public void set_table(){
-       try{
             Connection con = DB_connection.getConnection();
+       try{
             String sql = "select * from notification where employee_id = "+id;
             PreparedStatement pst = con.prepareStatement(sql);
             //pst.setInt(1,id);            
@@ -109,11 +83,18 @@ public class notification extends javax.swing.JFrame {
                 Object[] obj = {subject,T_time,T_date,message,description};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }}
     
     public void get_book_id_from_table(){
         DefaultTableModel model = (DefaultTableModel)table_data.getModel();
@@ -134,9 +115,9 @@ public class notification extends javax.swing.JFrame {
         e.setText(time);
     }
     public void get_row() {
+            Connection con = DB_connection.getConnection();
         try {
             // Establish a connection
-            Connection con = DB_connection.getConnection();
 
             // Prepare the SQL query with COUNT
             String sql = "SELECT COUNT(*) FROM notification WHERE student_id = ?";
@@ -151,9 +132,16 @@ public class notification extends javax.swing.JFrame {
                 row = rd.getInt(1);
                System.out.print(row);
             }
-
+        pst.close();
+        rd.next();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -389,9 +377,7 @@ public class notification extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NotificationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMouseClicked
-          moderator_portal mp = new moderator_portal(id );
-          mp.setVisible(true);
-          this.dispose();
+
     }//GEN-LAST:event_NotificationMouseClicked
 
     private void NotificationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMouseEntered
@@ -412,15 +398,6 @@ public class notification extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
     }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked

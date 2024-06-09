@@ -73,8 +73,8 @@ public class contact_employee extends javax.swing.JFrame {
         return res;
     }
     public void send(){
-    try{
         Connection con = DB_connection.getConnection();
+    try{
         String str = "insert into notification(subject,employee_id,From_who,T_time,T_date,message,description) values(?,?,?,?,?,?,?)";
         PreparedStatement pst = con.prepareStatement(str);    
         pst.setString(1, nm.remove_white_space(subject.getText()));
@@ -93,16 +93,23 @@ public class contact_employee extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(this, "Student Dose Not Exist!");
                     
-        }
+        }        pst.close();
+        
     }catch(Exception e){
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Server Error!");
     
-    }
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     public void getData(){
-    try{
         Connection con = DB_connection.getConnection();
+    try{
         String str = "select * from employee_data where user_id=?";
         PreparedStatement pst = con.prepareStatement(str);    
         pst.setInt(1, nm.stringToint(employee_id.getText()));
@@ -118,12 +125,19 @@ public class contact_employee extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(this, "Student Dose Not Exist!");
                     
-        }
+        }        pst.close();
+        rs.next();
     }catch(Exception e){
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Server Error!");
     
-    }
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
 

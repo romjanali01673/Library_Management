@@ -4,8 +4,7 @@
  */
 package jframe.moderator_file;
 
-import jframe.moderator_file.contact_employee;
-import jframe.moderator_file.contact_with_student;
+
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -70,8 +69,8 @@ public class approve_student extends javax.swing.JFrame {
     public boolean confirm_approve(){
         boolean result = true;
 
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql1 = "delete from registaed_student_data where nid_birth = ? ";
         String sql = "insert into student_data(fast_name, last_name, phone, email, gender, dob , nid_birth, institute_office, ins_office_id, full_address, pass, registation_time, registation_date, approve_time, approve_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement pst = con.prepareStatement(sql);
@@ -94,8 +93,12 @@ public class approve_student extends javax.swing.JFrame {
         pst.setTime(14,nm.getNowTime());//approve time
         pst.setDate(15,nm.getTodayDate());//approve date
 
-        pst1.executeUpdate();
         int rs = pst.executeUpdate();
+                pst.close();
+        
+        pst1.executeUpdate();
+                pst1.close();
+        
         if(rs>0){
             update1();
         }else{
@@ -105,13 +108,19 @@ public class approve_student extends javax.swing.JFrame {
             e.printStackTrace();
             result = false;
             JOptionPane.showMessageDialog(this,"server Disconnected!");
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return result;
     }
     public int get_studentID(){
         int res = 0;
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select * from student_data where nid_birth = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setLong(1,nm.stringToLong(nid_birth.getText()));
@@ -119,15 +128,22 @@ public class approve_student extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
                 res = rs.getInt("user_id");
-            }
+            }        pst.close();
+        rs.next();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return res;
     }
     public void update1(){
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into student_history(user_id,T_status,by_who,employee_id,T_time, T_date) values(?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -148,11 +164,18 @@ public class approve_student extends javax.swing.JFrame {
            }
            else{
                JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
-           }   
+           }           pst.close();
+       
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
        
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }    
     // the method help to find someone by any type of spacific data.
@@ -174,9 +197,9 @@ public class approve_student extends javax.swing.JFrame {
         return nid_birth;
     }
     public void set_data_in_textfield(){
+        Connection con = DB_connection.getConnection();
         try{
             
-        Connection con = DB_connection.getConnection();
         String sql = "select * from registaed_student_data where nid_birth = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setLong(1,get_nid_birth_from_table());
@@ -211,17 +234,23 @@ public class approve_student extends javax.swing.JFrame {
                 this.registed_date.setText(registation_date.toString());
                 this.registed_time.setText(registation_time.toString());
         }
-        
+                pst.close();
+        rs.next();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
   public void set_table(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             Statement st = con.createStatement();
             String sql = "select * from registaed_student_data";
             ResultSet rs = st.executeQuery(sql);
@@ -244,11 +273,19 @@ public class approve_student extends javax.swing.JFrame {
                 Object[] obj = {fast_name+" "+last_name,nid_birth,registation_date,phone};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        st.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+  }
     
 
 
@@ -793,7 +830,7 @@ public class approve_student extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(nid_birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel11))
                         .addGap(4, 4, 4)

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2024 at 11:18 AM
+-- Generation Time: Jun 09, 2024 at 02:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -70,9 +70,11 @@ CREATE TABLE `book_data` (
 --
 
 INSERT INTO `book_data` (`book_id`, `book_name`, `author`, `book_part`, `book_type`, `price`, `few_i_line`, `quantity`, `book_source`, `b_status`) VALUES
-(2, '2', '2', 2, '2', 2, '2', 2, '2', 'REGULER'),
-(11, '2', '2', 2, '2', 2, '2', 2, '22', 'SUSPENDED'),
-(22, '2', '2', 2, '2', 2, '2', 2, '2', 'REGULER');
+(0, 'XYZ', 'XYZ', 0, 'XYZ', 0, 'XYZ', 0, 'XYZ', 'REGULER'),
+(11, 'BIOLOGY\r\n', '2', 2, '2', 2, '2', 2, '2', 'SUSPENDED'),
+(22, '2', '2', 2, '2', 2, '2', 2, '2', 'ENABLED'),
+(1111, '2', '2', 2, '2', 2, '2', 2, '2', 'SUSPENDED'),
+(22222, '22', '22', 22, '22', 22, '2', 22, '22', 'REGULER');
 
 -- --------------------------------------------------------
 
@@ -107,7 +109,24 @@ INSERT INTO `book_history` (`book_id`, `T_status`, `T_time`, `T_date`, `student_
 (22, 'GAVE', '10:27:19', '2024-06-05', 87, 9, 1, NULL),
 (22, 'GAVE', '01:46:23', '2024-06-06', 87, 879, 1, '288751'),
 (22, 'GAVE', '01:47:12', '2024-06-06', 87, 879, 1, '585778'),
-(22, 'RETURNED', '02:04:12', '2024-06-06', 87, 879, 1, '227683');
+(22, 'RETURNED', '02:04:12', '2024-06-06', 87, 879, 1, '227683'),
+(2, 'REQUESTED', '01:31:59', '2024-06-07', 87, NULL, 1, '922341'),
+(1111, 'ADDED', '00:18:32', '2024-06-08', NULL, 8, 2, NULL),
+(11, 'UPDATED', '00:20:52', '2024-06-08', NULL, 8, 2, NULL),
+(11, 'UPDATED', '00:28:52', '2024-06-08', NULL, 8, 2, NULL),
+(11, 'UPDATED', '00:29:07', '2024-06-08', NULL, 8, 2, NULL),
+(11, 'UPDATED', '00:29:19', '2024-06-08', NULL, 8, 2, NULL),
+(111, 'ADDED', '00:30:23', '2024-06-08', NULL, 8, 2, NULL),
+(111, 'DELETED', '00:30:35', '2024-06-08', NULL, 8, 2, NULL),
+(111, 'ADDED', '00:30:53', '2024-06-08', NULL, 8, 2, NULL),
+(111, 'DELETED', '00:31:01', '2024-06-08', NULL, 8, 2, NULL),
+(111, 'DELETED', '00:31:10', '2024-06-08', NULL, 8, 2, NULL),
+(11, 'ADDED', '00:32:12', '2024-06-08', NULL, 8, 2, NULL),
+(11, 'UPDATED', '00:32:38', '2024-06-08', NULL, 8, 2, NULL),
+(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL),
+(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL),
+(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL),
+(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -179,8 +198,38 @@ CREATE TABLE `employee_history` (
   `T_status` varchar(20) DEFAULT NULL,
   `by_who` varchar(200) DEFAULT NULL,
   `T_time` time DEFAULT NULL,
-  `T_DATE` date DEFAULT NULL
+  `T_date` date DEFAULT NULL,
+  `A_E_id` int(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification`
+--
+
+CREATE TABLE `notification` (
+  `student_id` int(8) NOT NULL,
+  `employee_id` int(8) NOT NULL,
+  `subject` varchar(111) NOT NULL,
+  `T_time` time DEFAULT NULL,
+  `T_date` date DEFAULT NULL,
+  `message` varchar(800) NOT NULL,
+  `description` varchar(5000) NOT NULL,
+  `From_who` int(8) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`student_id`, `employee_id`, `subject`, `T_time`, `T_date`, `message`, `description`, `From_who`) VALUES
+(87, 0, '', NULL, NULL, '', '', NULL),
+(5685, 0, '', NULL, NULL, '', '', NULL),
+(87, 0, '', NULL, NULL, '', '', NULL),
+(87, 0, '457454j45756', NULL, NULL, '', '', NULL),
+(2345, 3456, 'sd', '00:58:58', '2024-06-07', 'sd', 'sd', NULL),
+(2345, 3456, 'sd', '01:00:13', '2024-06-07', 'sd', 'sd', NULL);
 
 -- --------------------------------------------------------
 
@@ -232,7 +281,11 @@ CREATE TABLE `student_book` (
 
 INSERT INTO `student_book` (`student_id`, `book_id`, `T_time`, `T_date`, `T_status`) VALUES
 (0, 23433, '00:00:00', '0000-00-00', ''),
-(234, 0, '00:00:00', '0000-00-00', '');
+(234, 0, '00:00:00', '0000-00-00', ''),
+(87, 22, '23:23:23', '2323-12-12', 'TAKEN'),
+(87, 22, '23:23:23', '2323-12-12', 'ISSUE'),
+(0, 0, '00:00:00', '0000-00-00', ''),
+(0, 0, '00:00:00', '0000-00-00', 'ISSUED');
 
 -- --------------------------------------------------------
 
@@ -256,6 +309,13 @@ CREATE TABLE `student_data` (
   `s_status` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `student_data`
+--
+
+INSERT INTO `student_data` (`fast_name`, `last_name`, `phone`, `email`, `gender`, `dob`, `nid_birth`, `institute_office`, `ins_office_id`, `full_address`, `pass`, `user_id`, `s_status`) VALUES
+('34523', '3453', NULL, '3452', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 00000222, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -267,15 +327,15 @@ CREATE TABLE `student_history` (
   `T_status` varchar(20) DEFAULT NULL,
   `by_who` varchar(150) DEFAULT NULL,
   `employee_id` int(8) DEFAULT NULL,
-  `TIME` time DEFAULT NULL,
-  `DATE` date DEFAULT NULL
+  `T_time` time DEFAULT NULL,
+  `T_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student_history`
 --
 
-INSERT INTO `student_history` (`user_id`, `T_status`, `by_who`, `employee_id`, `TIME`, `DATE`) VALUES
+INSERT INTO `student_history` (`user_id`, `T_status`, `by_who`, `employee_id`, `T_time`, `T_date`) VALUES
 (87, 'registation', NULL, NULL, '09:08:08', '2024-04-09');
 
 --
@@ -329,7 +389,7 @@ ALTER TABLE `employee_data`
 -- AUTO_INCREMENT for table `student_data`
 --
 ALTER TABLE `student_data`
-  MODIFY `user_id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
 --
 -- Database: `phpmyadmin`
 --

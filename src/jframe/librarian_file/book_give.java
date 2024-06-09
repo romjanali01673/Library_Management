@@ -87,8 +87,8 @@ public class book_give extends javax.swing.JFrame {
     public int total_book_quantity(){
         book_ids = input_valid_get(book_id.getText());
         int res=0;
-        try{
         Connection con= DB_connection.getConnection();
+        try{
         String sql ="select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);  
         pst.setInt(1,input_valid_get(book_id.getText()));
@@ -102,17 +102,24 @@ public class book_give extends javax.swing.JFrame {
             book_price.setText(rs.getString("price"));
             
             rs.close();
-        }
+        }        pst.close();
+        rs.next();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
        
     return res;
     }
     public int reading_book_quantity(){
         int res=0;
-        try{
         Connection con= DB_connection.getConnection();
+        try{
         String sql ="select * from book_history where book_id = ? and T_status = ?";
         PreparedStatement pst = con.prepareStatement(sql);  
         pst.setInt(1,input_valid_get(book_id.getText()));
@@ -120,17 +127,24 @@ public class book_give extends javax.swing.JFrame {
         ResultSet rs= pst.executeQuery();
         while(rs.next()){
             res++;
-        }
+        }        pst.close();
+        rs.next();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     return res;
     }
     
     public int returned_book_quantity(){
         int res=0;
-        try{
         Connection con= DB_connection.getConnection();
+        try{
         String sql ="select * from book_history where book_id = ? and T_status = ?";
         PreparedStatement pst = con.prepareStatement(sql);  
         pst.setInt(1,input_valid_get(book_id.getText()));
@@ -138,9 +152,16 @@ public class book_give extends javax.swing.JFrame {
         ResultSet rs= pst.executeQuery();
         while(rs.next()){
             res++;
-        }
+        }        pst.close();
+        rs.next();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     return res;
     }
@@ -148,9 +169,9 @@ public class book_give extends javax.swing.JFrame {
 
     public void set_data_in_textfield(){
         student_ids = input_valid_get(student_id.getText());
+        Connection con = DB_connection.getConnection();
         try{
             
-        Connection con = DB_connection.getConnection();
         String sql = "select * from student_data where user_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1,input_valid_get(student_id.getText()));
@@ -171,19 +192,26 @@ public class book_give extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(this, "Student Not Found!");
         }
-        
+                pst.close();
+        rs.next();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     
     
     
     public void delete(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "delete from book_history where student_id = ? and book_id=? and T_status = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, student_ids);
@@ -196,15 +224,22 @@ public class book_give extends javax.swing.JFrame {
             }
             else{
                 JOptionPane.showMessageDialog(this, "ReChacked");
-            }
+            }        pst.close();
+        
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public boolean verify_otp(){
         boolean res = true;
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select * from  book_history where student_id = ? and book_id=? and otp = ? and T_status = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -222,16 +257,24 @@ public class book_give extends javax.swing.JFrame {
                 res = false;
                 JOptionPane.showMessageDialog(this, "Wrong Otp");
             }
+                pst.close();
+        rs.next();
         }catch(Exception e ){
             res = false;
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return res;
     }
     public boolean request_valid(){
         boolean k = false;
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select * from book_history where book_id=? and T_status=? and T_date =? and student_id =? and employee_id =?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, book_ids);
@@ -245,15 +288,23 @@ public class book_give extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(this,"Already Requested!"); 
                 k = true;
             }
+                pst.close();
+        rs.next();
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this,"server Error!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return k;
     }    
     public void confirmed(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "insert into book_history(book_id, T_status,T_time,T_date,student_id,employee_id) values(?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -268,13 +319,20 @@ public class book_give extends javax.swing.JFrame {
             if(rs>0){
                 update1();
             }
+                pst.close();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public void update1(){        
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "update student_book set  T_status=?,T_date =?, T_time=?  where book_id =? and student_id=? and T_sataus = \"ISSUED\" ";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1,"TAKEN");
@@ -290,9 +348,16 @@ public class book_give extends javax.swing.JFrame {
             else{
                 JOptionPane.showMessageDialog(this, "Already GAVEN");    
             }
+                pst.close();
         }catch(Exception e ){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Server Error!");
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1167,7 +1232,7 @@ if(input_valid_get(book_id.getText())!= 0){
     }//GEN-LAST:event_confirm_book_request1ActionPerformed
 
     private void confirm_book_request1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirm_book_request1MouseClicked
-       int i = JOptionPane.showConfirmDialog(this, "Do you want to delete the request?", "Confiramation Message", JOptionPane.YES_NO_OPTION);
+       int i = JOptionPane.showConfirmDialog(this, "Do you want to delete the Issues?", "Confiramation Message", JOptionPane.YES_NO_OPTION);
        if(i==0){
            delete();
        }

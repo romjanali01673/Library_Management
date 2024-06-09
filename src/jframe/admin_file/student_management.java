@@ -5,7 +5,6 @@
 package jframe.admin_file;  
 
 import java.awt.BorderLayout;
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,12 +16,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
-import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_employee;
-import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
 import jframe.login;
-import jframe.moderator_file.moderator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -97,8 +92,8 @@ String statusr= "";
     public void delete(){
         long student_nid=0l;
         student_nid = Long.parseLong(nid_birth_number.getText());
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "DELETE FROM student_data WHERE nid_birth = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setLong(1,student_nid);
@@ -111,18 +106,25 @@ String statusr= "";
     } else {
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
         
-    }
+    }        pst.close();
+        
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
 
-} 
+} finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
     public void delete1(){
         long student_nid=0l;
         student_nid = Long.parseLong(nid_birth_number.getText());
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "DELETE FROM changes_student_data WHERE user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setInt(1,st_id);
@@ -135,12 +137,19 @@ String statusr= "";
     } else {
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
         
-    }
+    }        pst.close();
+       
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
 
-} 
+} finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
 //remove white space -----------------------------------------------
     public String remove_white_space(String str){
@@ -229,8 +238,8 @@ public void add_student(){
 
         
         
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , s_status) values(?,?,?,?,?,?,?,?,?,?,?)";
             String sql1 = "delete from registaed_student_data where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
@@ -263,10 +272,19 @@ public void add_student(){
            else{
                JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
            }   
+               pst.close();
+        
+                pst1.close();
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
        
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
 }
 
@@ -284,8 +302,8 @@ public void add_student(){
 
         
         
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "update student_data set fast_name =?, last_name =? ,phone =?, email =?, gender =?, nid_birth =?, dob =?, institute_office =?, ins_office_id =?, full_address =? where user_id=?;";
             String sql1 = "delete from changes_student_data where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
@@ -314,18 +332,26 @@ public void add_student(){
            }
            else{
                JOptionPane.showMessageDialog(this, "faled!"); 
-           }   
+           }           pst.close();
+                pst1.close();
+        
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
        
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 // get current student data  by id
     public void get_past_data(int id){  
         st_id = id;
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "SELECT * FROM student_data WHERE user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setInt(1,id);
@@ -347,17 +373,24 @@ public void add_student(){
     } else {
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
         
-    }
+    }        pst.close();
+        rs.next();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
 
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
 //get past data by nid or birth ----------------------------------------
     public void get_past_data(long nid_b){     
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "SELECT * FROM student_data WHERE nid_birth = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setLong(1,nid_b);
@@ -399,18 +432,26 @@ public void add_student(){
         }
         else{
         JOptionPane.showMessageDialog(this, "The student does not exist!");
-        }
-    }
+    }        pst1.close();
+        rs1.next();
+        }        pst.close();
+        rs.next();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
 
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
 //get wanted data by user id
     public void get_wanted_data(int id){     
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "SELECT * FROM changes_student_data WHERE user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setInt(1,id);
@@ -430,17 +471,24 @@ public void add_student(){
         full_addressr1 = rs.getString("full_address");
         remarkr1= rs.getString( "remark");
        
-    }
+    }        pst.close();
+        rs.next();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
 
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
 // get wanted data by nid
     public void get_wanted_data(long id){     
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "SELECT * FROM changes_student_data WHERE nid_birth = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setLong(1,id);
@@ -460,12 +508,19 @@ public void add_student(){
         full_addressr1 = rs.getString("full_address");
         remarkr1= rs.getString( "remark");
        
-    }
+    }        pst.close();
+        rs.next();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
 
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
     
     public String get_gender(){
@@ -1587,15 +1642,6 @@ public void add_student(){
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
     }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

@@ -53,8 +53,8 @@ public class reading extends javax.swing.JFrame {
     }
 
    public void set_table1(){
-       try{
             Connection con = DB_connection.getConnection();
+       try{
             Statement st = con.createStatement();
             String sql = "select * from student_book inner join book_data on student_book.book_id=book_data.book_id where student_book.student_id = "+id+ " and T_status = \"TAKEN\"";
             ResultSet rs = st.executeQuery(sql);
@@ -73,9 +73,17 @@ public class reading extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
+                    st.close();
+        rs.next();
        }catch(Exception E){
            E.printStackTrace();
-       }
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
    }    
 
  

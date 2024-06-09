@@ -37,10 +37,10 @@ public class Choice_book extends javax.swing.JFrame {
         set_profile();
         set_table();
     }
+    
     public void set_table(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             String sql = "select * from book_data where b_status = \"REGULER\";";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
@@ -59,11 +59,18 @@ public class Choice_book extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
-       }catch(Exception E){
-           System.out.println("erroes");
-           E.printStackTrace();
-       }}
-           
+            pst.close();
+            rs.close();
+       }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     public int get_book_id_from_table(){
         DefaultTableModel model = (DefaultTableModel)table_data.getModel();
@@ -81,9 +88,9 @@ public class Choice_book extends javax.swing.JFrame {
         sorter.setRowFilter(RowFilter.regexFilter(query));
     }
     public void set_data_in_textfield(){
+        Connection con = DB_connection.getConnection();
         try{
             
-        Connection con = DB_connection.getConnection();
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1,get_book_id_from_table());
@@ -109,11 +116,18 @@ public class Choice_book extends javax.swing.JFrame {
                 this.few_line.setText(few_line);
 
         }
-        
+                    pst.close();
+            rs.close();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public int get_book_id(){
@@ -128,8 +142,8 @@ public class Choice_book extends javax.swing.JFrame {
 
 
     public void set_profile(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select fast_name,last_name from user_info where id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
@@ -141,9 +155,16 @@ public class Choice_book extends javax.swing.JFrame {
                 
                 name.setText(a+ " "+ b+ " - "+ id);
                 
-            }
+            }            pst.close();
+            rs.close();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
 
     }

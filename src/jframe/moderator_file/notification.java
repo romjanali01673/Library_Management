@@ -89,8 +89,8 @@ public class notification extends javax.swing.JFrame {
     
 
     public void set_table(){
-       try{
             Connection con = DB_connection.getConnection();
+       try{
             String sql = "select * from notification where employee_id = "+id;
             PreparedStatement pst = con.prepareStatement(sql);
             //pst.setInt(1,id);            
@@ -109,11 +109,19 @@ public class notification extends javax.swing.JFrame {
                 Object[] obj = {subject,T_time,T_date,message,description};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
     
     public void get_book_id_from_table(){
         DefaultTableModel model = (DefaultTableModel)table_data.getModel();
@@ -134,9 +142,9 @@ public class notification extends javax.swing.JFrame {
         e.setText(time);
     }
     public void get_row() {
+            Connection con = DB_connection.getConnection();
         try {
             // Establish a connection
-            Connection con = DB_connection.getConnection();
 
             // Prepare the SQL query with COUNT
             String sql = "SELECT COUNT(*) FROM notification WHERE student_id = ?";
@@ -151,9 +159,16 @@ public class notification extends javax.swing.JFrame {
                 row = rd.getInt(1);
                System.out.print(row);
             }
-
+        pst.close();
+        rd.next();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

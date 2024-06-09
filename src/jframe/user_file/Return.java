@@ -59,9 +59,8 @@ public class Return extends javax.swing.JFrame {
     }
 
     public void set_table(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             String sql = "SELECT * FROM book_history INNER JOIN book_data ON book_history.book_id = book_data.book_id WHERE T_status = \"GAVE\" and student_id = "+id;
 
             PreparedStatement pst = con.prepareStatement(sql);
@@ -78,11 +77,19 @@ public class Return extends javax.swing.JFrame {
                 Object[] obj = {book_id,book_name,author,book_part,take_date};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
            
     public void get_book_id_from_table(){
         DefaultTableModel model = (DefaultTableModel)table_data.getModel();
@@ -138,8 +145,8 @@ public class Return extends javax.swing.JFrame {
     return book;
     }
     public void returned(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select * from  book_history where student_id = ? and book_id=? and otp = ? and T_status = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -154,14 +161,22 @@ public class Return extends javax.swing.JFrame {
             }
             else{
                 JOptionPane.showMessageDialog(this, "Wrong Otp");
-            }
+            }        pst.close();
+        rs.next();
         }catch(Exception e ){
             e.printStackTrace();
         }
+    finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     public void requested1(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "update student_book set  T_status=?,T_date =?, T_time=? where book_id=? and  student_id=? and T_sataus = \"TAKEN\" ";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1,"RETURNED");
@@ -177,10 +192,18 @@ public class Return extends javax.swing.JFrame {
             }
             else{
                 JOptionPane.showMessageDialog(this, "Already Returned");    
-            }
+            }        pst.close();
+       
         }catch(Exception e ){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Server Error!");
+        }
+    finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public  java.sql.Date R_date(){
@@ -194,7 +217,6 @@ public class Return extends javax.swing.JFrame {
         java.sql.Time time = java.sql.Time.valueOf(now_time);
         return time;
     }
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

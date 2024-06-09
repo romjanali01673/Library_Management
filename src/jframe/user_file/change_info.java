@@ -111,8 +111,8 @@ else{
     }
     
     public void get_pastdata(int id){     
-    try {
     Connection con = DB_connection.getConnection();
+    try {
     String sql = "SELECT * FROM student_data WHERE user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
     pst.setInt(1,id);
@@ -136,10 +136,18 @@ else{
         
     }
     //System.out.println(Date_of_birth);
+            pst.close();
+        rs.next();
 } catch (Exception e) {
     e.printStackTrace();
 
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     // creating a mehod for gender 
@@ -280,8 +288,8 @@ else{
 
         
         
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into changes_student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , remark,user_id,) values(?,?,?,?,?,?,?,?,?,?,?,?)";
             String sql1 = "update student_data set pass = ? where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
@@ -313,16 +321,24 @@ else{
            }
            else{
                JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
-           }   
+           }           pst.close();
+                       pst1.close();
+        
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
        
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public void requested1(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "insert into student_history ( T_status, T_date, T_time, user_id) values(?,?,?,?,?);";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1,"CHANGE");
@@ -336,9 +352,16 @@ else{
                JOptionPane.showMessageDialog(this, "visit our office with all necesary document..");
                JOptionPane.showMessageDialog(this, "Remamber, Password has been updated");
             }
+                pst.close();
         }catch(Exception e ){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Server Error!");
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

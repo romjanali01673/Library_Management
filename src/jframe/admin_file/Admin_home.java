@@ -1,7 +1,6 @@
 package jframe.admin_file;
 
 import java.awt.BorderLayout;
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -91,8 +90,8 @@ public class Admin_home extends javax.swing.JFrame {
     }
 //GET ALL ISSUED BOOK ID-  
     public void getAllIssuedBookId_row() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from book_history where T_status = \"ISSUED\"";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
@@ -100,9 +99,16 @@ public class Admin_home extends javax.swing.JFrame {
                 N = res.getInt(1);
                 book_ids = new int[N];
                 getAllIssuedBookId();
-            }
+            }            pst.close();
+            
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -118,11 +124,11 @@ public class Admin_home extends javax.swing.JFrame {
                 book_ids[i] = res.getInt("book_id");
                 i++;
             }
-            con.close();
             pst.close();
             res.close();
             set_chart();
-        } catch (Exception e) {
+                    pst.close();
+            res.close();} catch (Exception e) {
             e.printStackTrace();
         }
         finally{
@@ -155,17 +161,24 @@ public class Admin_home extends javax.swing.JFrame {
     }
 
     public void get_book_name(int id, int i) {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select * from book_data where book_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 book_name5[i] = res.getString("book_name");
-            }
+            }            pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -193,7 +206,8 @@ public class Admin_home extends javax.swing.JFrame {
             if (res.next()) {
                 int i = res.getInt(1);
                 STUDENT.setText(String.valueOf(i));
-            }
+            }            pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
         }        finally{
@@ -215,7 +229,8 @@ public class Admin_home extends javax.swing.JFrame {
             if (res.next()) {
                 int i = res.getInt(1);
                 STUDENT1.setText(String.valueOf(i));
-            }
+            }            pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
         }        finally{
@@ -229,16 +244,16 @@ public class Admin_home extends javax.swing.JFrame {
 
 //MODATATOR
     public void getModeratorNumber() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from employee_data where position = \"MODERATOR\" and e_status = \"REGULER\"";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 MODERATOR.setText(String.valueOf(i));
-                try {
                     Connection con1 = DB_connection.getConnection();
+                try {
                     String sql1 = "select count(*) from employee_data where position = \"MODERATOR\"";
                     PreparedStatement pst1 = con1.prepareStatement(sql1);
                     ResultSet res1 = pst1.executeQuery();
@@ -247,27 +262,43 @@ public class Admin_home extends javax.swing.JFrame {
                         int i1 = res1.getInt(1);
                         MODERATOR.setText(String.valueOf(i1) + "/" + a);
                     }
+                            pst.close();
+            res.close();
+                            pst1.close();
+            res.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }finally{
+            try{
+                con1.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
 // LIBRARIAN
     public void getLibrarianNumber() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from employee_data where position = \"LIBRARIAN\" and e_status = \"REGULER\"";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 LIBRARIAN.setText(String.valueOf(i));
-                try {
                     Connection con1 = DB_connection.getConnection();
+                try {
                     String sql1 = "select count(*) from employee_data where position = \"LIBRARIAN\" ";
                     PreparedStatement pst1 = con1.prepareStatement(sql1);
                     ResultSet res1 = pst1.executeQuery();
@@ -276,108 +307,165 @@ public class Admin_home extends javax.swing.JFrame {
                         String asd = String.valueOf(i1);
                         String AS = LIBRARIAN.getText();
                         LIBRARIAN.setText(asd + "/" + AS);
-                    }
+                    }   
+                    pst1.close();
+                    res1.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }finally{
+            try{
+                con1.close();
+            }catch(Exception e){
+                e.printStackTrace();
             }
+        }
+            }         pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
 //returned
     public void getReturnedNumber() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from book_history where T_status = \"RETURNED\"";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 RETURNED.setText(String.valueOf(i));
-            }
+            }         pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 //READING 
 
     public void getReadingNumber() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from student_book where T_status = \"TAKEN\" ";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 READING.setText(String.valueOf(i));
-            }
+            }         pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 //QUEUE
 
     public void getQueueNumber() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from student_book where T_status = \"ISSUED\" ";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 QUEUE.setText(String.valueOf(i));
-            }
+            }         pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 //BOOK
 
     public void getBookNumber() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from book_data where b_status = \"REGULER\"";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 BOOK.setText(String.valueOf(i));
-            }
+            }         pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     public void getBookNumber1() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from book_data ";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 BOOK1.setText(String.valueOf(i));
-            }
+            }         pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
 // ISSUED
     public void getTotalIssuedBook() {
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql = "select count(*) from book_history where T_status = \"ISSUED\"";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet res = pst.executeQuery();
             if (res.next()) {
                 int i = res.getInt(1);
                 ISSUED.setText(String.valueOf(i));
-            }
+            }         pst.close();
+            res.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1025,14 +1113,6 @@ public class Admin_home extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null, "Do you want to change your info?", "confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if (s == JOptionPane.YES_OPTION) {
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        } else {
-            System.out.println("you have clicked CANCEL");
-        }
     }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

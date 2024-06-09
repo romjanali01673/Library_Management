@@ -66,9 +66,8 @@ public class book_issue extends javax.swing.JFrame {
     }    
     
     public void set_table(){
+            Connection con = DB_connection.getConnection();
        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root", "");
             String sql = "select * from book_data where b_status = \"REGULER\";";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
@@ -86,11 +85,19 @@ public class book_issue extends javax.swing.JFrame {
                 Object[] obj = {book_id,book_name,author,book_part,book_type};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        pst.close();
+        rs.next();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
            
     public String genarate_otp(){
         Random random = new Random();
@@ -114,9 +121,9 @@ public class book_issue extends javax.swing.JFrame {
         sorter.setRowFilter(RowFilter.regexFilter(query));
     }
     public void set_data_in_textfield(){
+        Connection con = DB_connection.getConnection();
         try{
             
-        Connection con = DB_connection.getConnection();
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1,get_book_id_from_table());
@@ -142,11 +149,19 @@ public class book_issue extends javax.swing.JFrame {
                 this.few_line.setText(few_line);
 
         }
-        
+                pst.close();
+        rs.next();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
+        }
+    finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public int get_book_id(){
@@ -160,8 +175,8 @@ public class book_issue extends javax.swing.JFrame {
     }
     public int request_valid(){
         int k=0;
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "select * from book_history where student_id = ? and T_status = ? and book_id=? and T_date=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
@@ -172,16 +187,23 @@ public class book_issue extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
                 k++;
-            }
+            }        pst.close();
+        rs.next();
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this,"server Error!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return k;
     }
     public void requested(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "insert into book_history(book_id, T_status, T_date, T_time, student_id,otp) values(?,?,?,?,?,?);";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1,get_book_id());
@@ -194,15 +216,22 @@ public class book_issue extends javax.swing.JFrame {
             int rs = pst.executeUpdate();
             if(rs>0){
                 requested1();                
-            }
+            }        pst.close();
+        
         }catch(Exception e ){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Server Error!");
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public void requested1(){
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "insert into student_book (book_id, T_status, T_date, T_time, student_id) values(?,?,?,?,?);";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1,get_book_id());
@@ -215,9 +244,16 @@ public class book_issue extends javax.swing.JFrame {
             if(rs>0){
                 JOptionPane.showMessageDialog(this, "Book Issue Request Success.");                
             }
+                pst.close();
         }catch(Exception e ){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Server Error!");
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public  java.sql.Date R_date(){

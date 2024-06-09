@@ -4,7 +4,6 @@
  */
 package jframe.admin_file;
 
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +12,6 @@ import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.Help;
 import jframe.home_page;
-import jframe.moderator_file.moderator_portal;
 
 public class Notify extends javax.swing.JFrame {
     int id;
@@ -52,47 +50,7 @@ public class Notify extends javax.swing.JFrame {
         }
     }    
 
-    public void show_panel(int panel){
-        switch (panel) {
-            /*case 0:
-                approve_student_panel.setVisible(true);//---
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 1:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(true);//---
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 2:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(true);//--
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(false);
-                break;
-            case 3:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(true);//---
-                welcome_panel.setVisible(false);
-                break;
-            case 4:
-                approve_student_panel.setVisible(false);
-                approve_changes_panel.setVisible(false);
-                contact_with_student_panel.setVisible(false);
-                contact_with_boss_panel.setVisible(false);
-                welcome_panel.setVisible(true); //----
-                break;*/
-            default:
-                break;
-        }
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -327,9 +285,7 @@ public class Notify extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NotificationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMouseClicked
-          moderator_portal mp = new moderator_portal(id );
-          mp.setVisible(true);
-          this.dispose();
+
     }//GEN-LAST:event_NotificationMouseClicked
 
     private void NotificationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMouseEntered
@@ -350,15 +306,6 @@ public class Notify extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
     }//GEN-LAST:event_nameMouseClicked
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed

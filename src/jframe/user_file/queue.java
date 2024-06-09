@@ -56,8 +56,8 @@ public class queue extends javax.swing.JFrame {
     }
  
    public void set_table1(){
-       try{
             Connection con = DB_connection.getConnection();
+       try{
             Statement st = con.createStatement();
             String sql = "select * from student_book inner join book_data on student_book.book_id=book_data.book_id where student_book.student_id = "+id+ " and T_status = \"ISSUED\"";
             ResultSet rs = st.executeQuery(sql);
@@ -75,10 +75,17 @@ public class queue extends javax.swing.JFrame {
                 Object[] obj = {book_id,book_name,book_author,book_type,book_part,date,time};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        st.close();
+        rs.next();
        }catch(Exception E){
            E.printStackTrace();
-       }
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
    }    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -1,8 +1,6 @@
 
 package jframe.admin_file;
 
-import jframe.librarian_file.*;
-import jframe.user_file.*;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.net.URI;
@@ -12,10 +10,8 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
-import jframe.moderator_file.contact_employee;
 import jframe.home_page;
 import jframe.method_romjanali01673.necessaryMethod;
-import jframe.moderator_file.moderator_portal;
 
 public class Book_Management extends javax.swing.JFrame {
     necessaryMethod nm = new necessaryMethod();
@@ -69,9 +65,9 @@ public class Book_Management extends javax.swing.JFrame {
     
     public void set_data_in_textfield(){
         P_B_id = nm.stringToint(book_id_d.getText());
+        Connection con = DB_connection.getConnection();
         try{
             
-        Connection con = DB_connection.getConnection();
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1,nm.stringToint(book_id_d.getText()));
@@ -107,19 +103,26 @@ public class Book_Management extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "Book Not Found In Our Library!");
-        }
+        }         pst.close();
+            rs.close();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 //insart book data in data base.
     //add
     public boolean add_book(int book_id){
         boolean res = true;
-        try{
         Connection con= DB_connection.getConnection();
+        try{
         String sql = "insert into book_data(book_id,book_name,author,book_part,book_type,price,few_i_line,quantity,book_source,b_status) values(?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, nm.stringToint(this.book_id .getText()));
@@ -144,17 +147,24 @@ public class Book_Management extends javax.swing.JFrame {
         }
         else{
             res = false;
-        }
+        } pst.close();
+           
         }catch(Exception e ){
             res = false;
             JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     return res;
     }
     public void add_book_history(){
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "insert into book_history(book_id, T_status, T_time, T_date, employee_id, quantity) values(?,?,?,?,?,?) ";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
@@ -170,9 +180,16 @@ public class Book_Management extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "New Book Addition Failed!");
-        }
+        } pst.close();
+           
         }catch(Exception e){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public boolean take_book_data(){
@@ -202,8 +219,8 @@ public class Book_Management extends javax.swing.JFrame {
     }
     public boolean update_book(){
         boolean res = true;
-        try{
         Connection con= DB_connection.getConnection();
+        try{
         String sql = "update book_data set book_id=?,book_name=?,author=?,book_part=?,book_type=?,price=?,few_i_line=?,quantity=?,book_source=?,b_status=? where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
@@ -223,17 +240,24 @@ public class Book_Management extends javax.swing.JFrame {
         }
         else{
             res = false;
-        }
+        } pst.close();
+           
         }catch(Exception e ){
             res = false;
             JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     return res;
     }
     public void update_book_history(){
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "insert into book_history(book_id, T_status, T_time, T_date, employee_id, quantity) values(?,?,?,?,?,?) ";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
@@ -249,15 +273,22 @@ public class Book_Management extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "Failed!");
-        }
+        } pst.close();
+           
         }catch(Exception e){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }    
     public boolean book_exist(int book_id){
         boolean res = true;
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, book_id);
@@ -268,10 +299,17 @@ public class Book_Management extends javax.swing.JFrame {
         }
         else{
             res = false;
-        }
+        } pst.close();
+            rs.close();
         }catch(Exception e){
             e.printStackTrace();
             res = false;
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return res;
     }    public boolean checked_input_validity(){
@@ -319,8 +357,8 @@ public class Book_Management extends javax.swing.JFrame {
     //delete
     public boolean delete(){
         boolean res = true;
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "delete from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, nm.stringToint(book_id.getText()));
@@ -331,17 +369,24 @@ public class Book_Management extends javax.swing.JFrame {
         else{
             res = false;
             JOptionPane.showMessageDialog(this, "The Book Dose Not Exist.");    
-        }
+        } pst.close();
+           
         }catch(Exception e){
             res = false;
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return res;
     }
     
     public void remove_book_history(){
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "insert into book_history(book_id, T_status, T_time, T_date, employee_id, quantity) values(?,?,?,?,?,?) ";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
@@ -357,9 +402,16 @@ public class Book_Management extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "New Deletion Addition Failed!");
-        }
+        } pst.close();
+         
         }catch(Exception e){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1062,15 +1114,7 @@ public class Book_Management extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
+
     }//GEN-LAST:event_nameMouseClicked
 
     private void book_partActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_partActionPerformed

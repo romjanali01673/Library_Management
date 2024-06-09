@@ -5,7 +5,6 @@
 package jframe.admin_file;  
 
 import java.awt.BorderLayout;
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,12 +15,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
-import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_employee;
-import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
 import jframe.method_romjanali01673.necessaryMethod;
-import jframe.moderator_file.moderator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -135,10 +130,10 @@ public class Moderator_Management extends javax.swing.JFrame {
             es.printStackTrace();
         }
         //end
+    Connection con = DB_connection.getConnection();
     try {
         //wanted data
     
-    Connection con = DB_connection.getConnection();
     String sql = "update  employee_data set fast_name=?, last_name=?, nid =?, phone =?, email=?, full_address=?, dob=?, gender=?, ftr_nid=?, ftr_name=?, e_status=? where position=? and user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
 
@@ -159,16 +154,23 @@ public class Moderator_Management extends javax.swing.JFrame {
     
     if(rs>0){
         update_up_his();
-    }
+    }        pst.close();
+       
     } catch (Exception e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Updatation  failed.");
-    }
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public void update_up_his(){
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -187,10 +189,17 @@ public class Moderator_Management extends javax.swing.JFrame {
            else{
                JOptionPane.showMessageDialog(this, "faled!"); 
            }   
+               pst.close();
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
-        }    
+        } finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }   
     }
     
     public void add(){
@@ -229,10 +238,10 @@ public class Moderator_Management extends javax.swing.JFrame {
             es.printStackTrace();
         }
         //end
+    Connection con = DB_connection.getConnection();
     try {
         //wanted data
     
-    Connection con = DB_connection.getConnection();
     String sql = "insert into employee_data( fast_name, last_name, nid , phone , email, full_address, dob, gender, ftr_nid, ftr_name, e_status,position) values(?,?,?,?,?,?,?,?,?,?,?,?);";
     PreparedStatement pst = con.prepareStatement(sql);
 
@@ -259,16 +268,25 @@ public class Moderator_Management extends javax.swing.JFrame {
     if(rs1.next()){
         s_id = rs1.getInt("user_id");
         update_IN_his();
+    }        pst1.close();
+        rs1.next();
     }
-    }
+            pst.close();
+       
     } catch (Exception e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "The MODERATOR Already Exist");
-    }
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
     public void update_IN_his(){
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -291,7 +309,13 @@ public class Moderator_Management extends javax.swing.JFrame {
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
-        }    
+        }  finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }  
     }
     
     public long get_nid_or_birth_number(String NID_B_number){
@@ -326,8 +350,8 @@ public class Moderator_Management extends javax.swing.JFrame {
     
     public void removee(int s_id){
 
-        try{
             Connection con = DB_connection.getConnection();
+        try{
             String sql = "delete from employee_data where user_id = ? and position = ?";
 
             PreparedStatement pst = con.prepareStatement(sql);
@@ -338,14 +362,21 @@ public class Moderator_Management extends javax.swing.JFrame {
             if(rs>0){
                 update_DLT_his();
             }
-        }catch(Exception E){
+               pst.close();
+         }catch(Exception E){
             E.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
 
     }
     public void update_DLT_his(){
-        try {
             Connection con = DB_connection.getConnection();
+        try {
             String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
@@ -364,10 +395,17 @@ public class Moderator_Management extends javax.swing.JFrame {
            else{
                JOptionPane.showMessageDialog(this, "faled!"); 
            }   
+                pst.close();
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"somthing wrong!");
             e.printStackTrace();
-        }    
+        }   finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
     }
     
     public boolean  necessary_data_insarted(){
@@ -463,10 +501,10 @@ public class Moderator_Management extends javax.swing.JFrame {
     
     public void get_info(int student_id){  
         this.s_id = student_id;
+    Connection con = DB_connection.getConnection();
     try {
         //wanted data
     
-    Connection con = DB_connection.getConnection();
     String sql = "SELECT * FROM employee_data WHERE user_id = ? and position = ?";
 
     PreparedStatement pst = con.prepareStatement(sql);
@@ -493,11 +531,18 @@ public class Moderator_Management extends javax.swing.JFrame {
     else{
         JOptionPane.showMessageDialog(this, "Moderator Not Found");
     }
-        
+                pst.close();
+        rs.next();
 } catch (Exception e) {
     e.printStackTrace();
 
-}
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1177,15 +1222,6 @@ public class Moderator_Management extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
     }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

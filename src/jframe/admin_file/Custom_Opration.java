@@ -5,7 +5,6 @@
 package jframe.admin_file;  
 
 import java.awt.BorderLayout;
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,11 +12,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.admin_login;
 import jframe.method_romjanali01673.DB_connection;
-import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_employee;
-import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
-import jframe.moderator_file.moderator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -447,15 +442,7 @@ public class Custom_Opration extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
+       
     }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

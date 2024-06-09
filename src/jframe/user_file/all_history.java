@@ -55,8 +55,8 @@ public class all_history extends javax.swing.JFrame {
     }    
 
    public void set_table1(){
-       try{
             Connection con = DB_connection.getConnection();
+       try{
             Statement st = con.createStatement();
             String sql = "select * from book_history inner join book_data on book_history.book_id=book_data.book_id where book_history.student_id = "+id;
             ResultSet rs = st.executeQuery(sql);
@@ -75,14 +75,21 @@ public class all_history extends javax.swing.JFrame {
                 Object[] obj = {book_id,book_name,book_author,book_type,book_part,time,date,book_status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        st.close();
+        rs.next();
        }catch(Exception E){
            E.printStackTrace();
-       }
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
    }
   public void set_table2(){
-       try{
             Connection con = DB_connection.getConnection();
+       try{
             Statement st = con.createStatement();
             String sql = "select * from student_history where user_id = "+id;
             ResultSet rs = st.executeQuery(sql);
@@ -95,10 +102,18 @@ public class all_history extends javax.swing.JFrame {
                 Object[] obj = {null,null,null,null,null,time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
-            }
+            }        st.close();
+        rs.next();
        }catch(Exception E){
            E.printStackTrace();
-       }}
+       }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+  }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

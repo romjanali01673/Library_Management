@@ -66,9 +66,9 @@ public class book_add extends javax.swing.JFrame {
     }    
 //insart book data in data base.
     public void add_book(int book_id){
-        try{
         Connection con= DB_connection.getConnection();
-        String sql = "insert into book_data(book_id,book_name,author,book_part,book_type,price,few_i_line,quantity,book_source,status              ) values(?,?,?,?,?,?,?,?,?,?);";
+        try{
+        String sql = "insert into book_data(book_id,book_name,author,book_part,book_type,price,few_i_line,quantity,book_source,status) values(?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
         pst.setString(2,B_name);
@@ -84,10 +84,17 @@ public class book_add extends javax.swing.JFrame {
         int rs = pst.executeUpdate();
         if (rs>0){
             JOptionPane.showMessageDialog(this, "New Book Added!");
-        }            
+        }                    pst.close();
+        
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
     public boolean take_book_data(){
@@ -117,8 +124,8 @@ public class book_add extends javax.swing.JFrame {
     }
     public boolean book_exist(int book_id){
         boolean res = true;
-        try{
         Connection con = DB_connection.getConnection();
+        try{
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, book_id);
@@ -130,9 +137,17 @@ public class book_add extends javax.swing.JFrame {
         else{
             res = false;
         }
+                pst.close();
+        rs.next();
         }catch(Exception e){
             e.printStackTrace();
             res = false;
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return res;
     }
