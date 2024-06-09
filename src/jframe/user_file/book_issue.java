@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
+import jframe.login;
 import jframe.registation;
 
 
@@ -36,6 +37,34 @@ public class book_issue extends javax.swing.JFrame {
         set_profile();
         set_table();
     }
+    public void set_profile(){
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "select fast_name,last_name from student_data where user_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
+                
+                name.setText(a+ " "+ b+ " - "+ id);                
+            }
+            
+            pst.close();
+            rs.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
+    
     public void set_table(){
        try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -164,6 +193,26 @@ public class book_issue extends javax.swing.JFrame {
             
             int rs = pst.executeUpdate();
             if(rs>0){
+                requested1();                
+            }
+        }catch(Exception e ){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Server Error!");
+        }
+    }
+    public void requested1(){
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "insert into student_book (book_id, T_status, T_date, T_time, student_id) values(?,?,?,?,?);";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1,get_book_id());
+            pst.setString(2,"REQUESTED");
+            pst.setDate(3,R_date());
+            pst.setTime(4,R_time());
+            pst.setInt(5, id);
+            
+            int rs = pst.executeUpdate();
+            if(rs>0){
                 JOptionPane.showMessageDialog(this, "Book Issue Request Success.");                
             }
         }catch(Exception e ){
@@ -184,24 +233,7 @@ public class book_issue extends javax.swing.JFrame {
         return time;
     }
 
-    public void set_profile(){
-        try{
-            Connection con = DB_connection.getConnection();
-            String sql = "select fast_name,last_name from user_info where id = ?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, id);
-            
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String a = rs.getString("fast_name");
-                String b = rs.getString("last_name");
-                
-                name.setText(a+ " "+ b+ " - "+ id);                
-            }
-        }catch(Exception e ){
-            e.printStackTrace();
-        }
-    }    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -219,12 +251,15 @@ public class book_issue extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         all_history = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        LOGOUT = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_data = new rojeru_san.complementos.RSTableMetro();
@@ -382,21 +417,32 @@ public class book_issue extends javax.swing.JFrame {
 
         jPanel2.add(all_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
 
+        LOGOUT.setBackground(new java.awt.Color(0, 0, 0));
+        LOGOUT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseExited(evt);
+            }
+        });
+        LOGOUT.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Exit_26px_1.png"))); // NOI18N
+        jLabel19.setText("Logout");
+        LOGOUT.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(LOGOUT, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 200, 40));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 680));
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -431,6 +477,42 @@ public class book_issue extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 170, 50));
+
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 0, 40, 30));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 50));
 
@@ -683,6 +765,7 @@ public class book_issue extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 170, 50));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void book_queueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseEntered
@@ -690,11 +773,6 @@ public class book_issue extends javax.swing.JFrame {
         Color mousein = new Color(51,51,51);
         book_queue.setBackground(mousein);
     }//GEN-LAST:event_book_queueMouseEntered
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void book_queueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_queueMouseExited
         // TODO add your handling code here:
@@ -855,7 +933,7 @@ if(agreement.isSelected()){
         requested();
     }
     else{
-        JOptionPane.showMessageDialog(this,"Already Requested");
+        JOptionPane.showMessageDialog(this,"Already Issued");
     }
 }
 else{
@@ -869,7 +947,55 @@ else{
        // TODO add your handling code here:
     }//GEN-LAST:event_table_dataKeyTyped
 
+    private void LOGOUTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseClicked
+        int a = JOptionPane.showConfirmDialog(this,"Do you want to Logout?","woring",JOptionPane.YES_NO_OPTION);
+        if(a == 0){
+            login al = new login();
+            al.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_LOGOUTMouseClicked
+
+    private void LOGOUTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseEntered
+        Color mousein = new Color(51,51,51);
+        LOGOUT.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUTMouseEntered
+
+    private void LOGOUTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseExited
+        Color mousein = new Color(0,0,0);
+        LOGOUT.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUTMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel LOGOUT;
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Retrun;
     private javax.swing.JPanel WELCOME;
@@ -895,6 +1021,7 @@ else{
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
@@ -907,6 +1034,7 @@ else{
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
     private javax.swing.JPanel reading;

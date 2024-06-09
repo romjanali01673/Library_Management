@@ -4,8 +4,6 @@
  */
 package jframe.librarian_file;
 
-import jframe.admin_file.*;
-import jframe.user_file.*;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +12,6 @@ import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.Help;
 import jframe.home_page;
-import jframe.moderator_file.modarator_portal;
 
 public class Notify extends javax.swing.JFrame {
     int id;
@@ -24,12 +21,10 @@ public class Notify extends javax.swing.JFrame {
         initComponents();
         set_profile();
         }
-
-
     public void set_profile(){
-        try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name,last_name from user_info where id = ?";
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -38,15 +33,22 @@ public class Notify extends javax.swing.JFrame {
                 String a = rs.getString("fast_name");
                 String b = rs.getString("last_name");
                 
-                name.setText(a+ " "+ b+ " - "+ id);
-                
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
+            
+            pst.close();
+            rs.close();
         }catch(Exception e ){
-            JOptionPane.showMessageDialog(this, "Server Error!");
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
-
     }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -77,11 +79,12 @@ public class Notify extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
-        name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -110,8 +113,6 @@ public class Notify extends javax.swing.JFrame {
         Notification.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel2.add(Notification, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
-
-        jCTextField2.setText("jCTextField1");
         jPanel2.add(jCTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -125,14 +126,12 @@ public class Notify extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("rdhfghsdfghsjdfhgdkfj iorutoierutiuewr ierutieurtiueryteru iert \ntueriutierytiu\n\n\n\n\n\n\n\n\n\n\n\n\n\neroituerotu\nreutoert\noerutoeiur\noierutoeruit\noieruteriu\nrioteruit\nerotuoei");
         jScrollPane1.setViewportView(jTextArea1);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, 960, 450));
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
-        jTextArea2.setText("rdhfghsdfghsjdfhgdkfj iorutoierutiuewr ierutieurtiueryteru iert \ntueriutierytiu\n\n\n\n\n\n\n\n\n\n\n\n\n\neroituerotu\nreutoert\noerutoeiur\noierutoeruit\noieruteriu\nrioteruit\nerotuoei");
         jScrollPane2.setViewportView(jTextArea2);
 
         jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 280, 260));
@@ -159,6 +158,7 @@ public class Notify extends javax.swing.JFrame {
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
         jRadioButton1.setText("Student");
         jPanel2.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, -1));
 
@@ -174,17 +174,15 @@ public class Notify extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("Modarator");
         jPanel2.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
-
-        jCTextField3.setText("jCTextField3");
         jPanel2.add(jCTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, -1, -1));
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Find");
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 600, 90, -1));
 
-        jCTextField5.setText("jCTextField5");
+        jCTextField5.setEditable(false);
         jPanel2.add(jCTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 590, -1, -1));
 
-        jCTextField7.setText("jCTextField7");
+        jCTextField7.setEditable(false);
         jPanel2.add(jCTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 590, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -204,34 +202,12 @@ public class Notify extends javax.swing.JFrame {
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
-
-        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
-        name.setText("User");
-        name.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
+        jLabel2.setText("Librarian Portal");
         MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
 
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
         home.setToolTipText("GO TO HOME");
         home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -249,18 +225,61 @@ public class Notify extends javax.swing.JFrame {
         });
         MENU_BAR.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 170, 50));
 
+        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
+        name.setText("Librarian");
+        name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameMouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
+
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
-
     private void NotificationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMouseClicked
-          modarator_portal mp = new modarator_portal(id );
+          notification  mp = new notification(id );
           mp.setVisible(true);
           this.dispose();
     }//GEN-LAST:event_NotificationMouseClicked
@@ -276,23 +295,10 @@ public class Notify extends javax.swing.JFrame {
     }//GEN-LAST:event_NotificationMouseExited
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
-        home_page hp = new home_page();
+        book_add hp = new book_add(id);
         hp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
-
-    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
-
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
-    }//GEN-LAST:event_nameMouseClicked
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
         // TODO add your handling code here:
@@ -316,11 +322,43 @@ public class Notify extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
+    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
+
+    }//GEN-LAST:event_nameMouseClicked
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        Notify r = new Notify(95);
+        Notify r = new Notify(13);
         r.setVisible(true);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -374,6 +412,7 @@ public class Notify extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
     // End of variables declaration//GEN-END:variables

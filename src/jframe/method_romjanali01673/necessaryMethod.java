@@ -1,6 +1,9 @@
 
 package jframe.method_romjanali01673;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -10,6 +13,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class necessaryMethod extends JFrame{
+    
+//this.setState(this.ICONIFIED); 
+//System.exit(0); 
+    
+    
+    
+    
+    
     public String remove_white_space(String str){
         // Remove leading whitespaces
         int start = 0;

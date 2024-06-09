@@ -11,8 +11,11 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
+import jframe.method_romjanali01673.necessaryMethod;
+import jframe.modarator_login;
 
 public class approve_changes extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
     int id;
     
         String fast_namer; 
@@ -48,7 +51,33 @@ public class approve_changes extends javax.swing.JFrame {
         set_profile();
         
     }
-
+    public void set_profile(){
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
+                
+                name.setText(a+ " "+ b+ " - "+ id);                
+            }
+            
+            pst.close();
+            rs.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
     
     public void set_info(){
         fast_name.setText(fast_namer);
@@ -75,26 +104,7 @@ public class approve_changes extends javax.swing.JFrame {
         full_address1 .setText(full_addressrc);
 
     }
-    public void set_profile(){
-        try{
-            Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from employee_data where user_id = ?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, id);
-            
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String a = rs.getString("fast_name");
-                String b = rs.getString("last_name");
-                String formattedNumber = String.format("%08d", id);
-                name.setText(a+" "+ b + "-"+formattedNumber);
-                
-            }
-        }catch(Exception e ){
-            e.printStackTrace();
-        }
 
-    }
     public void get_info(int student_id){  
         this.student_id = student_id;
     try {
@@ -178,6 +188,36 @@ public class approve_changes extends javax.swing.JFrame {
        
            
             if ( updatedRowCount > 0 && updatedRowCount1>0){
+               update1();
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+       
+        }
+    }
+    public void update1(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "insert into student_history(user_id,T_status,by_who,employee_id,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, student_id);
+            
+            pst.setString(2, "APPROVED");
+            pst.setString(3, "MODERATOR");
+            pst.setInt(4,id);
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+
+            int updatedRowCount = pst.executeUpdate();
+       
+           
+            if ( updatedRowCount > 0){
                JOptionPane.showMessageDialog(this, "Account Updated.");
            }
            else{
@@ -204,12 +244,15 @@ public class approve_changes extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         welcome = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        LOGOUT2 = new javax.swing.JPanel();
+        jLabel34 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         fast_name = new app.bolivia.swing.JCTextField();
         phone = new app.bolivia.swing.JCTextField();
@@ -346,8 +389,8 @@ public class approve_changes extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Contact With Boss ");
-        contact_with_boss.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jLabel6.setText("Contact Employee ");
+        contact_with_boss.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
         jPanel2.add(contact_with_boss, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 200, 40));
 
@@ -372,21 +415,32 @@ public class approve_changes extends javax.swing.JFrame {
 
         jPanel2.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
 
+        LOGOUT2.setBackground(new java.awt.Color(0, 0, 0));
+        LOGOUT2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LOGOUT2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LOGOUT2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                LOGOUT2MouseExited(evt);
+            }
+        });
+        LOGOUT2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Exit_26px_1.png"))); // NOI18N
+        jLabel34.setText("Logout");
+        LOGOUT2.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(LOGOUT2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -416,6 +470,42 @@ public class approve_changes extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 170, 50));
+
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
@@ -856,6 +946,7 @@ public class approve_changes extends javax.swing.JFrame {
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void approve_studentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_approve_studentMouseEntered
@@ -863,11 +954,6 @@ public class approve_changes extends javax.swing.JFrame {
         Color mousein = new Color(51,51,51);
         approve_student.setBackground(mousein);
     }//GEN-LAST:event_approve_studentMouseEntered
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void approve_studentMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_approve_studentMouseExited
         // TODO add your handling code here:
@@ -937,7 +1023,7 @@ this.dispose();
     }//GEN-LAST:event_contact_with_studentMouseExited
 
     private void welcomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_welcomeMouseClicked
-          modarator_portal mp = new modarator_portal(id );
+          moderator_portal mp = new moderator_portal(id );
           mp.setVisible(true);
           this.dispose();
     }//GEN-LAST:event_welcomeMouseClicked
@@ -1040,9 +1126,57 @@ if(s_id!=0){
         // TODO add your handling code here:
     }//GEN-LAST:event_gender1ActionPerformed
 
+    private void LOGOUT2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUT2MouseExited
+        Color mousein = new Color(0,0,0);
+        LOGOUT2.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUT2MouseExited
+
+    private void LOGOUT2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUT2MouseEntered
+        Color mousein = new Color(51,51,51);
+        LOGOUT2.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUT2MouseEntered
+
+    private void LOGOUT2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUT2MouseClicked
+        int a = JOptionPane.showConfirmDialog(this,"Do you want to Logout?","woring",JOptionPane.YES_NO_OPTION);
+        if(a == 0){
+            modarator_login al = new modarator_login();
+            al.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_LOGOUT2MouseClicked
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSMaterialButtonCircle APPROVE;
+    private javax.swing.JPanel LOGOUT2;
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel WELCOME;
     private javax.swing.JPanel approve_changes;
@@ -1089,6 +1223,7 @@ if(s_id!=0){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1100,6 +1235,7 @@ if(s_id!=0){
     private javax.swing.JScrollPane jScrollPane1;
     private app.bolivia.swing.JCTextField last_name;
     private app.bolivia.swing.JCTextField last_name1;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private app.bolivia.swing.JCTextField nid_birth_number;
     private app.bolivia.swing.JCTextField nid_birth_number1;

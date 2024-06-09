@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package jframe.admin_file;  
+package jframe.admin_file;
 
 import java.awt.BorderLayout;
 import jframe.user_file.*;
@@ -13,11 +9,9 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
-import jframe.moderator_file.approve_student;
-import jframe.moderator_file.contact_employee;
-import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
-import jframe.moderator_file.modarator_portal;
+import jframe.method_romjanali01673.getTopFive;
+import jframe.method_romjanali01673.necessaryMethod;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,99 +19,442 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class Admin_home extends javax.swing.JFrame {
+
+    necessaryMethod nm = new necessaryMethod();
+    getTopFive RD = new getTopFive();
+    String top0 = "A";
+    String top1 = "B";
+    String top2 = "C";
+    String top3 = "D";
+    String top4 = "E";
+    int val_0 = 0;
+    int val_1 = 0;
+    int val_2 = 0;
+    int val_3 = 0;
+    int val_4 = 0;
+
     int id;
+    int N = 0;
+    int restQuantity = 0;
+
+    int[] book_ids;
+    int[] bookid5;
+    int[] bookvalue5;
+    String[] book_name5 = new String[5];
 
     public Admin_home(int id) {
         this.id = id;
         initComponents();
         set_profile();
+        getStudentNumber();
+        getStudentNumber1();
+        getStudentNumber();
+        getModeratorNumber();
+        getLibrarianNumber();
+        getReturnedNumber();
+        getReadingNumber();
+        getQueueNumber();
+        getBookNumber();
+        getBookNumber1();
+        getTotalIssuedBook();
+
+        getAllIssuedBookId_row();
+        //set_chart();
         showPieChart();
     }
-        
-public void showPieChart(){
-        
-        //create dataset
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue( "IPhone 5s" , new Double( 20 ) );  
-      barDataset.setValue( "SamSung Grand" , new Double( 20 ) );   
-      barDataset.setValue( "MotoG" , new Double( 40 ) );    
-      barDataset.setValue( "Nokia Lumia" , new Double( 10 ) );  
-      
-      //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("mobile sales",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-       piePlot.setSectionPaint("IPhone 5s", new Color(255,255,102));
-        piePlot.setSectionPaint("SamSung Grand", new Color(102,255,102));
-        piePlot.setSectionPaint("MotoG", new Color(255,102,153));
-        piePlot.setSectionPaint("Nokia Lumia", new Color(0,204,204));
-      
-       
-        piePlot.setBackgroundPaint(Color.white);
-        
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
-        pi_chart.removeAll();
-        pi_chart.add(barChartPanel, BorderLayout.CENTER);
-        pi_chart.validate();
-    }
-
     public void set_profile(){
-        try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name from modarator_data where user_id = ?";
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                String a = rs.getString("full_name");
-                name.setText(a);
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
                 
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
+            
+            pst.close();
+            rs.close();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+//GET ALL ISSUED BOOK ID-  
+    public void getAllIssuedBookId_row() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from book_history where T_status = \"ISSUED\"";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                N = res.getInt(1);
+                book_ids = new int[N];
+                getAllIssuedBookId();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getAllIssuedBookId() {
+        int i = 0;
+        Connection con = DB_connection.getConnection();
+        String sql = "select * from book_history where T_status = \"ISSUED\"";
+            try {
+
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            while (res.next()) {
+                book_ids[i] = res.getInt("book_id");
+                i++;
+            }
+            con.close();
+            pst.close();
+            res.close();
+            set_chart();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+                try{
+            con.close();
+        }catch(Exception e){
+                e.printStackTrace();
+            }
+        }        
+    }
+
+    public void set_chart() {
+        RD.setValue(book_ids);
+        bookid5 = RD.getID();
+        bookvalue5 = RD.getValue();
+        int i = 0;
+        while (i < 5) {
+            get_book_name(bookid5[i], i);
+            i++;
+        }
+        val_0 = bookvalue5[0];
+        val_1 = bookvalue5[1];
+        val_2 = bookvalue5[2];
+        val_3 = bookvalue5[3];
+        val_4 = bookvalue5[4];
+        setBookName();
+        restQuantity = N - (bookvalue5[0] + bookvalue5[1] + bookvalue5[2] + bookvalue5[3] + bookvalue5[4]);
+
+
+    }
+
+    public void get_book_name(int id, int i) {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select * from book_data where book_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                book_name5[i] = res.getString("book_name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setBookName() {
+        int i = 0;
+        while (i < N) {
+            top0 = book_name5[0];
+            top1 = book_name5[1];
+            top2 = book_name5[2];
+            top3 = book_name5[3];
+            top4 = book_name5[4];
+            i++;
         }
 
     }
+//STUDENT   
+
+    public void getStudentNumber() {
+            Connection con = DB_connection.getConnection();
+        try {
+            String sql = "select count(*) from student_data where s_status = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, "REGULER");
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                STUDENT.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        finally{
+                try{
+            con.close();
+        }catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
+    }
+
+    public void getStudentNumber1() {
+
+            Connection con = DB_connection.getConnection();
+        try {
+            String sql = "select count(*) from student_data";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                STUDENT1.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        finally{
+                try{
+            con.close();
+        }catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
+    }
+
+//MODATATOR
+    public void getModeratorNumber() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from employee_data where position = \"MODERATOR\" and e_status = \"REGULER\"";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                MODERATOR.setText(String.valueOf(i));
+                try {
+                    Connection con1 = DB_connection.getConnection();
+                    String sql1 = "select count(*) from employee_data where position = \"MODERATOR\"";
+                    PreparedStatement pst1 = con1.prepareStatement(sql1);
+                    ResultSet res1 = pst1.executeQuery();
+                    if (res1.next()) {
+                        String a = MODERATOR.getText();
+                        int i1 = res1.getInt(1);
+                        MODERATOR.setText(String.valueOf(i1) + "/" + a);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+// LIBRARIAN
+    public void getLibrarianNumber() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from employee_data where position = \"LIBRARIAN\" and e_status = \"REGULER\"";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                LIBRARIAN.setText(String.valueOf(i));
+                try {
+                    Connection con1 = DB_connection.getConnection();
+                    String sql1 = "select count(*) from employee_data where position = \"LIBRARIAN\" ";
+                    PreparedStatement pst1 = con1.prepareStatement(sql1);
+                    ResultSet res1 = pst1.executeQuery();
+                    if (res1.next()) {
+                        int i1 = res1.getInt(1);
+                        String asd = String.valueOf(i1);
+                        String AS = LIBRARIAN.getText();
+                        LIBRARIAN.setText(asd + "/" + AS);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//returned
+    public void getReturnedNumber() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from book_history where T_status = \"RETURNED\"";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                RETURNED.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+//READING 
+
+    public void getReadingNumber() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from student_book where T_status = \"TAKEN\" ";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                READING.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+//QUEUE
+
+    public void getQueueNumber() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from student_book where T_status = \"ISSUED\" ";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                QUEUE.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+//BOOK
+
+    public void getBookNumber() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from book_data where b_status = \"REGULER\"";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                BOOK.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getBookNumber1() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from book_data ";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                BOOK1.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+// ISSUED
+    public void getTotalIssuedBook() {
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql = "select count(*) from book_history where T_status = \"ISSUED\"";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                int i = res.getInt(1);
+                ISSUED.setText(String.valueOf(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showPieChart() {
+        try {
+
+            //create dataset
+            DefaultPieDataset barDataset = new DefaultPieDataset();
+            barDataset.setValue(top0, new Double(val_0));
+            barDataset.setValue(top1, new Double(val_1));
+            barDataset.setValue(top2, new Double(val_2));
+            barDataset.setValue(top3, new Double(val_3));
+            barDataset.setValue(top4, new Double(val_4));
+            barDataset.setValue("Other Books", new Double(restQuantity));
+
+            //create chart
+            JFreeChart piechart = ChartFactory.createPieChart("mobile sales", barDataset, false, true, false);//explain
+
+            PiePlot piePlot = (PiePlot) piechart.getPlot();
+
+            //changing pie chart blocks colors
+            piePlot.setSectionPaint("IPhone 5s", new Color(255, 255, 102));
+            piePlot.setSectionPaint("SamSung Grand", new Color(102, 255, 102));
+            piePlot.setSectionPaint("MotoG", new Color(255, 102, 153));
+            piePlot.setSectionPaint("Nokia Lumia", new Color(0, 204, 204));
+
+            piePlot.setBackgroundPaint(Color.white);
+
+            //create chartPanel to display chart(graph)
+            ChartPanel barChartPanel = new ChartPanel(piechart);
+            pi_chart.removeAll();
+            pi_chart.add(barChartPanel, BorderLayout.CENTER);
+            pi_chart.validate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        STUDENT1 = new javax.swing.JLabel();
+        STUDENT = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
+        BOOK1 = new javax.swing.JLabel();
+        BOOK = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
+        ISSUED = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
+        QUEUE = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         pi_chart = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
+        READING = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel25 = new javax.swing.JLabel();
+        RETURNED = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jLabel28 = new javax.swing.JLabel();
+        LIBRARIAN = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
+        MODERATOR = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -151,17 +488,6 @@ public void showPieChart(){
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -197,6 +523,42 @@ public void showPieChart(){
         });
         MENU_BAR.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 140, 50));
 
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
@@ -206,11 +568,17 @@ public void showPieChart(){
         jPanel1.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Conference_26px.png"))); // NOI18N
-        jLabel3.setText("101010101010");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
+        STUDENT1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        STUDENT1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        STUDENT1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Conference_26px.png"))); // NOI18N
+        STUDENT1.setText("101010101010");
+        jPanel1.add(STUDENT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 220, -1));
+
+        STUDENT.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        STUDENT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        STUDENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Conference_26px.png"))); // NOI18N
+        STUDENT.setText("101010101010");
+        jPanel1.add(STUDENT, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 220, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setText("No Of Books");
@@ -219,31 +587,37 @@ public void showPieChart(){
         jPanel3.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
-        jLabel17.setText("101010101010");
-        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
+        BOOK1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        BOOK1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BOOK1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        BOOK1.setText("101010101010");
+        jPanel3.add(BOOK1, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 80, 240, -1));
+
+        BOOK.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        BOOK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BOOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        BOOK.setText("101010101010");
+        jPanel3.add(BOOK, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 20, 240, -1));
 
         jPanel4.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 1, 1, 1, new java.awt.Color(255, 51, 51)));
         jPanel4.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Books_26px.png"))); // NOI18N
-        jLabel18.setText("101010101010");
-        jPanel4.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
+        ISSUED.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        ISSUED.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ISSUED.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Books_26px.png"))); // NOI18N
+        ISSUED.setText("101010101010");
+        jPanel4.add(ISSUED, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 260, -1));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 1, 1, 1, new java.awt.Color(255, 51, 51)));
         jPanel5.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Sell_26px.png"))); // NOI18N
-        jLabel19.setText("101010101010");
-        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
+        QUEUE.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        QUEUE.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        QUEUE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Sell_26px.png"))); // NOI18N
+        QUEUE.setText("101010101010");
+        jPanel5.add(QUEUE, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel20.setText(" Total Issued Books");
@@ -261,11 +635,11 @@ public void showPieChart(){
         jPanel6.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
-        jLabel23.setText("101010101010");
-        jPanel6.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
+        READING.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        READING.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        READING.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        READING.setText("101010101010");
+        jPanel6.add(READING, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 200, -1));
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel24.setText("Queue Of Take Book.");
@@ -274,11 +648,11 @@ public void showPieChart(){
         jPanel7.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Sell_26px.png"))); // NOI18N
-        jLabel25.setText("101010101010");
-        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, 70));
+        RETURNED.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        RETURNED.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RETURNED.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Sell_26px.png"))); // NOI18N
+        RETURNED.setText("101010101010");
+        jPanel7.add(RETURNED, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, 50));
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel26.setText("Total Returned Book");
@@ -290,27 +664,27 @@ public void showPieChart(){
         jPanel8.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel28.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
-        jLabel28.setText("100/100");
-        jPanel8.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
+        LIBRARIAN.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        LIBRARIAN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LIBRARIAN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        LIBRARIAN.setText("100/100");
+        jPanel8.add(LIBRARIAN, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
 
         jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 1, 1, 1, new java.awt.Color(255, 51, 51)));
         jPanel9.setPreferredSize(new java.awt.Dimension(260, 140));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel29.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
-        jLabel29.setText("100/100");
-        jPanel9.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
+        MODERATOR.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        MODERATOR.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        MODERATOR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        MODERATOR.setText("100/100");
+        jPanel9.add(MODERATOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 50, 210, -1));
 
         jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel30.setText("Acctive Librarian");
 
         jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel31.setText("Acctive Modarator");
+        jLabel31.setText("Acctive Moderator");
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
@@ -406,6 +780,11 @@ public void showPieChart(){
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         LMS_DESHBOARD.setBackground(new java.awt.Color(0, 0, 0));
+        LMS_DESHBOARD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LMS_DESHBOARDMouseClicked(evt);
+            }
+        });
         LMS_DESHBOARD.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -635,12 +1014,8 @@ public void showPieChart(){
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
@@ -650,13 +1025,12 @@ public void showPieChart(){
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
+        int s = JOptionPane.showConfirmDialog(null, "Do you want to change your info?", "confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (s == JOptionPane.YES_OPTION) {
             change_info ci = new change_info(id);
             ci.setVisible(true);
             this.dispose();
-        }
-        else {
+        } else {
             System.out.println("you have clicked CANCEL");
         }
     }//GEN-LAST:event_nameMouseClicked
@@ -676,13 +1050,13 @@ public void showPieChart(){
 
     private void MANAGE_STUDENTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_STUDENTMouseEntered
         // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         MANAGE_STUDENT.setBackground(mousein);
     }//GEN-LAST:event_MANAGE_STUDENTMouseEntered
 
     private void MANAGE_STUDENTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_STUDENTMouseExited
         // TODO add your handling code here:
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0, 0, 0);
         MANAGE_STUDENT.setBackground(mousein);
     }//GEN-LAST:event_MANAGE_STUDENTMouseExited
 
@@ -694,13 +1068,13 @@ public void showPieChart(){
 
     private void MANAGE_LIBRARIANMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_LIBRARIANMouseEntered
         // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         MANAGE_LIBRARIAN.setBackground(mousein);
     }//GEN-LAST:event_MANAGE_LIBRARIANMouseEntered
 
     private void MANAGE_LIBRARIANMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_LIBRARIANMouseExited
         // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
+        Color mouseout = new Color(0, 0, 0);
         MANAGE_LIBRARIAN.setBackground(mouseout);
     }//GEN-LAST:event_MANAGE_LIBRARIANMouseExited
 
@@ -712,13 +1086,13 @@ public void showPieChart(){
 
     private void MANAGE_MOPDARATORMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseEntered
         // TODO add your handling code here:
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         MANAGE_MOPDARATOR.setBackground(mousein);
     }//GEN-LAST:event_MANAGE_MOPDARATORMouseEntered
 
     private void MANAGE_MOPDARATORMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseExited
         // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
+        Color mouseout = new Color(0, 0, 0);
         MANAGE_MOPDARATOR.setBackground(mouseout);
     }//GEN-LAST:event_MANAGE_MOPDARATORMouseExited
 
@@ -729,29 +1103,29 @@ public void showPieChart(){
     }//GEN-LAST:event_MANGE_ADMINMouseClicked
 
     private void MANGE_ADMINMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANGE_ADMINMouseEntered
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         MANGE_ADMIN.setBackground(mousein);
     }//GEN-LAST:event_MANGE_ADMINMouseEntered
 
     private void MANGE_ADMINMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANGE_ADMINMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0, 0, 0);
         MANGE_ADMIN.setBackground(mousein);
     }//GEN-LAST:event_MANGE_ADMINMouseExited
 
     private void MANAGE_BOOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_BOOKMouseClicked
-        Book_Management  bm = new Book_Management(id);
+        Book_Management bm = new Book_Management(id);
         bm.setVisible(true);
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_MANAGE_BOOKMouseClicked
 
     private void MANAGE_BOOKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_BOOKMouseEntered
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         MANAGE_BOOK.setBackground(mousein);
     }//GEN-LAST:event_MANAGE_BOOKMouseEntered
 
     private void MANAGE_BOOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_BOOKMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0, 0, 0);
         MANAGE_BOOK.setBackground(mousein);
     }//GEN-LAST:event_MANAGE_BOOKMouseExited
 
@@ -762,12 +1136,12 @@ public void showPieChart(){
     }//GEN-LAST:event_ALL_HISTORYMouseClicked
 
     private void ALL_HISTORYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ALL_HISTORYMouseEntered
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         ALL_HISTORY.setBackground(mousein);
     }//GEN-LAST:event_ALL_HISTORYMouseEntered
 
     private void ALL_HISTORYMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ALL_HISTORYMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0, 0, 0);
         ALL_HISTORY.setBackground(mousein);
     }//GEN-LAST:event_ALL_HISTORYMouseExited
 
@@ -778,12 +1152,12 @@ public void showPieChart(){
     }//GEN-LAST:event_CUSTOM_OPRATIONMouseClicked
 
     private void CUSTOM_OPRATIONMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CUSTOM_OPRATIONMouseEntered
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         CUSTOM_OPRATION.setBackground(mousein);
     }//GEN-LAST:event_CUSTOM_OPRATIONMouseEntered
 
     private void CUSTOM_OPRATIONMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CUSTOM_OPRATIONMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0, 0, 0);
         CUSTOM_OPRATION.setBackground(mousein);
     }//GEN-LAST:event_CUSTOM_OPRATIONMouseExited
 
@@ -793,34 +1167,34 @@ public void showPieChart(){
     }//GEN-LAST:event_NOTIFYMouseClicked
 
     private void NOTIFYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseEntered
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         NOTIFY.setBackground(mousein);
     }//GEN-LAST:event_NOTIFYMouseEntered
 
     private void NOTIFYMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0, 0, 0);
         NOTIFY.setBackground(mousein);
     }//GEN-LAST:event_NOTIFYMouseExited
 
     private void HOME_PAGEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOME_PAGEMouseExited
-        Color mouseout = new Color(0,0,0);
+        Color mouseout = new Color(255, 0, 0);
         HOME_PAGE.setBackground(mouseout);
     }//GEN-LAST:event_HOME_PAGEMouseExited
 
     private void HOME_PAGEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOME_PAGEMouseEntered
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         HOME_PAGE.setBackground(mousein);
     }//GEN-LAST:event_HOME_PAGEMouseEntered
 
     private void HOME_PAGEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HOME_PAGEMouseClicked
-Admin_home AH= new Admin_home(id);
-AH.setVisible(true);
-this.dispose();
+        Admin_home AH = new Admin_home(id);
+        AH.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_HOME_PAGEMouseClicked
 
     private void LOGOUTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseClicked
-        int a = JOptionPane.showConfirmDialog(this,"Do you want to Logout?","woring",JOptionPane.YES_NO_OPTION);
-        if(a == 0){
+        int a = JOptionPane.showConfirmDialog(this, "Do you want to Logout?", "woring", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
             admin_login al = new admin_login();
             al.setVisible(true);
             this.dispose();
@@ -828,19 +1202,58 @@ this.dispose();
     }//GEN-LAST:event_LOGOUTMouseClicked
 
     private void LOGOUTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseEntered
-        Color mousein = new Color(51,51,51);
+        Color mousein = new Color(51, 51, 51);
         LOGOUT.setBackground(mousein);
     }//GEN-LAST:event_LOGOUTMouseEntered
 
     private void LOGOUTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0, 0, 0);
         LOGOUT.setBackground(mousein);
     }//GEN-LAST:event_LOGOUTMouseExited
 
+    private void LMS_DESHBOARDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LMS_DESHBOARDMouseClicked
+        student_management stdm = new student_management(id);
+        stdm.setVisible(true);
+        this.dispose();
+// TODO add your handling code here:
+    }//GEN-LAST:event_LMS_DESHBOARDMouseClicked
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ALL_HISTORY;
+    private javax.swing.JLabel BOOK;
+    private javax.swing.JLabel BOOK1;
     private javax.swing.JPanel CUSTOM_OPRATION;
     private javax.swing.JPanel HOME_PAGE;
+    private javax.swing.JLabel ISSUED;
+    private javax.swing.JLabel LIBRARIAN;
     private javax.swing.JPanel LMS_DESHBOARD;
     private javax.swing.JPanel LOGOUT;
     private javax.swing.JPanel MANAGE_BOOK;
@@ -849,7 +1262,13 @@ this.dispose();
     private javax.swing.JPanel MANAGE_STUDENT;
     private javax.swing.JPanel MANGE_ADMIN;
     private javax.swing.JPanel MENU_BAR;
+    private javax.swing.JLabel MODERATOR;
     private javax.swing.JPanel NOTIFY;
+    private javax.swing.JLabel QUEUE;
+    private javax.swing.JLabel READING;
+    private javax.swing.JLabel RETURNED;
+    private javax.swing.JLabel STUDENT;
+    private javax.swing.JLabel STUDENT1;
     private javax.swing.JPanel WELCOME;
     private javax.swing.JLabel close;
     private javax.swing.JLabel home;
@@ -860,21 +1279,13 @@ this.dispose();
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -893,10 +1304,12 @@ this.dispose();
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private javax.swing.JPanel pi_chart;
     // End of variables declaration//GEN-END:variables
-public static void main(String [] args){
-    Admin_home x = new Admin_home(345);
-    x.setVisible(true);
-}}
+public static void main(String[] args) {
+        Admin_home x = new Admin_home(345);
+        x.setVisible(true);
+    }
+}

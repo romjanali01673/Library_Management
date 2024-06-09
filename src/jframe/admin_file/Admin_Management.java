@@ -28,7 +28,8 @@ import jframe.moderator_file.approve_student;
 import jframe.moderator_file.contact_employee;
 import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
-import jframe.moderator_file.modarator_portal;
+import jframe.method_romjanali01673.necessaryMethod;
+import jframe.moderator_file.moderator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -36,6 +37,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class Admin_Management extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
     int id;
     
         String fast_namer; 
@@ -78,13 +80,40 @@ public class Admin_Management extends javax.swing.JFrame {
         }
             return DATE_OF_BIRTH ;
     }
+    public void set_profile(){
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
+                
+                name.setText(a+ " "+ b+ " - "+ id);                
+            }
+            
+            pst.close();
+            rs.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
     public void updated(int use_id){
-        String fast_names = remove_white_space(fast_name.getText()).toUpperCase();
-        String last_names = remove_white_space(last_name.getText().toUpperCase());
-        String phones = remove_white_space(phone.getText()).toUpperCase();
-        String emails = remove_white_space(email.getText()).toUpperCase();
-        String full_addresss = remove_white_space(full_address.getText()).toUpperCase();
-        String fatrer_names = remove_white_space(ftr_name.getText()).toUpperCase();
+        String fast_names = nm.remove_white_space(fast_name.getText()).toUpperCase();
+        String last_names = nm.remove_white_space(last_name.getText().toUpperCase());
+        String phones = nm.remove_white_space(phone.getText()).toUpperCase();
+        String emails = nm.remove_white_space(email.getText()).toUpperCase();
+        String full_addresss = nm.remove_white_space(full_address.getText()).toUpperCase();
+        String fatrer_names = nm.remove_white_space(ftr_name.getText()).toUpperCase();
         String statiss = "REGULER";
         if(REGULER.isSelected()){
             statiss ="REGULER";
@@ -113,8 +142,8 @@ public class Admin_Management extends javax.swing.JFrame {
         long father_nids=0L;
         
         try{
-        nid_births= Long.valueOf(remove_white_space(nid_birth_number.getText()));
-        father_nids = Long.valueOf(remove_white_space(ftr_nid.getText()));
+        nid_births= nm.stringToLong(nid_birth_number.getText());
+        father_nids = nm.stringToLong(ftr_nid.getText());
         }
         catch(Exception es){
             es.printStackTrace();
@@ -150,7 +179,7 @@ public class Admin_Management extends javax.swing.JFrame {
     pst2.setString(1, types);
     int rs2 = pst2.executeUpdate();
     if (rs2>0) {
-        JOptionPane.showMessageDialog(this, "Updated!");
+        update_up_his();
         }
     }
     } catch (Exception e) {
@@ -158,13 +187,40 @@ public class Admin_Management extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Updatation  failed.");
     }
     }
+    public void update_up_his(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, s_id);
+            pst.setInt(2, id);
+            pst.setString(3, "ADMIN");
+            pst.setString(4, "UPDATED");
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+        JOptionPane.showMessageDialog(this, "Updated!");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }    
+    }
+    
     public void add(){
-        String fast_names = remove_white_space(fast_name.getText()).toUpperCase();
-        String last_names = remove_white_space(last_name.getText().toUpperCase());
-        String phones = remove_white_space(phone.getText()).toUpperCase();
-        String emails = remove_white_space(email.getText()).toUpperCase();
-        String full_addresss = remove_white_space(full_address.getText()).toUpperCase();
-        String fatrer_names = remove_white_space(ftr_name.getText()).toUpperCase();
+        String fast_names = nm.remove_white_space(fast_name.getText()).toUpperCase();
+        String last_names = nm.remove_white_space(last_name.getText().toUpperCase());
+        String phones = nm.remove_white_space(phone.getText()).toUpperCase();
+        String emails = nm.remove_white_space(email.getText()).toUpperCase();
+        String full_addresss = nm.remove_white_space(full_address.getText()).toUpperCase();
+        String fatrer_names = nm.remove_white_space(ftr_name.getText()).toUpperCase();
         String statiss = "REGULER";
         if(REGULER.isSelected()){
             statiss ="REGULER";
@@ -193,15 +249,15 @@ public class Admin_Management extends javax.swing.JFrame {
         long father_nids=0L;
         
         try{
-        nid_births= Long.valueOf(remove_white_space(nid_birth_number.getText()));
-        father_nids = Long.valueOf(remove_white_space(ftr_nid.getText()));
+        nid_births= nm.stringToLong(nid_birth_number.getText());
+        father_nids = nm.stringToLong(ftr_nid.getText());
         }
         catch(Exception es){
             es.printStackTrace();
         }
         //end
     try {
-        //wanted data
+       
     
     Connection con = DB_connection.getConnection();
     String sql = "insert into employee_data( fast_name, last_name, nid , phone , email, full_address, dob, gender, ftr_nid, ftr_name, e_status,position) values(?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -228,7 +284,7 @@ public class Admin_Management extends javax.swing.JFrame {
     ResultSet rs1 = pst1.executeQuery();
     
     if(rs1.next()){
-        s_id = Integer.valueOf(rs1.getString("user_id"));
+        s_id = rs1.getInt("user_id");
         
     String sql2 = "insert into admin_data(user_id,admin_type) values (?,?);";
     PreparedStatement pst2 = con.prepareStatement(sql2);
@@ -236,9 +292,7 @@ public class Admin_Management extends javax.swing.JFrame {
     pst2.setString(2, types);
     int rs2 = pst2.executeUpdate();
     if (rs2>0) {
-        JOptionPane.showMessageDialog(this, "New Admin Added!");
-        String formattedNumber = String.format("%08d", s_id); 
-        JOptionPane.showMessageDialog(this, "USER ID : "+formattedNumber+"  & PASSWORD : 1234");
+        update_add_his();
         }
     }
     }
@@ -247,6 +301,36 @@ public class Admin_Management extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "The ADMIN Already Exist");
     }
 }
+    public void update_add_his(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, s_id);
+            pst.setInt(2, id);
+            pst.setString(3, "ADMIN");
+            pst.setString(4, "ADDED");
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+        JOptionPane.showMessageDialog(this, "New Admin Added!");
+        String formattedNumber = String.format("%08d", s_id); 
+        JOptionPane.showMessageDialog(this, "USER ID : "+formattedNumber+"  & PASSWORD : 1234");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }    
+    }
+    
+    
     public long get_nid_or_birth_number(String NID_B_number){
         
         long NID_B_Number = 0L;
@@ -292,24 +376,53 @@ public class Admin_Management extends javax.swing.JFrame {
             int rs = pst.executeUpdate();
             int rs1 = pst1.executeUpdate();
             if(rs>0&&rs1>0){
-                JOptionPane.showMessageDialog(this, "Admin Deleted!");
+                update_DLT_his();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Admin Dose Not Exist!");
             }
         }catch(Exception E){
             E.printStackTrace();
         }
-
     }
+    public void update_DLT_his(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, s_id);
+            pst.setInt(2, id);
+            pst.setString(3, "ADMIN");
+            pst.setString(4, "DELETED");
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+                JOptionPane.showMessageDialog(this, "Admin Deleted!");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }    
+    }
+    
     public boolean  necessary_data_insarted(){
         
         boolean res = true;
         get_Birth_Date();
         
-        String F_name  = remove_white_space(fast_name.getText());
-        String L_name = remove_white_space(last_name.getText());
-        String Phone = remove_white_space(phone.getText());
-        String Email = remove_white_space(email.getText());
-        String Institute_Office = remove_white_space(ftr_name.getText());
-        String F_address  = remove_white_space(full_address.getText());
+        String F_name  = nm.remove_white_space(fast_name.getText());
+        String L_name = nm.remove_white_space(last_name.getText());
+        String Phone = nm.remove_white_space(phone.getText());
+        String Email = nm.remove_white_space(email.getText());
+        String Institute_Office = nm.remove_white_space(ftr_name.getText());
+        String F_address  = nm.remove_white_space(full_address.getText());
         
         
         if (F_name.equals("")){
@@ -333,7 +446,7 @@ public class Admin_Management extends javax.swing.JFrame {
            
             res =  false;
         }
-        else if(get_nid_or_birth_number(remove_white_space(nid_birth_number.getText()))==0L){
+        else if(get_nid_or_birth_number(nm.remove_white_space(nid_birth_number.getText()))==0L){
             
             res =  false;
         }
@@ -347,7 +460,7 @@ public class Admin_Management extends javax.swing.JFrame {
 
             res =  false;
         }
-        else if(get_nid_or_birth_number(remove_white_space(ftr_nid.getText()))==0L){
+        else if(get_nid_or_birth_number(nm.remove_white_space(ftr_nid.getText()))==0L){
             JOptionPane.showMessageDialog(this, "Enter Your Fater Nid Number");
             res =  false;
         }
@@ -362,26 +475,7 @@ public class Admin_Management extends javax.swing.JFrame {
         return res ;
     }
 
-    public void set_profile(){
-        try{
-            Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from employee_data where user_id = ?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, id);
-            
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String a = rs.getString("fast_name");
-                String b = rs.getString("last_name");
-                String formattedNumber = String.format("%08d", id);
-                name.setText(a+" "+ b + "-"+formattedNumber);
-                
-            }
-        }catch(Exception e ){
-            e.printStackTrace();
-        }
 
-    }
     
     public void set_info(){
         fast_name.setText(fast_namer);
@@ -459,30 +553,9 @@ public class Admin_Management extends javax.swing.JFrame {
 
 }
 }
-    public String remove_white_space(String str){
-        // Remove leading whitespaces
-        int start = 0;
-        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
-            start++;
-        }
-
-        // Remove trailing whitespaces
-        int end = str.length() - 1;
-        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
-            end--;
-        }
-        String sub_string = str.substring(start, end+1);
-
-        // Return the substring without leading and trailing whitespaces
-        return sub_string;
-
-    }
-
-    
-    
 
 
-
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -491,11 +564,12 @@ public class Admin_Management extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         fast_name = new app.bolivia.swing.JCTextField();
         phone = new app.bolivia.swing.JCTextField();
@@ -530,7 +604,7 @@ public class Admin_Management extends javax.swing.JFrame {
         female = new javax.swing.JRadioButton();
         custom = new javax.swing.JRadioButton();
         dob = new rojeru_san.componentes.RSDateChooser();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         LMS_DESHBOARD = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -562,17 +636,6 @@ public class Admin_Management extends javax.swing.JFrame {
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -607,6 +670,42 @@ public class Admin_Management extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 140, 50));
+
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
@@ -761,9 +860,9 @@ public class Admin_Management extends javax.swing.JFrame {
         buttonGroup3.add(custom);
         custom.setText("Custom");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Admin Management ");
+        jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel48.setText("Admin Management");
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
@@ -805,8 +904,8 @@ public class Admin_Management extends javax.swing.JFrame {
                         .addContainerGap(23, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(221, 221, 221)
+                        .addComponent(jLabel48)
+                        .addGap(301, 301, 301)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -850,9 +949,7 @@ public class Admin_Management extends javax.swing.JFrame {
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(WELCOMELayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                                .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ROOT)
-                                    .addComponent(jLabel3))
+                                .addComponent(ROOT)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel33)
@@ -885,7 +982,8 @@ public class Admin_Management extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nid_birth_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nid_birth_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel48))
                 .addGap(19, 19, 19)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
@@ -1064,7 +1162,7 @@ public class Admin_Management extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Book management");
+        jLabel11.setText("manage Book");
         MANAGE_BOOK.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel2.add(MANAGE_BOOK, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 200, 40));
@@ -1161,12 +1259,8 @@ public class Admin_Management extends javax.swing.JFrame {
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
@@ -1276,7 +1370,7 @@ this.dispose();
     }//GEN-LAST:event_MANGE_ADMINMouseEntered
 
     private void MANGE_ADMINMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANGE_ADMINMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0,0,255);
         MANGE_ADMIN.setBackground(mousein);
     }//GEN-LAST:event_MANGE_ADMINMouseExited
 
@@ -1390,7 +1484,7 @@ this.dispose();
     }//GEN-LAST:event_ADDMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        int s_id = Integer.parseInt(remove_white_space(student_id.getText()));
+        int s_id = nm.stringToint(student_id.getText());
         get_info(s_id);
         set_info();
     }//GEN-LAST:event_jButton1MouseClicked
@@ -1414,6 +1508,34 @@ this.dispose();
     private void fast_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fast_nameActionPerformed
 
     }//GEN-LAST:event_fast_nameActionPerformed
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSMaterialButtonCircle ADD;
@@ -1464,13 +1586,13 @@ this.dispose();
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1479,6 +1601,7 @@ this.dispose();
     private javax.swing.JPanel jPanel2;
     private app.bolivia.swing.JCTextField last_name;
     private javax.swing.JRadioButton male;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private app.bolivia.swing.JCTextField nid_birth_number;
     private app.bolivia.swing.JCTextField phone;

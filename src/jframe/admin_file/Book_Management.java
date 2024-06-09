@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package jframe.admin_file;
 
 import jframe.librarian_file.*;
@@ -17,9 +14,12 @@ import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
 import jframe.moderator_file.contact_employee;
 import jframe.home_page;
-import jframe.moderator_file.modarator_portal;
+import jframe.method_romjanali01673.necessaryMethod;
+import jframe.moderator_file.moderator_portal;
 
 public class Book_Management extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
+    
     int id;
         int B_id = 0;
         String B_name = "";
@@ -31,19 +31,16 @@ public class Book_Management extends javax.swing.JFrame {
         String B_source = "";
         String B_comment = "";  
         String status = "REGULER";
+        int P_B_id = 0;
     public Book_Management(int id) {
         this.id = id;
         initComponents();
         set_profile();
-        
     }
-    public void search_book(){
-        
-    }
-        public void set_profile(){
-        try{
+    public void set_profile(){
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from employee_data where user_id = ?";
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
             
@@ -51,32 +48,33 @@ public class Book_Management extends javax.swing.JFrame {
             if(rs.next()){
                 String a = rs.getString("fast_name");
                 String b = rs.getString("last_name");
-                String formattedNumber = String.format("%08d", id);
-                name.setText(a+" "+ b + "-"+formattedNumber);
                 
+                name.setText(a+ " "+ b+ " - "+ id);                
             }
+            
+            pst.close();
+            rs.close();
         }catch(Exception e ){
             e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
+    }
 
-    }
-    public int get_book_id(){
-      int res = 0;
-      res = Integer.parseInt(remove_white_space(book_id_d.getText()));
-     try{
-    }catch(Exception e){
-        e.printStackTrace();
-    }
-    return res;
-    }
+
     
     public void set_data_in_textfield(){
+        P_B_id = nm.stringToint(book_id_d.getText());
         try{
             
         Connection con = DB_connection.getConnection();
         String sql = "select * from book_data where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
-        pst.setInt(1,get_book_id());
+        pst.setInt(1,nm.stringToint(book_id_d.getText()));
         
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
@@ -117,43 +115,78 @@ public class Book_Management extends javax.swing.JFrame {
         }
     }
 //insart book data in data base.
-    public void add_book(int book_id){
+    //add
+    public boolean add_book(int book_id){
+        boolean res = true;
         try{
         Connection con= DB_connection.getConnection();
-        String sql = "insert into book_data(book_id,book_name,author,book_part,book_type,price,few_i_line,quantity,book_source,status              ) values(?,?,?,?,?,?,?,?,?,?);";
+        String sql = "insert into book_data(book_id,book_name,author,book_part,book_type,price,few_i_line,quantity,book_source,b_status) values(?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement pst = con.prepareStatement(sql);
-        pst.setInt(1, B_id);
-        pst.setString(2,B_name);
-        pst.setString(3,B_author);
-        pst.setInt(4,B_part);
-        pst.setString(5,B_type);
-        pst.setInt(6,B_price);
-        pst.setString(7,B_comment);
-        pst.setInt(8,B_quantity);
-        pst.setString(9,B_source);
-        pst.setString(10,status);
+        pst.setInt(1, nm.stringToint(this.book_id .getText()));
+        pst.setString(2,book_name.getText());
+        pst.setString(3,book_author.getText());
+        pst.setInt(4,nm.stringToint(book_part.getText()));
+        pst.setString(5, book_type.getText());
+        pst.setInt(6,nm.stringToint(book_price.getText()));
+        pst.setString(7,few_line.getText());
+        pst.setInt(8,nm.stringToint(book_quantity.getText()));
+        pst.setString(9,book_source.getText());
+        if(REGULER.isSelected()){
+             pst.setString(10,"REGULER");
+        }
+        else{
+            pst.setString(10,"SUSPENDED");
+        }
+        
         
         int rs = pst.executeUpdate();
         if (rs>0){
-            JOptionPane.showMessageDialog(this, "New Book Added!");
-        }            
+        }
+        else{
+            res = false;
+        }
         }catch(Exception e ){
+            res = false;
             JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
+            e.printStackTrace();
+        }
+    return res;
+    }
+    public void add_book_history(){
+        try{
+        Connection con = DB_connection.getConnection();
+        String sql = "insert into book_history(book_id, T_status, T_time, T_date, employee_id, quantity) values(?,?,?,?,?,?) ";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, B_id);
+        pst.setString(2, "ADDED");
+        pst.setTime(3, nm.getNowTime());
+        pst.setDate(4, nm.getTodayDate());
+        pst.setInt(5, id);
+        pst.setInt(6, B_quantity);
+        int rs = pst.executeUpdate();
+        
+        if (rs>0){
+            JOptionPane.showMessageDialog(this, "The New book Has Been Added.");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "New Book Addition Failed!");
+        }
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
     public boolean take_book_data(){
         boolean res = true;
         try{
-         B_id = Integer.valueOf(remove_white_space(book_id.getText()));
-         B_name = remove_white_space(book_name.getText()).toUpperCase();
-         B_type = remove_white_space(book_type.getText()).toUpperCase();
-         B_author = remove_white_space(book_author.getText()).toUpperCase();
-         B_part = Integer.valueOf(remove_white_space(book_part.getText()));
-         B_price = Integer.valueOf(remove_white_space(book_price.getText()));
-         B_quantity= Integer.valueOf(remove_white_space(book_quantity.getText()));
-         B_source = remove_white_space(book_source.getText()).toUpperCase();
-         B_comment = remove_white_space(few_line.getText()).toUpperCase();    
+         B_id = nm.stringToint(book_id.getText());
+         B_name = nm.remove_white_space(book_name.getText()).toUpperCase();
+         B_type = nm.remove_white_space(book_type.getText()).toUpperCase();
+         B_author = nm.remove_white_space(book_author.getText()).toUpperCase();
+         B_part = nm.stringToint(book_part.getText());
+         B_price = nm.stringToint(book_price.getText());
+         B_quantity= nm.stringToint(book_quantity.getText());
+         B_source = nm.remove_white_space(book_source.getText()).toUpperCase();
+         B_comment = nm.remove_white_space(few_line.getText()).toUpperCase();    
          if(REGULER.isSelected()){
              status = "REGULER";
          }
@@ -167,6 +200,60 @@ public class Book_Management extends javax.swing.JFrame {
         }
         return res;
     }
+    public boolean update_book(){
+        boolean res = true;
+        try{
+        Connection con= DB_connection.getConnection();
+        String sql = "update book_data set book_id=?,book_name=?,author=?,book_part=?,book_type=?,price=?,few_i_line=?,quantity=?,book_source=?,b_status=? where book_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, B_id);
+        pst.setString(2,B_name);
+        pst.setString(3,B_author);
+        pst.setInt(4,B_part);
+        pst.setString(5,B_type);
+        pst.setInt(6,B_price);
+        pst.setString(7,B_comment);
+        pst.setInt(8,B_quantity);
+        pst.setString(9,B_source);
+        pst.setString(10,status);
+        pst.setInt(11, P_B_id);
+        
+        int rs = pst.executeUpdate();
+        if (rs>0){
+        }
+        else{
+            res = false;
+        }
+        }catch(Exception e ){
+            res = false;
+            JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
+            e.printStackTrace();
+        }
+    return res;
+    }
+    public void update_book_history(){
+        try{
+        Connection con = DB_connection.getConnection();
+        String sql = "insert into book_history(book_id, T_status, T_time, T_date, employee_id, quantity) values(?,?,?,?,?,?) ";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, B_id);
+        pst.setString(2, "UPDATED");
+        pst.setTime(3, nm.getNowTime());
+        pst.setDate(4, nm.getTodayDate());
+        pst.setInt(5, id);
+        pst.setInt(6, B_quantity);
+        int rs = pst.executeUpdate();
+        
+        if (rs>0){
+            JOptionPane.showMessageDialog(this, "The Book Data Has Been Updated.");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Failed!");
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }    
     public boolean book_exist(int book_id){
         boolean res = true;
         try{
@@ -177,7 +264,7 @@ public class Book_Management extends javax.swing.JFrame {
         ResultSet rs = pst.executeQuery();
         
         if (rs.next()){
-            JOptionPane.showMessageDialog(this, "The Book Already Exist.");
+            
         }
         else{
             res = false;
@@ -187,66 +274,95 @@ public class Book_Management extends javax.swing.JFrame {
             res = false;
         }
         return res;
-    }
-    public boolean checked_input_validity(){
+    }    public boolean checked_input_validity(){
         boolean res = true;
         
-        if(book_id.getText().equals("")){
+        if(nm.stringToint(book_id.getText())==0||nm.stringToint(book_id.getText())>999999){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book ID!");
         }
-        else if(book_id.getText().equals("")){
+        else if(nm.remove_white_space(book_name.getText()).equals("")){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Name!");
         }
-        else if(book_type.getText().equals("")){
+        else if(nm.remove_white_space(book_type.getText()).equals("")){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Type!");
         }
-        else if(book_type.getText().equals("")){
+        else if(nm.remove_white_space(book_author.getText()).equals("")){
             res = false;
-            JOptionPane.showMessageDialog(this, "Enter Book Authoe Name!");
+            JOptionPane.showMessageDialog(this, "Enter Book Author Name!");
         }
-        else if(book_part.getText().equals("")){
+        else if(nm.stringToint(book_part.getText())==0||nm.stringToint(book_part.getText())>99){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Part!");
         }
-        else if(book_part.getText().equals("")){
+        else if(nm.stringToint(book_price.getText())==0||nm.stringToint(book_price.getText())>99999){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Price!");
         }
-        else if(book_quantity.getText().equals("")){
+        else if(nm.stringToint(book_quantity.getText())>9999){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Quantity!");
         }
-        else if(book_source.getText().equals("")){
+        else if(nm.remove_white_space(book_source.getText()).equals("")){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Source!");
         }
-        else if(few_line.getText().equals("")){
+        else if(nm.remove_white_space(few_line.getText()).equals("")){
             res = false;
             JOptionPane.showMessageDialog(this, "Write Few Intrasting Line About The Book!");
         }
         
         return res;
     }
-    public String remove_white_space(String str){
-        // Remove leading whitespaces
-        int start = 0;
-        while (start < str.length() && Character.isWhitespace(str.charAt(start))) {
-            start++;
+    //delete
+    public boolean delete(){
+        boolean res = true;
+        try{
+        Connection con = DB_connection.getConnection();
+        String sql = "delete from book_data where book_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, nm.stringToint(book_id.getText()));
+        int rs = pst.executeUpdate();
+        
+        if (rs>0){
         }
-
-        // Remove trailing whitespaces
-        int end = str.length() - 1;
-        while (end >= 0 && Character.isWhitespace(str.charAt(end))) {
-            end--;
+        else{
+            res = false;
+            JOptionPane.showMessageDialog(this, "The Book Dose Not Exist.");    
         }
-        String sub_string = str.substring(start, end+1);
-
-        // Return the substring without leading and trailing whitespaces
-        return sub_string;
+        }catch(Exception e){
+            res = false;
+            e.printStackTrace();
+        }
+        return res;
     }
+    
+    public void remove_book_history(){
+        try{
+        Connection con = DB_connection.getConnection();
+        String sql = "insert into book_history(book_id, T_status, T_time, T_date, employee_id, quantity) values(?,?,?,?,?,?) ";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, B_id);
+        pst.setString(2, "DELETED");
+        pst.setTime(3, nm.getNowTime());
+        pst.setDate(4, nm.getTodayDate());
+        pst.setInt(5, id);
+        pst.setInt(6, B_quantity);
+        int rs = pst.executeUpdate();
+        
+        if (rs>0){
+            JOptionPane.showMessageDialog(this, "The Book Data Has Been Deleted.");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "New Deletion Addition Failed!");
+        }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -271,8 +387,8 @@ public class Book_Management extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         book_id_d = new app.bolivia.swing.JCTextField();
         jButton1 = new javax.swing.JButton();
-        APPROVE2 = new rojerusan.RSMaterialButtonCircle();
-        APPROVE5 = new rojerusan.RSMaterialButtonCircle();
+        add = new rojerusan.RSMaterialButtonCircle();
+        UPDATE = new rojerusan.RSMaterialButtonCircle();
         APPROVE3 = new rojerusan.RSMaterialButtonCircle();
         jScrollPane1 = new javax.swing.JScrollPane();
         few_line = new javax.swing.JTextArea();
@@ -280,12 +396,14 @@ public class Book_Management extends javax.swing.JFrame {
         SUSPENDED = new javax.swing.JRadioButton();
         REGULER = new javax.swing.JRadioButton();
         jLabel38 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         LMS_DESHBOARD = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -427,7 +545,7 @@ public class Book_Management extends javax.swing.JFrame {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel19.setText("Book Price");
 
-        book_id_d.setPlaceholder("Find by Student ID");
+        book_id_d.setPlaceholder("Find by Book ID");
         book_id_d.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 book_id_dActionPerformed(evt);
@@ -441,27 +559,27 @@ public class Book_Management extends javax.swing.JFrame {
             }
         });
 
-        APPROVE2.setText("add");
-        APPROVE2.addMouseListener(new java.awt.event.MouseAdapter() {
+        add.setText("add");
+        add.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                APPROVE2MouseClicked(evt);
+                addMouseClicked(evt);
             }
         });
-        APPROVE2.addActionListener(new java.awt.event.ActionListener() {
+        add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                APPROVE2ActionPerformed(evt);
+                addActionPerformed(evt);
             }
         });
 
-        APPROVE5.setText("update");
-        APPROVE5.addMouseListener(new java.awt.event.MouseAdapter() {
+        UPDATE.setText("update");
+        UPDATE.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                APPROVE5MouseClicked(evt);
+                UPDATEMouseClicked(evt);
             }
         });
-        APPROVE5.addActionListener(new java.awt.event.ActionListener() {
+        UPDATE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                APPROVE5ActionPerformed(evt);
+                UPDATEActionPerformed(evt);
             }
         });
 
@@ -494,6 +612,10 @@ public class Book_Management extends javax.swing.JFrame {
         jLabel38.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel38.setText("Book Status");
 
+        jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel48.setText("Librarian Management");
+
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
         WELCOMELayout.setHorizontalGroup(
@@ -518,24 +640,27 @@ public class Book_Management extends javax.swing.JFrame {
                         .addComponent(book_id_d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                        .addComponent(APPROVE2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(APPROVE5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(UPDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(APPROVE3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(book_quantity, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-                                .addComponent(book_price, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(book_part, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(book_id, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(book_author, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
-                            .addComponent(book_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(book_type, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(book_source, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(book_quantity, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                                .addComponent(book_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(book_part, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(book_author, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                                .addComponent(book_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(book_type, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(book_source, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(WELCOMELayout.createSequentialGroup()
+                                .addGap(354, 354, 354)
+                                .addComponent(jLabel48))
+                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
@@ -557,23 +682,24 @@ public class Book_Management extends javax.swing.JFrame {
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WELCOMELayout.createSequentialGroup()
-                .addGap(9, 9, 9)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(book_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38))
-                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
                         .addComponent(jLabel38)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(REGULER)
-                            .addComponent(SUSPENDED))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(SUSPENDED)))
+                    .addGroup(WELCOMELayout.createSequentialGroup()
+                        .addComponent(jLabel48)
+                        .addGap(20, 20, 20)
+                        .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGap(0, 23, Short.MAX_VALUE)
+                        .addGap(0, 27, Short.MAX_VALUE)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -605,13 +731,13 @@ public class Book_Management extends javax.swing.JFrame {
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(book_source, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(68, 68, 68)
+                .addGap(38, 38, 38)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(APPROVE3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(book_id_d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(APPROVE2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(APPROVE5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UPDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -619,17 +745,6 @@ public class Book_Management extends javax.swing.JFrame {
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -664,6 +779,42 @@ public class Book_Management extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 140, 50));
+
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 0, 40, 30));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 50));
 
@@ -900,12 +1051,8 @@ public class Book_Management extends javax.swing.JFrame {
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
@@ -970,41 +1117,49 @@ public class Book_Management extends javax.swing.JFrame {
     }//GEN-LAST:event_book_id_dActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        if(get_book_id()!=0){
+        if(nm.stringToint(book_id_d.getText())!=0){
             set_data_in_textfield();
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void APPROVE2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_APPROVE2MouseClicked
+    private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
         if(checked_input_validity()){
             if(take_book_data()){
-                if(!book_exist(B_id)){
-                    add_book(B_id);
+                if(!book_exist(nm.stringToint(book_id.getText()))){
+                    if(add_book(B_id)){
+                        add_book_history();
+                    }
+                else{
+                    JOptionPane.showMessageDialog(this, "The Book Already Exist!");                    
+                    }
                 }
             }
         }
         // TODO add your handling code here:
-    }//GEN-LAST:event_APPROVE2MouseClicked
+    }//GEN-LAST:event_addMouseClicked
 
-    private void APPROVE2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_APPROVE2ActionPerformed
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_APPROVE2ActionPerformed
+    }//GEN-LAST:event_addActionPerformed
 
-    private void APPROVE5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_APPROVE5MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_APPROVE5MouseClicked
+    private void UPDATEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UPDATEMouseClicked
+        if(checked_input_validity()){
+            if(take_book_data()){
+                if(book_exist(B_id)){
+                    if(update_book()){
+                        update_book_history();
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "The Dose Not Exist!");        
+                }
+            }
+        }
+    }//GEN-LAST:event_UPDATEMouseClicked
 
-    private void APPROVE5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_APPROVE5ActionPerformed
+    private void UPDATEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UPDATEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_APPROVE5ActionPerformed
-
-    private void APPROVE3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_APPROVE3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_APPROVE3MouseClicked
-
-    private void APPROVE3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_APPROVE3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_APPROVE3ActionPerformed
+    }//GEN-LAST:event_UPDATEActionPerformed
 
     private void MANAGE_STUDENTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_STUDENTMouseClicked
         student_management sm = new student_management(id);
@@ -1089,7 +1244,7 @@ public class Book_Management extends javax.swing.JFrame {
     }//GEN-LAST:event_MANAGE_BOOKMouseEntered
 
     private void MANAGE_BOOKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_BOOKMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0,0,255);
         MANAGE_BOOK.setBackground(mousein);
     }//GEN-LAST:event_MANAGE_BOOKMouseExited
 
@@ -1175,38 +1330,54 @@ public class Book_Management extends javax.swing.JFrame {
         LOGOUT.setBackground(mousein);
     }//GEN-LAST:event_LOGOUTMouseExited
 
+    private void APPROVE3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_APPROVE3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_APPROVE3ActionPerformed
+
+    private void APPROVE3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_APPROVE3MouseClicked
+    if(nm.stringToint(book_id.getText())!=0){
+        if(delete()){
+            remove_book_history();
+        }
+    }
+    }//GEN-LAST:event_APPROVE3MouseClicked
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Book_Management.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Book_Management.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Book_Management.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Book_Management.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ALL_HISTORY;
-    private rojerusan.RSMaterialButtonCircle APPROVE2;
     private rojerusan.RSMaterialButtonCircle APPROVE3;
-    private rojerusan.RSMaterialButtonCircle APPROVE5;
     private javax.swing.JPanel CUSTOM_OPRATION;
     private javax.swing.JPanel HOME_PAGE;
     private javax.swing.JPanel LMS_DESHBOARD;
@@ -1220,7 +1391,9 @@ public class Book_Management extends javax.swing.JFrame {
     private javax.swing.JPanel NOTIFY;
     private javax.swing.JRadioButton REGULER;
     private javax.swing.JRadioButton SUSPENDED;
+    private rojerusan.RSMaterialButtonCircle UPDATE;
     private javax.swing.JPanel WELCOME;
+    private rojerusan.RSMaterialButtonCircle add;
     private app.bolivia.swing.JCTextField book_author;
     private app.bolivia.swing.JCTextField book_id;
     private app.bolivia.swing.JCTextField book_id_d;
@@ -1254,6 +1427,7 @@ public class Book_Management extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1261,6 +1435,11 @@ public class Book_Management extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     // End of variables declaration//GEN-END:variables
+    public static void main(String args[]) {
+        Book_Management  bmm = new Book_Management(0010);
+        bmm.setVisible(true);
+    }
 }

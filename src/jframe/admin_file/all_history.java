@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import jframe.admin_login;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
 
@@ -25,7 +26,38 @@ public class all_history extends javax.swing.JFrame {
         this.id = id;
         initComponents();
         set_profile();
+        set_table();
+        set_table1();
+        set_table2();
     }
+    
+    public void set_profile(){
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
+                
+                name.setText(a+ " "+ b+ " - "+ id);                
+            }
+            
+            pst.close();
+            rs.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
     public void set_table2(){
        try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -35,16 +67,16 @@ public class all_history extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery(sql);
             // the while loop will add a row by eatch 1 looping.
             while(rs.next()){
-                int book_id = rs.getInt("book_id");
-                String book_name = rs.getString("book_name");
-                String author = rs.getString("author");
-                int book_part = rs.getInt("book_part");
-                String book_type = rs.getString("book_type");
-                int price = rs.getInt("price");
-                String few_line = rs.getString("few_i_line");
+                int book_id = 0;
+                int user_id = rs.getInt("user_id");
+                int employee_id = rs.getInt("employee_id");
+                int quantity = 0;
+                java.sql.Time time = rs.getTime("T_time");
+                java.sql.Date date = rs.getDate("T_date");
+                String status = rs.getString("T_status");
 
                 //set data in table
-                Object[] obj = {book_id,book_name,author,book_part,book_type};
+                Object[] obj = {user_id,employee_id,book_id,quantity,"STUDENT",time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
@@ -62,15 +94,15 @@ public class all_history extends javax.swing.JFrame {
             // the while loop will add a row by eatch 1 looping.
             while(rs.next()){
                 int book_id = rs.getInt("book_id");
-                String book_name = rs.getString("book_name");
-                String author = rs.getString("author");
-                int book_part = rs.getInt("book_part");
-                String book_type = rs.getString("book_type");
-                int price = rs.getInt("price");
-                String few_line = rs.getString("few_i_line");
+                int user_id = rs.getInt("student_id");
+                int employee_id = rs.getInt("employee_id");
+                int quantity = rs.getInt("quantity");
+                java.sql.Time time = rs.getTime("T_time");
+                java.sql.Date date = rs.getDate("T_date");
+                String status = rs.getString("T_status");
 
                 //set data in table
-                Object[] obj = {book_id,book_name,author,book_part,book_type};
+                Object[] obj = {user_id,employee_id,book_id,quantity,"BOOK",time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
@@ -87,16 +119,16 @@ public class all_history extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery(sql);
             // the while loop will add a row by eatch 1 looping.
             while(rs.next()){
-                int book_id = rs.getInt("book_id");
-                String book_name = rs.getString("book_name");
-                String author = rs.getString("author");
-                int book_part = rs.getInt("book_part");
-                String book_type = rs.getString("book_type");
-                int price = rs.getInt("price");
-                String few_line = rs.getString("few_i_line");
+                int book_id = 0;
+                int user_id = rs.getInt("E_id");
+                int employee_id = rs.getInt("by_who");
+                int quantity = 0;
+                java.sql.Time time = rs.getTime("T_time");
+                java.sql.Date date = rs.getDate("T_date");
+                String status = rs.getString("T_status");
 
                 //set data in table
-                Object[] obj = {book_id,book_name,author,book_part,book_type};
+                Object[] obj = {user_id,employee_id,book_id,quantity,"EMPLOYEE",time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
@@ -126,34 +158,18 @@ public class all_history extends javax.swing.JFrame {
         table_data.setRowSorter(sorter);
         sorter.setRowFilter(RowFilter.regexFilter(query));
     }    
-        public void set_profile(){
-        try{
-            Connection con = DB_connection.getConnection();
-            String sql = "select fast_name,last_name from employee_data where id = ?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, id);
-            
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String a = rs.getString("fast_name");
-                String b = rs.getString("last_name");
-                
-                name.setText(a+ " "+ b+ " - "+ id);                
-            }
-        }catch(Exception e ){
-            e.printStackTrace();
-        }
-    }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -191,17 +207,6 @@ public class all_history extends javax.swing.JFrame {
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
-
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
@@ -214,8 +219,8 @@ public class all_history extends javax.swing.JFrame {
         MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
-        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
+        jLabel2.setText("Admin Portal");
+        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 100, 50));
 
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
@@ -236,30 +241,66 @@ public class all_history extends javax.swing.JFrame {
         });
         MENU_BAR.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 170, 50));
 
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
         WELCOME.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
         jLabel1.setText("The All History In Here.");
 
         table_data.setBackground(new java.awt.Color(204, 255, 204));
         table_data.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1234567", null, null, null, "12:12:122", "1212-12-122", "SUSPENDED"},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {"1234567", null, null, null, null, "12:12:122", "1212-12-122", "SUSPENDED"},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "User ID", "Employee ID", "Book ID", "Quantity", "Time", "Date", "Status"
+                "User ID", "Employee ID", "Book ID", "Quantity", "Type", "Time", "Date", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -282,6 +323,10 @@ public class all_history extends javax.swing.JFrame {
         table_data.setShowHorizontalLines(true);
         table_data.setShowVerticalLines(true);
         jScrollPane4.setViewportView(table_data);
+        if (table_data.getColumnModel().getColumnCount() > 0) {
+            table_data.getColumnModel().getColumn(3).setMinWidth(120);
+            table_data.getColumnModel().getColumn(3).setMaxWidth(120);
+        }
 
         info.setBackground(new java.awt.Color(204, 255, 204));
         info.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -553,12 +598,8 @@ public class all_history extends javax.swing.JFrame {
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
@@ -685,7 +726,7 @@ public class all_history extends javax.swing.JFrame {
     }//GEN-LAST:event_ALL_HISTORYMouseEntered
 
     private void ALL_HISTORYMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ALL_HISTORYMouseExited
-        Color mousein = new Color(0,0,0);
+        Color mousein = new Color(0,0,255);
         ALL_HISTORY.setBackground(mousein);
     }//GEN-LAST:event_ALL_HISTORYMouseExited
 
@@ -759,10 +800,40 @@ public class all_history extends javax.swing.JFrame {
 find_by_id();
     }//GEN-LAST:event_infoKeyPressed
 
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        all_history alh= new all_history(87);
+        alh.setVisible(true);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -820,6 +891,7 @@ find_by_id();
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables

@@ -70,7 +70,7 @@ public class home_page extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1360, 670));
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 204, 204));
+        jMenuBar1.setBackground(new java.awt.Color(0, 102, 102));
         jMenuBar1.setBorder(null);
         jMenuBar1.setForeground(new java.awt.Color(0, 0, 255));
         jMenuBar1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
@@ -160,6 +160,7 @@ public class home_page extends javax.swing.JFrame {
         setJMenuBar(jMenuBar1);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
@@ -217,7 +218,8 @@ public class home_page extends javax.swing.JFrame {
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
 Choice_book cb = new Choice_book();
-cb.setVisible(true);// TODO add your handling code here:
+cb.setVisible(true);
+this.dispose();
     }//GEN-LAST:event_jMenu4MouseClicked
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

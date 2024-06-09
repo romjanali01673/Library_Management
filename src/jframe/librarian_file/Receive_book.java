@@ -12,16 +12,16 @@ import java.time.LocalTime;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
-import jframe.moderator_file.contact_employee;
 import jframe.home_page;
+import jframe.librarian_login;
 import jframe.method_romjanali01673.necessaryMethod;
-import jframe.moderator_file.modarator_portal;
 
 public class Receive_book extends javax.swing.JFrame {
     necessaryMethod nm = new necessaryMethod();
     
     int id;
     int student_ids=0, book_ids = 0;
+    String OTP = "999999";
 
     public Receive_book(int id) {
         this.id = id;
@@ -29,6 +29,33 @@ public class Receive_book extends javax.swing.JFrame {
         set_profile();
         
     }
+    public void set_profile(){
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
+                
+                name.setText(a+ " "+ b+ " - "+ id);                
+            }
+            
+            pst.close();
+            rs.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
     public boolean input_valid(){
         boolean res = true;
         try{
@@ -190,11 +217,13 @@ public class Receive_book extends javax.swing.JFrame {
             pst.setDate(4, nm.getTodayDate());
             pst.setInt(5, student_ids);
             pst.setInt(6, id);
-            pst.setString(7,nm.genarateOtp());
+            OTP = nm.genarateOtp();
+            pst.setString(7,OTP);
             
             int rs = pst.executeUpdate();
             if(rs>0){
-                JOptionPane.showMessageDialog(this, "Successed.");
+                update1();
+                sendOTP();
             }
             else{
                 JOptionPane.showMessageDialog(this, "Failed.");
@@ -203,34 +232,67 @@ public class Receive_book extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    public void set_profile(){
+    public void update1(){        
         try{
             Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from employee_data where user_id = ?";
+            String sql = "update student_book set  T_status=?,T_date =?, T_time=?  where book_id =? and student_id=? and T_sataus = \"TAKEN\" ";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, id);
+            pst.setString(1,"RETURNED");
+            pst.setDate(2,nm.getTodayDate());
+            pst.setTime(3,nm.getNowTime());
+            pst.setInt(4,book_ids);
+            pst.setInt(5, student_ids);
             
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String a = rs.getString("fast_name");
-                String b = rs.getString("last_name");
-                name.setText(a+" "+b+ " - "+ id);
-                
+            int rs = pst.executeUpdate();
+            if(rs>0){
+                JOptionPane.showMessageDialog(this, "Book GAVE Success.");    
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Already GAVEN");    
             }
         }catch(Exception e ){
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Server Error!");
         }
     }
+    public void sendOTP(){        
+        try{
+            Connection con = DB_connection.getConnection();
+            String sql = "insert into notification ( student_id, employee_id, subject, T_time, T_date, message,description,From_who) values (?,?,?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1,student_ids);
+            pst.setInt(2,id);
+            pst.setString(3,"book returned");
+            pst.setTime(4,nm.getNowTime());
+            pst.setDate(5,nm.getTodayDate());
+            pst.setString(6, "Your OTP is : "+OTP);
+            pst.setString(7, "Hay dear student thanks for returned our book and having with us. this is your OTP remind it and within very soon complete the necessary step to update your book Return Statement.");
+            pst.setString(8, "LIBRARIAN");
+            
+            int rs = pst.executeUpdate();
+            if(rs>0){
+                JOptionPane.showMessageDialog(this, "Book GAVE Success.");    
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Already GAVEN");    
+            }
+        }catch(Exception e ){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Server Error!");
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
-        name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         book_queue = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -240,8 +302,12 @@ public class Receive_book extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         book_issue = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        Retrun1 = new javax.swing.JPanel();
+        contact_emp = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        cotact_stdnt = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        LOGOUT = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         type = new app.bolivia.swing.JCTextField();
         search = new rojerusan.RSMaterialButtonCircle();
@@ -276,30 +342,8 @@ public class Receive_book extends javax.swing.JFrame {
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
-
-        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
-        name.setText("User");
-        name.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
+        jLabel2.setText("Librarian Portal");
         MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
 
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -320,6 +364,53 @@ public class Receive_book extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 0, 140, 50));
+
+        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
+        name.setText("Librarian");
+        name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameMouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
+
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
@@ -389,7 +480,7 @@ public class Receive_book extends javax.swing.JFrame {
 
         jPanel2.add(Retrun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, 40));
 
-        book_issue.setBackground(new java.awt.Color(255, 0, 0));
+        book_issue.setBackground(new java.awt.Color(0, 0, 0));
         book_issue.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 book_issueMouseClicked(evt);
@@ -405,31 +496,74 @@ public class Receive_book extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Confirm Book Request");
-        book_issue.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 160, -1));
+        jLabel8.setText("Issue Book");
+        book_issue.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 80, -1));
 
         jPanel2.add(book_issue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 200, 40));
 
-        Retrun1.setBackground(new java.awt.Color(0, 0, 0));
-        Retrun1.addMouseListener(new java.awt.event.MouseAdapter() {
+        contact_emp.setBackground(new java.awt.Color(0, 0, 0));
+        contact_emp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Retrun1MouseClicked(evt);
+                contact_empMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                Retrun1MouseEntered(evt);
+                contact_empMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                Retrun1MouseExited(evt);
+                contact_empMouseExited(evt);
             }
         });
-        Retrun1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        contact_emp.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Remove Book");
-        Retrun1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jLabel9.setText("Contact with Employee");
+        contact_emp.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
-        jPanel2.add(Retrun1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 200, 40));
+        jPanel2.add(contact_emp, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 40));
+
+        cotact_stdnt.setBackground(new java.awt.Color(0, 0, 0));
+        cotact_stdnt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cotact_stdntMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cotact_stdntMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cotact_stdntMouseExited(evt);
+            }
+        });
+        cotact_stdnt.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Contact With Student");
+        cotact_stdnt.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(cotact_stdnt, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 200, 40));
+
+        LOGOUT.setBackground(new java.awt.Color(0, 0, 0));
+        LOGOUT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                LOGOUTMouseExited(evt);
+            }
+        });
+        LOGOUT.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/icons8_Exit_26px_1.png"))); // NOI18N
+        jLabel22.setText("Logout");
+        LOGOUT.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jPanel2.add(LOGOUT, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 200, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 220, 670));
 
@@ -750,31 +884,14 @@ public class Receive_book extends javax.swing.JFrame {
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
         hp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
-
-    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
-
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_CANCEL_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
-    }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
         // TODO add your handling code here:
@@ -838,7 +955,7 @@ public class Receive_book extends javax.swing.JFrame {
     }//GEN-LAST:event_RetrunMouseExited
 
     private void book_issueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_issueMouseClicked
-        modarator_portal mp = new modarator_portal(id );
+        book_give mp = new book_give(id );
         mp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_book_issueMouseClicked
@@ -852,18 +969,6 @@ public class Receive_book extends javax.swing.JFrame {
         Color mouseout = new Color(0,0,0);
         book_issue.setBackground(mouseout);
     }//GEN-LAST:event_book_issueMouseExited
-
-    private void Retrun1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Retrun1MouseClicked
-
-    private void Retrun1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Retrun1MouseEntered
-
-    private void Retrun1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Retrun1MouseExited
 
     private void typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeActionPerformed
         // TODO add your handling code here:
@@ -946,6 +1051,86 @@ public class Receive_book extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_confirm_book_request1ActionPerformed
 
+    private void contact_empMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_empMouseClicked
+        contact_employee cmpdata = new contact_employee(id);
+        cmpdata.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_contact_empMouseClicked
+
+    private void contact_empMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_empMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contact_empMouseEntered
+
+    private void contact_empMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_empMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contact_empMouseExited
+
+    private void cotact_stdntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cotact_stdntMouseClicked
+        contact_employee cmpdata = new contact_employee(id);
+        cmpdata.setVisible(true);
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cotact_stdntMouseClicked
+
+    private void cotact_stdntMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cotact_stdntMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cotact_stdntMouseEntered
+
+    private void cotact_stdntMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cotact_stdntMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cotact_stdntMouseExited
+
+    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
+
+    }//GEN-LAST:event_nameMouseClicked
+
+    private void LOGOUTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseClicked
+        int a = JOptionPane.showConfirmDialog(this,"Do you want to Logout?","woring",JOptionPane.YES_NO_OPTION);
+        if(a == 0){
+            librarian_login al = new librarian_login();
+            al.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_LOGOUTMouseClicked
+
+    private void LOGOUTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseEntered
+        Color mousein = new Color(51,51,51);
+        LOGOUT.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUTMouseEntered
+
+    private void LOGOUTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LOGOUTMouseExited
+        Color mousein = new Color(0,0,0);
+        LOGOUT.setBackground(mousein);
+    }//GEN-LAST:event_LOGOUTMouseExited
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -955,9 +1140,9 @@ public class Receive_book extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel LOGOUT;
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Retrun;
-    private javax.swing.JPanel Retrun1;
     private javax.swing.JPanel WELCOME;
     private app.bolivia.swing.JCTextField author;
     private app.bolivia.swing.JCTextField book_id;
@@ -967,6 +1152,8 @@ public class Receive_book extends javax.swing.JFrame {
     private javax.swing.JLabel close;
     private rojerusan.RSMaterialButtonCircle confirm_book_request;
     private rojerusan.RSMaterialButtonCircle confirm_book_request1;
+    private javax.swing.JPanel contact_emp;
+    private javax.swing.JPanel cotact_stdnt;
     private app.bolivia.swing.JCTextField fast_name;
     private app.bolivia.swing.JCTextField gender;
     private javax.swing.JLabel home;
@@ -982,6 +1169,8 @@ public class Receive_book extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -990,6 +1179,7 @@ public class Receive_book extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private app.bolivia.swing.JCTextField last_name;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private app.bolivia.swing.JCTextField part;
     private app.bolivia.swing.JCTextField phone;

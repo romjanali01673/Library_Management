@@ -21,7 +21,7 @@ import jframe.moderator_file.contact_employee;
 import jframe.moderator_file.contact_with_student;
 import jframe.home_page;
 import jframe.method_romjanali01673.necessaryMethod;
-import jframe.moderator_file.modarator_portal;
+import jframe.moderator_file.moderator_portal;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -54,6 +54,33 @@ public class Moderator_Management extends javax.swing.JFrame {
         this.id = id;
         initComponents();
         set_profile();     
+    }
+    public void set_profile(){
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "select fast_name,last_name from employee_data where user_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                String a = rs.getString("fast_name");
+                String b = rs.getString("last_name");
+                
+                name.setText(a+ " "+ b+ " - "+ id);                
+            }
+            
+            pst.close();
+            rs.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     public java.sql.Date get_Birth_Date(){
         bod_date_valid = false;// ai method er " bod_date_valid"  er value akbar change hoila joto e event hok na kano er default value asbe na. last changes e takba.
@@ -131,13 +158,41 @@ public class Moderator_Management extends javax.swing.JFrame {
     int rs = pst.executeUpdate();
     
     if(rs>0){
-        JOptionPane.showMessageDialog(this, "Updated!");
+        update_up_his();
     }
     } catch (Exception e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Updatation  failed.");
     }
     }
+
+    public void update_up_his(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, s_id);
+            pst.setInt(2, id);
+            pst.setString(3, "ADMIN");
+            pst.setString(4, "UPDATED");
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+        JOptionPane.showMessageDialog(this, "Updated!");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }    
+    }
+    
     public void add(){
         String fast_names = nm.remove_white_space(fast_name.getText()).toUpperCase();
         String last_names = nm.remove_white_space(last_name.getText().toUpperCase());
@@ -202,10 +257,8 @@ public class Moderator_Management extends javax.swing.JFrame {
     ResultSet rs1 = pst1.executeQuery();
     
     if(rs1.next()){
-        s_id = Integer.valueOf(rs1.getString("user_id"));
-        JOptionPane.showMessageDialog(this, "New Modarator Added!");
-        String formattedNumber = String.format("%08d", s_id); 
-        JOptionPane.showMessageDialog(this, "USER ID : "+formattedNumber+"  & PASSWORD : 1234");
+        s_id = rs1.getInt("user_id");
+        update_IN_his();
     }
     }
     } catch (Exception e) {
@@ -213,6 +266,34 @@ public class Moderator_Management extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "The MODERATOR Already Exist");
     }
 }
+    public void update_IN_his(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, s_id);
+            pst.setInt(2, id);
+            pst.setString(3, "ADMIN");
+            pst.setString(4, "ADDED");
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+        JOptionPane.showMessageDialog(this, "New Modarator Added!");
+        String formattedNumber = String.format("%08d", s_id); 
+        JOptionPane.showMessageDialog(this, "USER ID : "+formattedNumber+"  & PASSWORD : 1234");           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }    
+    }
+    
     public long get_nid_or_birth_number(String NID_B_number){
         
         long NID_B_Number = 0L;
@@ -255,13 +336,40 @@ public class Moderator_Management extends javax.swing.JFrame {
             pst.setString(2,"MODERATOR");
             int rs = pst.executeUpdate();
             if(rs>0){
-                JOptionPane.showMessageDialog(this, "Moderator Deleted!");
+                update_DLT_his();
             }
         }catch(Exception E){
             E.printStackTrace();
         }
 
     }
+    public void update_DLT_his(){
+        try {
+            Connection con = DB_connection.getConnection();
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, s_id);
+            pst.setInt(2, id);
+            pst.setString(3, "ADMIN");
+            pst.setString(4, "DELETED");
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+                JOptionPane.showMessageDialog(this, "Moderator Deleted!");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }   
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }    
+    }
+    
     public boolean  necessary_data_insarted(){
         
         boolean res = true;
@@ -323,27 +431,6 @@ public class Moderator_Management extends javax.swing.JFrame {
             res = false;
         } 
         return res ;
-    }
-
-    public void set_profile(){
-        try{
-            Connection con = DB_connection.getConnection();
-            String sql = "select fast_name, last_name from employee_data where user_id = ?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, id);
-            
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String a = rs.getString("fast_name");
-                String b = rs.getString("last_name");
-                String formattedNumber = String.format("%08d", id);
-                name.setText(a+" "+ b + "-"+formattedNumber);
-                
-            }
-        }catch(Exception e ){
-            e.printStackTrace();
-        }
-
     }
     
     public void set_info(){
@@ -417,11 +504,12 @@ public class Moderator_Management extends javax.swing.JFrame {
     private void initComponents() {
 
         MENU_BAR = new javax.swing.JPanel();
-        close = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
+        close = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         LMS_DESHBOARD = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -477,7 +565,7 @@ public class Moderator_Management extends javax.swing.JFrame {
         female = new javax.swing.JRadioButton();
         custom = new javax.swing.JRadioButton();
         dob = new rojeru_san.componentes.RSDateChooser();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -485,17 +573,6 @@ public class Moderator_Management extends javax.swing.JFrame {
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close.setText("X");
-        close.setToolTipText("Click For Exit ");
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 40));
 
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -530,6 +607,42 @@ public class Moderator_Management extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, 140, 50));
+
+        minimize.setBackground(new java.awt.Color(255, 255, 255));
+        minimize.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        minimize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        minimize.setText("-");
+        minimize.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
+
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        close.setText("X");
+        close.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
+        });
+        MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
@@ -901,9 +1014,9 @@ public class Moderator_Management extends javax.swing.JFrame {
 
         custom.setText("Custom");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Moderator Management ");
+        jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel48.setText("Moderator Management");
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
@@ -973,8 +1086,8 @@ public class Moderator_Management extends javax.swing.JFrame {
                         .addGap(134, 134, 134))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(385, 385, 385))
+                .addComponent(jLabel48)
+                .addGap(455, 455, 455))
         );
         WELCOMELayout.setVerticalGroup(
             WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -992,9 +1105,7 @@ public class Moderator_Management extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jLabel35))
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(31, 31, 31)
+                        .addGap(57, 57, 57)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1010,7 +1121,8 @@ public class Moderator_Management extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nid_birth_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nid_birth_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel48))
                 .addGap(19, 19, 19)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
@@ -1054,12 +1166,8 @@ public class Moderator_Management extends javax.swing.JFrame {
         getContentPane().add(WELCOME, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 1140, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_closeMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         home_page hp = new home_page();
@@ -1137,7 +1245,7 @@ public class Moderator_Management extends javax.swing.JFrame {
 
     private void MANAGE_MOPDARATORMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MANAGE_MOPDARATORMouseExited
         // TODO add your handling code here:
-        Color mouseout = new Color(0,0,0);
+        Color mouseout = new Color(0,0,255);
         MANAGE_MOPDARATOR.setBackground(mouseout);
     }//GEN-LAST:event_MANAGE_MOPDARATORMouseExited
 
@@ -1308,6 +1416,34 @@ public class Moderator_Management extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_updeActionPerformed
 
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        this.setState(this.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        minimize.setBackground(mouseout);        // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseEntered
+
+    private void minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseExited
+        Color mouseout = new Color(255,255,255);
+        minimize.setBackground(mouseout); // TODO add your handling code here:
+    }//GEN-LAST:event_minimizeMouseExited
+
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseClicked
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        Color mouseout = new Color(255,0,0);
+        close.setBackground(mouseout);       // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        Color mouseout = new Color(255,255,255);
+        close.setBackground(mouseout);           // TODO add your handling code here:
+    }//GEN-LAST:event_closeMouseExited
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSMaterialButtonCircle ADD;
     private javax.swing.JPanel ALL_HISTORY;
@@ -1337,7 +1473,6 @@ public class Moderator_Management extends javax.swing.JFrame {
     private app.bolivia.swing.JCTextField full_address;
     private javax.swing.JLabel home;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1358,6 +1493,7 @@ public class Moderator_Management extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1366,6 +1502,7 @@ public class Moderator_Management extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private app.bolivia.swing.JCTextField last_name;
     private javax.swing.JRadioButton male;
+    private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
     private app.bolivia.swing.JCTextField nid_birth_number;
     private app.bolivia.swing.JCTextField phone;
