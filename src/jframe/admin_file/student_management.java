@@ -41,7 +41,7 @@ java.sql.Date Date_of_birthr ;
 String institute_officer ;
 String id_numberr;
 String full_addressr ;
-String statusr= "";
+String statusr= "REGULER";
 //      wanted data variable
         String fast_namer1 = "";
         String last_namer1 =  "";
@@ -175,10 +175,10 @@ fast_name.setText(fast_namer);
  last_name.setText(last_namer);
  phone .setText(phoner);
  email .setText(emailr);
-if(genderr.equals("Male")){
+if(genderr.equals("MALE")){
     male.setSelected(true);
 }
-else if(genderr.equals("Female")){
+else if(genderr.equals("FEMALE")){
     female.setSelected(true);
 }
 else{
@@ -201,10 +201,10 @@ fast_name2.setText(fast_namer1);
  last_name2.setText(last_namer1);
  phone2 .setText(phoner1);
  email2 .setText(emailr1);
-if(genderr1.equals("Male")){
+if(genderr1.equals("MALE")){
     male2.setSelected(true);
 }
-else if(genderr1.equals("Female")){
+else if(genderr1.equals("FEMALE")){
     female2.setSelected(true);
 }
 else{
@@ -374,7 +374,7 @@ public void add_student(){
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
         
     }        pst.close();
-        rs.next();
+        rs.close();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
@@ -418,24 +418,24 @@ public void add_student(){
         
         ResultSet rs1 = pst1.executeQuery();
         if(rs1.next()){
-        fast_namer = rs.getString("fast_name");
-        last_namer = rs.getString("last_name"); 
-        phoner = rs.getString("phone"); 
-        emailr = rs.getString("email"); 
-        genderr = rs.getString("gender"); 
-        nid_birth_numberr = rs.getLong("nid_birth"); 
-        Date_of_birthr = rs.getDate("dob"); 
-        institute_officer = rs.getString("institute_office"); 
-        id_numberr = rs.getString("ins_office_id"); // 
-        full_addressr = rs.getString("full_address");
-        statusr = rs.getString("s_status");
+        fast_namer = rs1.getString("fast_name");
+        last_namer = rs1.getString("last_name"); 
+        phoner = rs1.getString("phone"); 
+        emailr = rs1.getString("email"); 
+        genderr = rs1.getString("gender"); 
+        nid_birth_numberr = rs1.getLong("nid_birth"); 
+        Date_of_birthr = rs1.getDate("dob"); 
+        institute_officer = rs1.getString("institute_office"); 
+        id_numberr = rs1.getString("ins_office_id"); // 
+        full_addressr = rs1.getString("full_address");
+        
         }
         else{
         JOptionPane.showMessageDialog(this, "The student does not exist!");
     }        pst1.close();
-        rs1.next();
+        rs1.close();
         }        pst.close();
-        rs.next();
+        rs.close();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
@@ -472,7 +472,7 @@ public void add_student(){
         remarkr1= rs.getString( "remark");
        
     }        pst.close();
-        rs.next();
+        rs.close();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
@@ -509,7 +509,7 @@ public void add_student(){
         remarkr1= rs.getString( "remark");
        
     }        pst.close();
-        rs.next();
+        rs.close();
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
     e.printStackTrace();
@@ -651,11 +651,11 @@ public void add_student(){
         buttonGroup5 = new javax.swing.ButtonGroup();
         MENU_BAR = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         minimize = new javax.swing.JLabel();
         close = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         fast_name = new app.bolivia.swing.JCTextField();
         phone = new app.bolivia.swing.JCTextField();
@@ -761,10 +761,6 @@ public void add_student(){
         });
         MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
-        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
-
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
         home.setToolTipText("GO TO HOME");
@@ -819,6 +815,10 @@ public void add_student(){
             }
         });
         MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 0, 40, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Admin Portal");
+        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 50));
 
@@ -1868,6 +1868,7 @@ public void add_student(){
     private void NOTIFYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseClicked
         Notify nf = new Notify(id);
         nf.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_NOTIFYMouseClicked
 
     private void NOTIFYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseEntered

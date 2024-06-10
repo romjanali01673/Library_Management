@@ -131,7 +131,7 @@ public class approve_changes extends javax.swing.JFrame {
         full_addressr = rs.getString("full_address");
         remarkr = rs.getString("remark");    
     }        pst.close();
-        rs.next();
+        rs.close();
     // current data
     String sql1 = "select * from student_data where user_id =? ";
          PreparedStatement pst1 = con.prepareStatement(sql1);

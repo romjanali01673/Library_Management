@@ -86,7 +86,7 @@ public class book_issue extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        pst.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
@@ -150,7 +150,7 @@ public class book_issue extends javax.swing.JFrame {
 
         }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
@@ -188,7 +188,7 @@ public class book_issue extends javax.swing.JFrame {
             if(rs.next()){
                 k++;
             }        pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this,"server Error!");
             e.printStackTrace();

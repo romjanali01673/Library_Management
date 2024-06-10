@@ -72,14 +72,15 @@ public class all_history extends javax.swing.JFrame {
                 java.sql.Time time = rs.getTime("T_time");
                 java.sql.Date date = rs.getDate("T_date");
                 String status = rs.getString("T_status");
+                String by_who = rs.getString("by_who");
 
                 //set data in table
-                Object[] obj = {user_id,employee_id,book_id,quantity,"STUDENT",time,date,status};
+                Object[] obj = {user_id,employee_id,by_who,book_id,quantity,"STUDENT",time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
              pst.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
@@ -105,14 +106,15 @@ public class all_history extends javax.swing.JFrame {
                 java.sql.Time time = rs.getTime("T_time");
                 java.sql.Date date = rs.getDate("T_date");
                 String status = rs.getString("T_status");
+                String by_who = rs.getString("by_who");
 
                 //set data in table
-                Object[] obj = {user_id,employee_id,book_id,quantity,"BOOK",time,date,status};
+                Object[] obj = {user_id,employee_id,by_who,book_id,quantity,"BOOK",time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
                pst.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
@@ -133,19 +135,20 @@ public class all_history extends javax.swing.JFrame {
             while(rs.next()){
                 int book_id = 0;
                 int user_id = rs.getInt("E_id");
-                int employee_id = rs.getInt("by_who");
+                String by_who = rs.getString("by_who");
+                int employee_id = rs.getInt("A_E_id");
                 int quantity = 0;
                 java.sql.Time time = rs.getTime("T_time");
                 java.sql.Date date = rs.getDate("T_date");
                 String status = rs.getString("T_status");
 
                 //set data in table
-                Object[] obj = {user_id,employee_id,book_id,quantity,"EMPLOYEE",time,date,status};
+                Object[] obj = {user_id,employee_id,by_who,book_id,quantity,"EMPLOYEE",time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
                pst.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
@@ -184,12 +187,12 @@ public class all_history extends javax.swing.JFrame {
     private void initComponents() {
 
         MENU_BAR = new javax.swing.JPanel();
-        name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         minimize = new javax.swing.JLabel();
         close = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -226,21 +229,6 @@ public class all_history extends javax.swing.JFrame {
 
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
-        name.setText("User");
-        name.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Admin Portal");
-        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 100, 50));
 
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
@@ -297,6 +285,21 @@ public class all_history extends javax.swing.JFrame {
         });
         MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Admin Portal");
+        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
+
+        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
+        name.setText("ADMIN");
+        name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameMouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
@@ -312,11 +315,11 @@ public class all_history extends javax.swing.JFrame {
 
             },
             new String [] {
-                "User ID", "Employee ID", "Book ID", "Quantity", "Type", "Time", "Date", "Status"
+                "User ID", "Employee ID", "Book ID", "By Who", "Quantity", "Type", "Time", "Date", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -340,8 +343,8 @@ public class all_history extends javax.swing.JFrame {
         table_data.setShowVerticalLines(true);
         jScrollPane4.setViewportView(table_data);
         if (table_data.getColumnModel().getColumnCount() > 0) {
-            table_data.getColumnModel().getColumn(3).setMinWidth(120);
-            table_data.getColumnModel().getColumn(3).setMaxWidth(120);
+            table_data.getColumnModel().getColumn(4).setMinWidth(120);
+            table_data.getColumnModel().getColumn(4).setMaxWidth(120);
         }
 
         info.setBackground(new java.awt.Color(204, 255, 204));
@@ -623,10 +626,6 @@ public class all_history extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
 
-    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
-
-    }//GEN-LAST:event_nameMouseClicked
-
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
         // TODO add your handling code here:
         notification n = new notification(id);
@@ -756,6 +755,7 @@ public class all_history extends javax.swing.JFrame {
     private void NOTIFYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseClicked
         Notify nf = new Notify(id);
         nf.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_NOTIFYMouseClicked
 
     private void NOTIFYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseEntered
@@ -834,6 +834,10 @@ find_by_id();
         Color mouseout = new Color(255,255,255);
         close.setBackground(mouseout);           // TODO add your handling code here:
     }//GEN-LAST:event_closeMouseExited
+
+    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
+
+    }//GEN-LAST:event_nameMouseClicked
 
     /**
      * @param args the command line arguments

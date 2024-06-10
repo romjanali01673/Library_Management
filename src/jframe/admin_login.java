@@ -71,6 +71,7 @@ public class admin_login extends javax.swing.JFrame {
         if(rs.next()){
             JOptionPane.showMessageDialog(this,"You have successfully Logined");
             Admin_home ah = new Admin_home(id);
+            ah.setVisible(true);
             this.dispose();
         }
         else{

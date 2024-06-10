@@ -99,7 +99,7 @@ public class Receive_book extends javax.swing.JFrame {
         }
         
                 pst.close();
-        rs.next();
+        rs.close();;
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
@@ -131,7 +131,7 @@ public class Receive_book extends javax.swing.JFrame {
         }
         
                 pst1.close();
-        rs.next();}catch (Exception e){
+        rs.close();;}catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
 
@@ -188,7 +188,7 @@ public class Receive_book extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Invalid");
             }
               pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             e.printStackTrace();
         }finally{
@@ -220,7 +220,7 @@ public class Receive_book extends javax.swing.JFrame {
                 k = true;
             }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this,"server Error!");
             e.printStackTrace();

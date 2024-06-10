@@ -71,8 +71,9 @@ public class login extends javax.swing.JFrame {
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
             JOptionPane.showMessageDialog(this,"You have successfully Logined");
+            book_issue bi = new book_issue(user_id);
+            bi.setVisible(true);
             result = true;
-            
         }
         else{
             JOptionPane.showMessageDialog(this,"User not found!");

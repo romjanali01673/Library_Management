@@ -78,7 +78,7 @@ public class Return extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        pst.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
@@ -162,7 +162,7 @@ public class Return extends javax.swing.JFrame {
             else{
                 JOptionPane.showMessageDialog(this, "Wrong Otp");
             }        pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             e.printStackTrace();
         }

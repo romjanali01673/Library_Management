@@ -72,6 +72,8 @@ public class librarian_login extends javax.swing.JFrame {
         
         ResultSet rs = pst.executeQuery();
         if(rs.next()){
+            book_give bg = new book_give(user_id);
+            bg.setVisible(true);
             JOptionPane.showMessageDialog(this,"You have successfully Logined");
             result = true;
             this.dispose();

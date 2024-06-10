@@ -84,7 +84,7 @@ public class notification extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        pst.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
@@ -167,12 +167,12 @@ public class notification extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         table_data = new rojeru_san.complementos.RSTableMetro();
         MENU_BAR = new javax.swing.JPanel();
-        name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         close = new javax.swing.JLabel();
         minimize = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -300,21 +300,6 @@ public class notification extends javax.swing.JFrame {
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
-        name.setText("User");
-        name.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
-        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
-
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
         home.setToolTipText("GO TO HOME");
@@ -370,6 +355,21 @@ public class notification extends javax.swing.JFrame {
         });
         MENU_BAR.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 40, 17));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Admin Portal");
+        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
+
+        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
+        name.setText("ADMIN");
+        name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameMouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
+
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         pack();
@@ -395,10 +395,6 @@ public class notification extends javax.swing.JFrame {
         al.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
-
-    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
-
-    }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
         // TODO add your handling code here:
@@ -441,6 +437,10 @@ setValue();
         Color mouseout = new Color(255,255,255);
         close.setBackground(mouseout);           // TODO add your handling code here:
     }//GEN-LAST:event_closeMouseExited
+
+    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
+
+    }//GEN-LAST:event_nameMouseClicked
 
     /**
      * @param args the command line arguments

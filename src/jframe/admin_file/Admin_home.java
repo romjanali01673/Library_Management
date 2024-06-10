@@ -21,11 +21,7 @@ public class Admin_home extends javax.swing.JFrame {
 
     necessaryMethod nm = new necessaryMethod();
     getTopFive RD = new getTopFive();
-    String top0 = "A";
-    String top1 = "B";
-    String top2 = "C";
-    String top3 = "D";
-    String top4 = "E";
+
     int val_0 = 0;
     int val_1 = 0;
     int val_2 = 0;
@@ -33,13 +29,14 @@ public class Admin_home extends javax.swing.JFrame {
     int val_4 = 0;
 
     int id;
+    
     int N = 0;
     int restQuantity = 0;
 
     int[] book_ids;
     int[] bookid5;
     int[] bookvalue5;
-    String[] book_name5 = new String[5];
+    String[] book_name5 = {"A","B","C","D","E"};
 
     public Admin_home(int id) {
         this.id = id;
@@ -154,7 +151,7 @@ public class Admin_home extends javax.swing.JFrame {
         val_2 = bookvalue5[2];
         val_3 = bookvalue5[3];
         val_4 = bookvalue5[4];
-        setBookName();
+       
         restQuantity = N - (bookvalue5[0] + bookvalue5[1] + bookvalue5[2] + bookvalue5[3] + bookvalue5[4]);
 
 
@@ -182,18 +179,6 @@ public class Admin_home extends javax.swing.JFrame {
         }
     }
 
-    public void setBookName() {
-        int i = 0;
-        while (i < N) {
-            top0 = book_name5[0];
-            top1 = book_name5[1];
-            top2 = book_name5[2];
-            top3 = book_name5[3];
-            top4 = book_name5[4];
-            i++;
-        }
-
-    }
 //STUDENT   
 
     public void getStudentNumber() {
@@ -474,11 +459,11 @@ public class Admin_home extends javax.swing.JFrame {
 
             //create dataset
             DefaultPieDataset barDataset = new DefaultPieDataset();
-            barDataset.setValue(top0, new Double(val_0));
-            barDataset.setValue(top1, new Double(val_1));
-            barDataset.setValue(top2, new Double(val_2));
-            barDataset.setValue(top3, new Double(val_3));
-            barDataset.setValue(top4, new Double(val_4));
+            barDataset.setValue(book_name5[0], new Double(val_0));
+            barDataset.setValue(book_name5[1], new Double(val_1));
+            barDataset.setValue(book_name5[2], new Double(val_2));
+            barDataset.setValue(book_name5[3], new Double(val_3));
+            barDataset.setValue(book_name5[4], new Double(val_4));
             barDataset.setValue("Other Books", new Double(restQuantity));
 
             //create chart
@@ -589,7 +574,7 @@ public class Admin_home extends javax.swing.JFrame {
         MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
+        jLabel2.setText("Admin Portal");
         MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
 
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1244,6 +1229,7 @@ public class Admin_home extends javax.swing.JFrame {
     private void NOTIFYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseClicked
         Notify nf = new Notify(id);
         nf.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_NOTIFYMouseClicked
 
     private void NOTIFYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseEntered

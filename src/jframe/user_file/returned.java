@@ -88,7 +88,7 @@ public class returned extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        pst.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();
@@ -154,7 +154,7 @@ public class returned extends javax.swing.JFrame {
 
         }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");

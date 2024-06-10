@@ -74,7 +74,7 @@ public class reading extends javax.swing.JFrame {
                 model.addRow(obj);
             }
                     st.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            E.printStackTrace();
        }finally{

@@ -54,6 +54,9 @@ public class modarator_login extends javax.swing.JFrame {
         if(rs.next()){
             JOptionPane.showMessageDialog(this,"You have successfully Logined");
             result= true;
+            moderator_portal mp = new moderator_portal(user_id);
+            mp.setVisible(true);
+            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(this,"User not found!");

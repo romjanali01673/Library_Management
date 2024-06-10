@@ -450,12 +450,12 @@ public class Book_Management extends javax.swing.JFrame {
         jLabel38 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
         MENU_BAR = new javax.swing.JPanel();
-        name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         minimize = new javax.swing.JLabel();
         close = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         LMS_DESHBOARD = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -798,21 +798,6 @@ public class Book_Management extends javax.swing.JFrame {
         MENU_BAR.setBackground(new java.awt.Color(0, 204, 0));
         MENU_BAR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
-        name.setText("User");
-        name.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameMouseClicked(evt);
-            }
-        });
-        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
-        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
-
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
         home.setToolTipText("GO TO HOME");
@@ -867,6 +852,21 @@ public class Book_Management extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 0, 40, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Admin Portal");
+        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
+
+        name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
+        name.setText("ADMIN");
+        name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameMouseClicked(evt);
+            }
+        });
+        MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 50));
 
@@ -1112,11 +1112,6 @@ public class Book_Management extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_homeMouseClicked
 
-    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
-
-
-    }//GEN-LAST:event_nameMouseClicked
-
     private void book_partActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_book_partActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_book_partActionPerformed
@@ -1327,6 +1322,7 @@ public class Book_Management extends javax.swing.JFrame {
     private void NOTIFYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseClicked
         Notify nf = new Notify(id);
         nf.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_NOTIFYMouseClicked
 
     private void NOTIFYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseEntered
@@ -1413,6 +1409,10 @@ public class Book_Management extends javax.swing.JFrame {
         Color mouseout = new Color(255,255,255);
         close.setBackground(mouseout);           // TODO add your handling code here:
     }//GEN-LAST:event_closeMouseExited
+
+    private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
+
+    }//GEN-LAST:event_nameMouseClicked
 
     /**
      * @param args the command line arguments

@@ -64,7 +64,7 @@ public class home_page extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1360, 670));
 
-        jMenuBar1.setBackground(new java.awt.Color(0, 102, 102));
+        jMenuBar1.setBackground(new java.awt.Color(204, 204, 255));
         jMenuBar1.setBorder(null);
         jMenuBar1.setForeground(new java.awt.Color(0, 0, 255));
         jMenuBar1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);

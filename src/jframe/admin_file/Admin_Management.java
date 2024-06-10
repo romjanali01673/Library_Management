@@ -614,11 +614,11 @@ public class Admin_Management extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         MENU_BAR = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         minimize = new javax.swing.JLabel();
         close = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         WELCOME = new javax.swing.JPanel();
         fast_name = new app.bolivia.swing.JCTextField();
         phone = new app.bolivia.swing.JCTextField();
@@ -697,10 +697,6 @@ public class Admin_Management extends javax.swing.JFrame {
         });
         MENU_BAR.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 0, 280, -1));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("User Portal");
-        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
-
         home.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/home_24px.png"))); // NOI18N
         home.setToolTipText("GO TO HOME");
@@ -755,6 +751,10 @@ public class Admin_Management extends javax.swing.JFrame {
             }
         });
         MENU_BAR.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 0, 40, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Admin Portal");
+        MENU_BAR.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 180, 50));
 
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
@@ -1485,6 +1485,7 @@ this.dispose();
     private void NOTIFYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseClicked
         Notify nf = new Notify(id);
         nf.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_NOTIFYMouseClicked
 
     private void NOTIFYMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NOTIFYMouseEntered

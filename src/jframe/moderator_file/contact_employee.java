@@ -126,7 +126,7 @@ public class contact_employee extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Student Dose Not Exist!");
                     
         }        pst.close();
-        rs.next();
+        rs.close();
     }catch(Exception e){
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Server Error!");

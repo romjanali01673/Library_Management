@@ -138,7 +138,7 @@ public class book_add extends javax.swing.JFrame {
             res = false;
         }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e){
             e.printStackTrace();
             res = false;

@@ -76,7 +76,7 @@ public class all_history extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        st.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            E.printStackTrace();
        }finally{
@@ -103,7 +103,7 @@ public class all_history extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        st.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            E.printStackTrace();
        }finally{

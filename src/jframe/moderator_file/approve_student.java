@@ -129,7 +129,7 @@ public class approve_student extends javax.swing.JFrame {
             if(rs.next()){
                 res = rs.getInt("user_id");
             }        pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             e.printStackTrace();
         }finally{
@@ -235,7 +235,7 @@ public class approve_student extends javax.swing.JFrame {
                 this.registed_time.setText(registation_time.toString());
         }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
@@ -274,7 +274,7 @@ public class approve_student extends javax.swing.JFrame {
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        st.close();
-        rs.next();
+        rs.close();
        }catch(Exception E){
            System.out.println("erroes");
            E.printStackTrace();

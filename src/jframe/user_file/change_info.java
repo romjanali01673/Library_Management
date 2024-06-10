@@ -137,7 +137,7 @@ else{
     }
     //System.out.println(Date_of_birth);
             pst.close();
-        rs.next();
+        rs.close();
 } catch (Exception e) {
     e.printStackTrace();
 

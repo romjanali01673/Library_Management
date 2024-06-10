@@ -108,7 +108,7 @@ public class update_book extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(this, "Book Not Found!");
         }        pst.close();
-        rs.next();
+        rs.close();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");

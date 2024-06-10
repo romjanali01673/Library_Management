@@ -103,7 +103,7 @@ public class book_give extends javax.swing.JFrame {
             
             rs.close();
         }        pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             e.printStackTrace();
         }finally{
@@ -128,7 +128,7 @@ public class book_give extends javax.swing.JFrame {
         while(rs.next()){
             res++;
         }        pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             e.printStackTrace();
         }finally{
@@ -153,7 +153,7 @@ public class book_give extends javax.swing.JFrame {
         while(rs.next()){
             res++;
         }        pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             e.printStackTrace();
         }finally{
@@ -193,7 +193,7 @@ public class book_give extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Student Not Found!");
         }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"server Disconnected!");
@@ -258,7 +258,7 @@ public class book_give extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Wrong Otp");
             }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             res = false;
             e.printStackTrace();
@@ -289,7 +289,7 @@ public class book_give extends javax.swing.JFrame {
                 k = true;
             }
                 pst.close();
-        rs.next();
+        rs.close();
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this,"server Error!");
             e.printStackTrace();
