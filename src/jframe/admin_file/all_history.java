@@ -109,7 +109,7 @@ public class all_history extends javax.swing.JFrame {
                 String by_who = rs.getString("by_who");
 
                 //set data in table
-                Object[] obj = {user_id,employee_id,by_who,book_id,quantity,"BOOK",time,date,status};
+                Object[] obj = {user_id,employee_id,book_id,by_who,quantity,"BOOK",time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }
@@ -133,17 +133,18 @@ public class all_history extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery(sql);
             // the while loop will add a row by eatch 1 looping.
             while(rs.next()){
-                int book_id = 0;
                 int user_id = rs.getInt("E_id");
-                String by_who = rs.getString("by_who");
                 int employee_id = rs.getInt("A_E_id");
+                int book_id = 0;
+                String by_who = rs.getString("by_who");
                 int quantity = 0;
+                String type= rs.getString("U_type");
                 java.sql.Time time = rs.getTime("T_time");
                 java.sql.Date date = rs.getDate("T_date");
                 String status = rs.getString("T_status");
 
                 //set data in table
-                Object[] obj = {user_id,employee_id,by_who,book_id,quantity,"EMPLOYEE",time,date,status};
+                Object[] obj = {user_id,employee_id,book_id,by_who,quantity,type,time,date,status};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }

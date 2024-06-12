@@ -25,10 +25,12 @@ import javax.swing.table.TableRowSorter;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.home_page;
 import jframe.login;
+import jframe.method_romjanali01673.necessaryMethod;
 import jframe.registation;
 
 
 public class book_issue extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
     int id;
 
     public book_issue(int id) {
@@ -88,7 +90,6 @@ public class book_issue extends javax.swing.JFrame {
             }        pst.close();
         rs.close();
        }catch(Exception E){
-           System.out.println("erroes");
            E.printStackTrace();
        }finally{
             try{
@@ -177,10 +178,10 @@ public class book_issue extends javax.swing.JFrame {
         int k=0;
             Connection con = DB_connection.getConnection();
         try{
-            String sql = "select * from book_history where student_id = ? and T_status = ? and book_id=? and T_date=?";
+            String sql = "select * from student_book where student_id = ? and T_status = ? and book_id=? and T_date=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
-            pst.setString(2,"REQUESTED");
+            pst.setString(2,"ISSUED");
             pst.setInt(3,get_book_id());
             pst.setDate(4,R_date());
             
@@ -204,14 +205,15 @@ public class book_issue extends javax.swing.JFrame {
     public void requested(){
             Connection con = DB_connection.getConnection();
         try{
-            String sql = "insert into book_history(book_id, T_status, T_date, T_time, student_id,otp) values(?,?,?,?,?,?);";
+            String sql = "insert into book_history(book_id, T_status, T_date, T_time, student_id,otp,by_who) values(?,?,?,?,?,?,?);";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1,get_book_id());
-            pst.setString(2,"REQUESTED");
+            pst.setString(2,"ISSUED");
             pst.setDate(3,R_date());
             pst.setTime(4,R_time());
             pst.setInt(5, id);
             pst.setString(6,genarate_otp());
+            pst.setString(7,"STUDENT");
             
             int rs = pst.executeUpdate();
             if(rs>0){
@@ -229,20 +231,21 @@ public class book_issue extends javax.swing.JFrame {
             }
         }
     }
+    
     public void requested1(){
             Connection con = DB_connection.getConnection();
         try{
             String sql = "insert into student_book (book_id, T_status, T_date, T_time, student_id) values(?,?,?,?,?);";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1,get_book_id());
-            pst.setString(2,"REQUESTED");
+            pst.setString(2,"ISSUED");
             pst.setDate(3,R_date());
             pst.setTime(4,R_time());
             pst.setInt(5, id);
             
             int rs = pst.executeUpdate();
             if(rs>0){
-                JOptionPane.showMessageDialog(this, "Book Issue Request Success.");                
+                sendOTP();
             }
                 pst.close();
         }catch(Exception e ){
@@ -256,6 +259,38 @@ public class book_issue extends javax.swing.JFrame {
             }
         }
     }
+    public void sendOTP(){        
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "insert into notification ( student_id, subject, T_time, T_date, message,description,From_who) values (?,?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1,id);
+            pst.setString(2,"book issue");
+            pst.setTime(3,nm.getNowTime());
+            pst.setDate(4,nm.getTodayDate());
+            pst.setString(5, "Your OTP is : "+nm.genarateOtp());
+            pst.setString(6, "Hay dear student thanks for book issue and having with us. this is your OTP remind it and within very soon complete the necessary step to take your issued book.");
+            pst.setString(7, "STUDENT");
+            
+            int rs = pst.executeUpdate();
+            if(rs>0){
+                JOptionPane.showMessageDialog(this, "Book Issue Success.");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "somthing Wrong");    
+            }
+                pst.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Server Error!");
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
     public  java.sql.Date R_date(){
         LocalDate today = LocalDate.now();
         
@@ -679,7 +714,7 @@ public class book_issue extends javax.swing.JFrame {
             }
         });
 
-        rSMaterialButtonCircle1.setText("request");
+        rSMaterialButtonCircle1.setText("issue");
         rSMaterialButtonCircle1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 rSMaterialButtonCircle1MouseClicked(evt);
@@ -1079,6 +1114,6 @@ else{
     // End of variables declaration//GEN-END:variables
 public static void main(String[] args){
     
-book_issue rn = new book_issue(87);
+book_issue rn = new book_issue(101);
 rn.setVisible(true);
 }}

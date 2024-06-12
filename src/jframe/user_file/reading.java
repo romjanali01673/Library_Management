@@ -556,11 +556,13 @@ this.dispose();
     }//GEN-LAST:event_all_historyMouseClicked
 
     private void all_historyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseEntered
-        // TODO add your handling code here:
+        Color mouseout = new Color(55,55,55);
+        all_history.setBackground(mouseout);// TODO add your handling code here:
     }//GEN-LAST:event_all_historyMouseEntered
 
     private void all_historyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_historyMouseExited
-        // TODO add your handling code here:
+       Color mouseout = new Color(0,0,0);
+        all_history.setBackground(mouseout); // TODO add your handling code here:
     }//GEN-LAST:event_all_historyMouseExited
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
@@ -663,7 +665,7 @@ this.dispose();
     private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables
 public static void main(String []args){
-    reading  re = new reading(87);
+    reading  re = new reading(101);
     re.setVisible(true);
 }
 }

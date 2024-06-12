@@ -178,6 +178,9 @@
           <Color blue="ff" green="cc" red="cc" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="WELCOMEMouseClicked"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="220" y="50" width="1140" height="670"/>
@@ -391,6 +394,7 @@
             <Property name="placeholder" type="java.lang.String" value="Fast Name"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="fast_nameMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fast_nameActionPerformed"/>
           </Events>
         </Component>
@@ -639,6 +643,9 @@
           </Properties>
         </Component>
         <Component class="rojeru_san.componentes.RSDateChooser" name="dob">
+          <Properties>
+            <Property name="formatoFecha" type="java.lang.String" value="dd/MM/yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel48">
           <Properties>

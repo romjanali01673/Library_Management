@@ -81,9 +81,9 @@ public class Book_Management extends javax.swing.JFrame {
                 String book_type = rs.getString("book_type");
                 int price = rs.getInt("price");
                 String few_line = rs.getString("few_i_line");
-                int Quantity = rs.getInt("few_i_line");
-                String source = rs.getString("few_i_line");
-                String status = rs.getString("few_i_line");
+                int Quantity = rs.getInt("quantity");
+                String source = rs.getString("book_source");
+                String status = rs.getString("b_status");
                 
                 //set data in TextField
                 this.book_id.setText(String.valueOf(book_id));
@@ -223,7 +223,7 @@ public class Book_Management extends javax.swing.JFrame {
         try{
         String sql = "update book_data set book_id=?,book_name=?,author=?,book_part=?,book_type=?,price=?,few_i_line=?,quantity=?,book_source=?,b_status=? where book_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
-        pst.setInt(1, B_id);
+        pst.setInt(1,B_id );
         pst.setString(2,B_name);
         pst.setString(3,B_author);
         pst.setInt(4,B_part);
@@ -244,7 +244,7 @@ public class Book_Management extends javax.swing.JFrame {
            
         }catch(Exception e ){
             res = false;
-            JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
+            JOptionPane.showMessageDialog(this, "Book updatation Faild!");
             e.printStackTrace();
         }finally{
             try{
@@ -312,7 +312,9 @@ public class Book_Management extends javax.swing.JFrame {
             }
         }
         return res;
-    }    public boolean checked_input_validity(){
+    }    
+    
+    public boolean checked_input_validity(){
         boolean res = true;
         
         if(nm.stringToint(book_id.getText())==0||nm.stringToint(book_id.getText())>999999){
@@ -339,7 +341,7 @@ public class Book_Management extends javax.swing.JFrame {
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Price!");
         }
-        else if(nm.stringToint(book_quantity.getText())>9999){
+        else if(nm.stringToint(book_quantity.getText())==0){
             res = false;
             JOptionPane.showMessageDialog(this, "Enter Book Quantity!");
         }
@@ -365,6 +367,7 @@ public class Book_Management extends javax.swing.JFrame {
         int rs = pst.executeUpdate();
         
         if (rs>0){
+            remove_book_history();
         }
         else{
             res = false;
@@ -666,7 +669,7 @@ public class Book_Management extends javax.swing.JFrame {
 
         jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel48.setText("Librarian Management");
+        jLabel48.setText("Book Management");
 
         javax.swing.GroupLayout WELCOMELayout = new javax.swing.GroupLayout(WELCOME);
         WELCOME.setLayout(WELCOMELayout);
@@ -708,11 +711,9 @@ public class Book_Management extends javax.swing.JFrame {
                                 .addComponent(book_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(book_type, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(book_source, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(WELCOMELayout.createSequentialGroup()
-                                .addGap(354, 354, 354)
-                                .addComponent(jLabel48))
-                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel48, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(15, 15, 15)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WELCOMELayout.createSequentialGroup()
@@ -743,15 +744,15 @@ public class Book_Management extends javax.swing.JFrame {
                             .addComponent(REGULER)
                             .addComponent(SUSPENDED)))
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addComponent(jLabel48)
-                        .addGap(20, 20, 20)
+                        .addGap(45, 45, 45)
                         .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel48))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(WELCOMELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(WELCOMELayout.createSequentialGroup()
-                        .addGap(0, 27, Short.MAX_VALUE)
+                        .addGap(0, 38, Short.MAX_VALUE)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1168,9 +1169,9 @@ public class Book_Management extends javax.swing.JFrame {
                     if(add_book(B_id)){
                         add_book_history();
                     }
+                    }
                 else{
                     JOptionPane.showMessageDialog(this, "The Book Already Exist!");                    
-                    }
                 }
             }
         }
@@ -1184,13 +1185,13 @@ public class Book_Management extends javax.swing.JFrame {
     private void UPDATEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UPDATEMouseClicked
         if(checked_input_validity()){
             if(take_book_data()){
-                if(book_exist(B_id)){
+                if(book_exist(P_B_id)){
                     if(update_book()){
                         update_book_history();
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(this, "The Dose Not Exist!");        
+                    JOptionPane.showMessageDialog(this, "Dose Not Exist!");        
                 }
             }
         }
@@ -1375,7 +1376,7 @@ public class Book_Management extends javax.swing.JFrame {
     }//GEN-LAST:event_APPROVE3ActionPerformed
 
     private void APPROVE3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_APPROVE3MouseClicked
-    if(nm.stringToint(book_id.getText())!=0){
+    if(P_B_id!=0){
         if(delete()){
             remove_book_history();
         }

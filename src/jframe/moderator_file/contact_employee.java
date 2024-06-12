@@ -70,12 +70,16 @@ public class contact_employee extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Write student ID");
             return false;
         }
+        else if(fname.getText().equals("")){
+            res =false;
+            JOptionPane.showMessageDialog(this, "At fast Find Student");
+        }
         return res;
     }
     public void send(){
         Connection con = DB_connection.getConnection();
     try{
-        String str = "insert into notification(subject,employee_id,From_who,T_time,T_date,message,description) values(?,?,?,?,?,?,?)";
+        String str = "insert into notification(subject,employee_id,A_E_ID ,T_time,T_date,message,description,From_who) values(?,?,?,?,?,?,?)";
         PreparedStatement pst = con.prepareStatement(str);    
         pst.setString(1, nm.remove_white_space(subject.getText()));
         pst.setInt(2, nm.stringToint(employee_id.getText()));
@@ -84,6 +88,7 @@ public class contact_employee extends javax.swing.JFrame {
         pst.setDate(5, nm.getTodayDate());
         pst.setString(6, nm.remove_white_space(message.getText()));
         pst.setString(7, nm.remove_white_space(description.getText()));
+        pst.setString(8, "MODERATOR");
         
         int rs = pst.executeUpdate();
         if(rs>0){

@@ -779,6 +779,9 @@
           </Events>
         </Component>
         <Component class="rojeru_san.componentes.RSDateChooser" name="date_of_birth">
+          <Properties>
+            <Property name="formatoFecha" type="java.lang.String" value="dd/MM/yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="male">
           <Properties>
@@ -787,6 +790,7 @@
             </Property>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Male"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="custom">
@@ -795,6 +799,7 @@
               <ComponentRef name="buttonGroup3"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Custom"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JRadioButton" name="female">
@@ -803,6 +808,7 @@
               <ComponentRef name="buttonGroup3"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Female"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="app.bolivia.swing.JCTextField" name="institute_office2">
@@ -929,7 +935,8 @@
         </Component>
         <Component class="rojeru_san.componentes.RSDateChooser" name="dob2">
           <Properties>
-            <Property name="placeholder" type="java.lang.String" value="Date Of Birth(2000/02/02)"/>
+            <Property name="formatoFecha" type="java.lang.String" value="dd/MM/yyyy"/>
+            <Property name="placeholder" type="java.lang.String" value="Date Of Birth(dd/mm/yyyy)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel45">

@@ -360,6 +360,6 @@ public class all_history extends javax.swing.JFrame {
     private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables
 public static void main(String [] args){
-all_history ah = new all_history(87);
+all_history ah = new all_history(101);
 ah.setVisible(true);
 }}

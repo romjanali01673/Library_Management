@@ -61,7 +61,7 @@ public class Return extends javax.swing.JFrame {
     public void set_table(){
             Connection con = DB_connection.getConnection();
        try{
-            String sql = "SELECT * FROM book_history INNER JOIN book_data ON book_history.book_id = book_data.book_id WHERE T_status = \"GAVE\" and student_id = "+id;
+            String sql = "SELECT * FROM student_book INNER JOIN book_data ON student_book.book_id = book_data.book_id WHERE T_status = \"TAKEN\" and student_id = "+id;
 
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
@@ -80,7 +80,6 @@ public class Return extends javax.swing.JFrame {
             }        pst.close();
         rs.close();
        }catch(Exception E){
-           System.out.println("erroes");
            E.printStackTrace();
        }finally{
             try{
@@ -177,7 +176,7 @@ public class Return extends javax.swing.JFrame {
     public void requested1(){
             Connection con = DB_connection.getConnection();
         try{
-            String sql = "update student_book set  T_status=?,T_date =?, T_time=? where book_id=? and  student_id=? and T_sataus = \"TAKEN\" ";
+            String sql = "update student_book set  T_status=?,T_date =?, T_time=? where book_id=? and  student_id=? and T_status = \"TAKEN\" ";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1,"RETURNED");
             pst.setDate(2,R_date());
@@ -868,6 +867,6 @@ returned();
     // End of variables declaration//GEN-END:variables
 public static void main(String[] args){
     
-Return rn = new Return(87);
+Return rn = new Return(101);
 rn.setVisible(true);
 }}

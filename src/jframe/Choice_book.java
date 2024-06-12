@@ -4,28 +4,15 @@
  */
 package jframe;
 
-import jframe.user_file.*;
 import java.awt.Color;
-import java.awt.Desktop;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import jframe.method_romjanali01673.DB_connection;
-import jframe.home_page;
-import jframe.registation;
 
 
 public class Choice_book extends javax.swing.JFrame {
@@ -34,7 +21,6 @@ public class Choice_book extends javax.swing.JFrame {
     public Choice_book() {
         this.id = id;
         initComponents();
-        set_profile();
         set_table();
     }
     
@@ -141,33 +127,6 @@ public class Choice_book extends javax.swing.JFrame {
     }
 
 
-    public void set_profile(){
-            Connection con = DB_connection.getConnection();
-        try{
-            String sql = "select fast_name,last_name from user_info where id = ?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, id);
-            
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String a = rs.getString("fast_name");
-                String b = rs.getString("last_name");
-                
-                name.setText(a+ " "+ b+ " - "+ id);
-                
-            }            pst.close();
-            rs.close();
-        }catch(Exception e ){
-            e.printStackTrace();
-        }finally{
-            try{
-                con.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -210,7 +169,7 @@ public class Choice_book extends javax.swing.JFrame {
         name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/male_user_50px.png"))); // NOI18N
-        name.setText("User");
+        name.setText("USER NAME - 99991111");
         name.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 nameMouseClicked(evt);
@@ -504,29 +463,14 @@ public class Choice_book extends javax.swing.JFrame {
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
-        int s = JOptionPane.showConfirmDialog(null,"Do you want to change your info?","confirmation message", JOptionPane.YES_NO_OPTION);
-        if ( s == JOptionPane.YES_OPTION){
-            change_info ci = new change_info(id);
-            ci.setVisible(true);
-            this.dispose();
-        }
-        else {
-            System.out.println("you have clicked CANCEL");
-        }
     }//GEN-LAST:event_nameMouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        // TODO add your handling code here:
-        notification n = new notification(id);
-        n.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
-        notification n = new notification(id);
-        n.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void infoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_infoKeyTyped

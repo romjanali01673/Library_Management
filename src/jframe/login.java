@@ -74,6 +74,7 @@ public class login extends javax.swing.JFrame {
             book_issue bi = new book_issue(user_id);
             bi.setVisible(true);
             result = true;
+            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(this,"User not found!");

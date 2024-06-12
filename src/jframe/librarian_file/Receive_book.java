@@ -216,7 +216,7 @@ public class Receive_book extends javax.swing.JFrame {
             
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-               JOptionPane.showMessageDialog(this,"Already Requested!"); 
+               JOptionPane.showMessageDialog(this,"Already Rceived!"); 
                 k = true;
             }
                 pst.close();
@@ -237,7 +237,7 @@ public class Receive_book extends javax.swing.JFrame {
     public void book_received(){
             Connection con = DB_connection.getConnection();
         try{
-            String sql = "insert into book_history(book_id, T_status,T_time,T_date,student_id,employee_id,otp) values(?,?,?,?,?,?,?)";
+            String sql = "insert into book_history(book_id, T_status,T_time,T_date,student_id,A_E_ID,otp,by_who) values(?,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, book_ids);
@@ -248,10 +248,11 @@ public class Receive_book extends javax.swing.JFrame {
             pst.setInt(6, id);
             OTP = nm.genarateOtp();
             pst.setString(7,OTP);
+            pst.setString(8,"LIBRARIAN");
             
             int rs = pst.executeUpdate();
             if(rs>0){
-                update1();
+                JOptionPane.showMessageDialog(this, "book Receive Successed");
                 sendOTP();
             }
             else{
@@ -260,36 +261,6 @@ public class Receive_book extends javax.swing.JFrame {
                 pst.close();
         }catch(Exception e ){
             e.printStackTrace();
-        }finally{
-            try{
-                con.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-    public void update1(){        
-            Connection con = DB_connection.getConnection();
-        try{
-            String sql = "update student_book set  T_status=?,T_date =?, T_time=?  where book_id =? and student_id=? and T_sataus = \"TAKEN\" ";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1,"RETURNED");
-            pst.setDate(2,nm.getTodayDate());
-            pst.setTime(3,nm.getNowTime());
-            pst.setInt(4,book_ids);
-            pst.setInt(5, student_ids);
-            
-            int rs = pst.executeUpdate();
-            if(rs>0){
-                JOptionPane.showMessageDialog(this, "Book GAVE Success.");    
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Already GAVEN");    
-            }
-                pst.close();
-        }catch(Exception e ){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Server Error!");
         }finally{
             try{
                 con.close();
@@ -488,7 +459,7 @@ public class Receive_book extends javax.swing.JFrame {
 
         jPanel2.add(book_queue, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 200, 40));
 
-        reading.setBackground(new java.awt.Color(0, 0, 0));
+        reading.setBackground(new java.awt.Color(255, 0, 0));
         reading.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 readingMouseClicked(evt);
@@ -715,7 +686,7 @@ public class Receive_book extends javax.swing.JFrame {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel13.setText("The book price ");
 
-        confirm_book_request.setText("Confirm book request");
+        confirm_book_request.setText("Confirm receive");
         confirm_book_request.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 confirm_book_requestMouseClicked(evt);
@@ -976,7 +947,7 @@ public class Receive_book extends javax.swing.JFrame {
 
     private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
         // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
+        Color mousein = new Color(55,55,55);
         reading.setBackground(mousein);
     }//GEN-LAST:event_readingMouseEntered
 
@@ -1108,11 +1079,13 @@ public class Receive_book extends javax.swing.JFrame {
     }//GEN-LAST:event_contact_empMouseClicked
 
     private void contact_empMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_empMouseEntered
-        // TODO add your handling code here:
+        Color mousein = new Color(51,51,51);
+        contact_emp.setBackground(mousein);   // TODO add your handling code here:
     }//GEN-LAST:event_contact_empMouseEntered
 
     private void contact_empMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_empMouseExited
-        // TODO add your handling code here:
+        Color mousein = new Color(0,0,00);
+        contact_emp.setBackground(mousein);  // TODO add your handling code here:
     }//GEN-LAST:event_contact_empMouseExited
 
     private void cotact_stdntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cotact_stdntMouseClicked
@@ -1123,11 +1096,13 @@ public class Receive_book extends javax.swing.JFrame {
     }//GEN-LAST:event_cotact_stdntMouseClicked
 
     private void cotact_stdntMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cotact_stdntMouseEntered
-        // TODO add your handling code here:
+        Color mousein = new Color(51,51,51);
+        cotact_stdnt.setBackground(mousein);    // TODO add your handling code here:
     }//GEN-LAST:event_cotact_stdntMouseEntered
 
     private void cotact_stdntMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cotact_stdntMouseExited
-        // TODO add your handling code here:
+        Color mousein = new Color(0,0,0);
+        cotact_stdnt.setBackground(mousein);  // TODO add your handling code here:
     }//GEN-LAST:event_cotact_stdntMouseExited
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked

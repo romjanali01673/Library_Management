@@ -68,7 +68,7 @@ public class book_add extends javax.swing.JFrame {
     public void add_book(int book_id){
         Connection con= DB_connection.getConnection();
         try{
-        String sql = "insert into book_data(book_id,book_name,author,book_part,book_type,price,few_i_line,quantity,book_source,status) values(?,?,?,?,?,?,?,?,?,?);";
+        String sql = "insert into book_data(book_id,book_name,author,book_part,book_type,price,few_i_line,quantity,book_source,b_status) values(?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, B_id);
         pst.setString(2,B_name);
@@ -83,11 +83,42 @@ public class book_add extends javax.swing.JFrame {
         
         int rs = pst.executeUpdate();
         if (rs>0){
-            JOptionPane.showMessageDialog(this, "New Book Added!");
+            add_book_history();
         }                    pst.close();
         
         }catch(Exception e ){
             JOptionPane.showMessageDialog(this, "New Book Addation Faild!");
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public void add_book_history(){
+        Connection con = DB_connection.getConnection();
+        try{
+        String sql = "insert into book_history(book_id, T_status, T_time, T_date, employee_id, quantity,by_who) values(?,?,?,?,?,?,?) ";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, B_id);
+        pst.setString(2, "ADDED");
+        pst.setTime(3, nm.getNowTime());
+        pst.setDate(4, nm.getTodayDate());
+        pst.setInt(5, id);
+        pst.setInt(6, B_quantity);
+        pst.setString(7,"LIBRARIAN");
+        int rs = pst.executeUpdate();
+        
+        if (rs>0){
+            JOptionPane.showMessageDialog(this, "The New book Has Been Added.");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "New Book Addition Failed!");
+        } pst.close();
+           
+        }catch(Exception e){
             e.printStackTrace();
         }finally{
             try{
@@ -902,7 +933,7 @@ public class book_add extends javax.swing.JFrame {
     }//GEN-LAST:event_book_receiveMouseEntered
 
     private void book_receiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_receiveMouseClicked
-        book_add ac = new book_add(id);
+        book_give ac = new book_give(id);
         ac.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_book_receiveMouseClicked

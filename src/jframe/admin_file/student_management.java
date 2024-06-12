@@ -18,6 +18,7 @@ import jframe.method_romjanali01673.DB_connection;
 import jframe.admin_login;
 import jframe.home_page;
 import jframe.login;
+import jframe.method_romjanali01673.necessaryMethod;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,6 +26,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class student_management extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
 
     int id;
     public boolean bod_date_valid = false;
@@ -42,6 +44,8 @@ String institute_officer ;
 String id_numberr;
 String full_addressr ;
 String statusr= "REGULER";
+java.sql.Date reg_date;
+java.sql.Time reg_time;
 //      wanted data variable
         String fast_namer1 = "";
         String last_namer1 =  "";
@@ -90,7 +94,7 @@ String statusr= "REGULER";
     }    
 //delete student-----------------------------------------------------
     public void delete(){
-        long student_nid=0l;
+        long student_nid=0L;
         student_nid = Long.parseLong(nid_birth_number.getText());
     Connection con = DB_connection.getConnection();
     try {
@@ -101,7 +105,9 @@ String statusr= "REGULER";
     int rs = pst.executeUpdate(); // Changed executeUpdate() to executeQuery()
 
     if (rs>0) {
+        update_delete_his();
         delete1();
+        JOptionPane.showMessageDialog(this, "Deleted!");
 
     } else {
         JOptionPane.showMessageDialog(this, "The student does not exist!"); 
@@ -127,17 +133,14 @@ String statusr= "REGULER";
     try {
     String sql = "DELETE FROM changes_student_data WHERE user_id = ?";
     PreparedStatement pst = con.prepareStatement(sql);
+   
     pst.setInt(1,st_id);
 
-    int rs = pst.executeUpdate(); // Changed executeUpdate() to executeQuery()
-
-    if (rs>0) {
-        JOptionPane.showMessageDialog(this, "The student deleted!"); 
-
-    } else {
-        JOptionPane.showMessageDialog(this, "The student does not exist!"); 
-        
-    }        pst.close();
+    int rs = pst.executeUpdate();
+    if(rs>0){
+        JOptionPane.showMessageDialog(this,"Student has been deleted from changes table also!");
+    }
+        pst.close();
        
     //System.out.println(Date_of_birth);
 } catch (Exception e) {
@@ -151,6 +154,40 @@ String statusr= "REGULER";
             }
         }
 }
+    
+    public void update_delete_his(){
+            Connection con = DB_connection.getConnection();
+        try {
+            String sql =  "insert into student_history(	user_id,T_status,by_who,employee_id,T_time,T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, get_user_id(nid_birth_numberr));
+            pst.setString(2, "DELETED");
+            pst.setString(3, "ADMIN");
+            pst.setInt(4, id);
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+        JOptionPane.showMessageDialog(this, "The student deleted!"); 
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }    pst.close();
+          
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }   finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
+    } 
 //remove white space -----------------------------------------------
     public String remove_white_space(String str){
         // Remove leading whitespaces
@@ -240,24 +277,25 @@ public void add_student(){
         
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , s_status) values(?,?,?,?,?,?,?,?,?,?,?)";
-            String sql1 = "delete from registaed_student_data where user_id=?";
+            String sql =  "insert into student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , s_status,pass) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql1 = "delete from registaed_student_data where nid_birth=?";
             PreparedStatement pst = con.prepareStatement(sql);
             PreparedStatement pst1 = con.prepareStatement(sql1);
             
-            pst1.setInt(1, st_id);
+            pst1.setLong(1, nid_birth_numberr);
             
             pst.setString(1, remove_white_space(F_name));
             pst.setString(2, remove_white_space(L_name));
             pst.setString(3, remove_white_space(Phone));
             pst.setString(4, remove_white_space(Email));
             pst.setString(5, get_gender());
-            pst.setLong(6, get_nid_or_birth_number());
-            pst.setDate(7, get_Birth_Date());
+            pst.setLong(6, nm.stringToLong(nid_birth_number.getText()));
+            pst.setDate(7, get_Birth_Date1());
             pst.setString(8, remove_white_space(Institute_Office));
             pst.setString(9, remove_white_space(ID_Of_Institute_Office));
             pst.setString(10, remove_white_space(F_address));
             pst.setString(11,statusr);
+            pst.setString(12,passwd);
 
 
             int updatedRowCount = pst.executeUpdate();
@@ -265,12 +303,10 @@ public void add_student(){
        
            
             if ( updatedRowCount > 0 && updatedRowCount1>0){
-               JOptionPane.showMessageDialog(this, "Account Update request was send");
-               JOptionPane.showMessageDialog(this, "visit our office with all necesary document..");
-               JOptionPane.showMessageDialog(this, "Remamber, Password has been updated");
+                update_add_his();
            }
            else{
-               JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
+               JOptionPane.showMessageDialog(this, "User Already Exist"); 
            }   
                pst.close();
         
@@ -287,7 +323,102 @@ public void add_student(){
             }
         }
 }
+    public int get_user_id(long id){  
+        int as = 0;
+        
+    Connection con = DB_connection.getConnection();
+    try {
+    String sql = "SELECT * FROM student_data WHERE nid_birth = ?";
+    PreparedStatement pst = con.prepareStatement(sql);
+    pst.setLong(1,id);
 
+    ResultSet rs = pst.executeQuery(); // Changed executeUpdate() to executeQuery()
+
+    if (rs.next()) {
+        as = rs.getInt("user_id");
+    } else {
+        JOptionPane.showMessageDialog(this, "failed"); 
+        
+    }        pst.close();
+        rs.close();
+    //System.out.println(Date_of_birth);
+} catch (Exception e) {
+    e.printStackTrace();
+
+}finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+return as;
+    }
+    public void update_add_his(){
+            Connection con = DB_connection.getConnection();
+        try {
+            String sql =  "insert into student_history(	user_id,T_status,by_who,employee_id,T_time,T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, get_user_id(nid_birth_numberr));
+            pst.setString(2, "ADDED");
+            pst.setString(3, "ADMIN");
+            pst.setInt(4, id);
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+                update_reg_his();
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }    pst.close();
+          
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }   finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
+    } 
+    public void update_reg_his(){
+            Connection con = DB_connection.getConnection();
+        try {
+            String sql =  "insert into student_history(	user_id,T_status,by_who,T_time,T_date) values(?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, get_user_id(nid_birth_numberr));
+            pst.setString(2, "REGISTATION");
+            pst.setString(3, "STUDENT");
+            pst.setTime(4, reg_time);
+            pst.setDate(5, reg_date);
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+        JOptionPane.showMessageDialog(this, "New Student Added!");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }    pst.close();
+          
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }   finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
+    } 
 // update student data
 
     public void update(){
@@ -316,8 +447,8 @@ public void add_student(){
             pst.setString(3, remove_white_space(Phone));
             pst.setString(4, remove_white_space(Email));
             pst.setString(5, get_gender());
-            pst.setLong(6, get_nid_or_birth_number());
-            pst.setDate(7, get_Birth_Date());
+            pst.setLong(6,nm.stringToLong(nid_birth_number2.getText()));
+            pst.setDate(7, get_Birth_Date2());
             pst.setString(8, remove_white_space(Institute_Office));
             pst.setString(9, remove_white_space(ID_Of_Institute_Office));
             pst.setString(10, remove_white_space(F_address));
@@ -328,6 +459,7 @@ public void add_student(){
        
            
             if ( updatedRowCount > 0 && updatedRowCount1>0){
+                update_update_his();
                JOptionPane.showMessageDialog(this, "Account Updated");
            }
            else{
@@ -347,6 +479,39 @@ public void add_student(){
             }
         }
     }
+    public void update_update_his(){
+            Connection con = DB_connection.getConnection();
+        try {
+            String sql =  "insert into student_history(	user_id,T_status,by_who,employee_id,T_time,T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, get_user_id(nid_birth_numberr));
+            pst.setString(2, "UPDATED");
+            pst.setString(3, "ADMIN");
+            pst.setInt(4, id);
+            pst.setTime(5, nm.getNowTime());
+            pst.setDate(6, nm.getTodayDate());
+
+            int updatedRowCount = pst.executeUpdate();
+
+            if ( updatedRowCount > 0){
+               JOptionPane.showMessageDialog(this, "Account Updated");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "faled!"); 
+           }    pst.close();
+          
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+        }   finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        } 
+    }     
 // get current student data  by id
     public void get_past_data(int id){  
         st_id = id;
@@ -424,11 +589,14 @@ public void add_student(){
         emailr = rs1.getString("email"); 
         genderr = rs1.getString("gender"); 
         nid_birth_numberr = rs1.getLong("nid_birth"); 
+        System.out.println(nid_birth_numberr);
         Date_of_birthr = rs1.getDate("dob"); 
         institute_officer = rs1.getString("institute_office"); 
         id_numberr = rs1.getString("ins_office_id"); // 
         full_addressr = rs1.getString("full_address");
-        
+        passwd = rs1.getString("pass");
+        reg_time = rs1.getTime("registation_time");
+        reg_date = rs1.getDate("registation_time");
         }
         else{
         JOptionPane.showMessageDialog(this, "The student does not exist!");
@@ -448,6 +616,7 @@ public void add_student(){
             }
         }
 }
+
 //get wanted data by user id
     public void get_wanted_data(int id){     
     Connection con = DB_connection.getConnection();
@@ -540,24 +709,28 @@ public void add_student(){
  
 
     
-    public long get_nid_or_birth_number(){
-        
-        long NID_B_Number = 0L;
-        String NID_B_number = nid_birth_number2.getText();
-        try{
-            NID_B_Number = Long.parseLong(NID_B_number);
-            if(NID_B_number.length()>17){
-            JOptionPane.showMessageDialog(this,"you have insert more then 17 digit");
-            NID_B_Number = 0L;
-                }
-        }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(this,"Enter valid NID/Birth number:");
-        }
-        
-        return NID_B_Number;
-    }
     
-    public java.sql.Date get_Birth_Date(){
+    
+    public java.sql.Date get_Birth_Date1(){
+        bod_date_valid = false;// ai method er " bod_date_valid"  er value akbar change hoila joto e event hok na kano er default value asbe na. last changes e takba.
+        
+        java.sql.Date DATE_OF_BIRTH = new java.sql.Date(2004-02-01);
+        try{
+        // we will get the util-date from the compunents and we have to use the method getDatoFecha()
+        // to save the date in database we have to convart in sql-date
+        //the process is util-long-sql
+        Date DOB = date_of_birth.getDatoFecha();//util date
+        Long dateofbirth = DOB.getTime();//long date
+        DATE_OF_BIRTH = new java.sql.Date(dateofbirth);//sql date 
+        }catch (Exception e ){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"Enter your Date of Birth!");
+            bod_date_valid = true;
+        }
+            return DATE_OF_BIRTH ;
+            
+    }
+    public java.sql.Date get_Birth_Date2(){
         bod_date_valid = false;// ai method er " bod_date_valid"  er value akbar change hoila joto e event hok na kano er default value asbe na. last changes e takba.
         
         java.sql.Date DATE_OF_BIRTH = new java.sql.Date(2004-02-01);
@@ -569,17 +742,19 @@ public void add_student(){
         Long dateofbirth = DOB.getTime();//long date
         DATE_OF_BIRTH = new java.sql.Date(dateofbirth);//sql date 
         }catch (Exception e ){
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this,"Enter your Date of Birth!");
             bod_date_valid = true;
         }
             return DATE_OF_BIRTH ;
+            
     }
     
 
     public boolean  necessary_data_insarted(){
         
         boolean res = true;
-        get_Birth_Date();
+        get_Birth_Date2();
         
         String F_name  = fast_name.getText();
         String L_name = last_name.getText();
@@ -611,7 +786,7 @@ public void add_student(){
            
             res =  false;
         }
-        else if(get_nid_or_birth_number()==0L){
+        else if(nm.stringToLong(nid_birth_number2.getText())==0L){
             res =  false;
         }
         else if(bod_date_valid){
@@ -957,15 +1132,20 @@ public void add_student(){
             }
         });
 
+        date_of_birth.setFormatoFecha("dd/MM/yyyy");
+
         buttonGroup3.add(male);
         male.setSelected(true);
         male.setText("Male");
+        male.setEnabled(false);
 
         buttonGroup3.add(custom);
         custom.setText("Custom");
+        custom.setEnabled(false);
 
         buttonGroup3.add(female);
         female.setText("Female");
+        female.setEnabled(false);
 
         institute_office2.setPlaceholder("Institute/ Office Name");
         institute_office2.addActionListener(new java.awt.event.ActionListener() {
@@ -1027,7 +1207,8 @@ public void add_student(){
         buttonGroup4.add(custom2);
         custom2.setText("Custom");
 
-        dob2.setPlaceholder("Date Of Birth(2000/02/02)");
+        dob2.setFormatoFecha("dd/MM/yyyy");
+        dob2.setPlaceholder("Date Of Birth(dd/mm/yyyy)");
 
         jLabel45.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel45.setText("DATE OF BIRTH");
@@ -1703,7 +1884,7 @@ public void add_student(){
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void addedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addedMouseClicked
-        if(!nid_birth_number.getText().equals("" )||nid_birth_number.getText().equals("0") ){
+        if(!(nid_birth_number.getText().equals("" )||nid_birth_number.getText().equals("0")) ){
             add_student();
         }
         else{

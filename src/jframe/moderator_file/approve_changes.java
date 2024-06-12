@@ -18,30 +18,30 @@ public class approve_changes extends javax.swing.JFrame {
     necessaryMethod nm = new necessaryMethod();
     int id;
     
-        String fast_namer; 
-        String last_namer ;
-        String phoner ;
-        String emailr;
-        String genderr;
-        Long nid_birth_numberr ;
+        String fast_namer ="";
+        String last_namer ="";
+        String phoner ="";
+        String emailr="";
+        String genderr="";
+        Long nid_birth_numberr =0L;
         java.sql.Date Date_of_birthr;
-        String institute_officer ;
-        String id_numberr ;
-        String full_addressr;
-        String remarkr;
+        String institute_officer ="";
+        String id_numberr ="";
+        String full_addressr="";
+        String remarkr="";
         
-        String fast_namerc ;
-        String last_namerc ; 
-        String phonerc ;
-        String emailrc ;
-        String genderrc ;
+        String fast_namerc ="";
+        String last_namerc ="";
+        String phonerc ="";
+        String emailrc ="";
+        String genderrc ="";
         Long nid_birth_numberrc ; 
         java.sql.Date Date_of_birthrc ; 
-        String institute_officerc ; 
-        String id_numberrc ;
-        String full_addressrc ;
+        String institute_officerc ="";
+        String id_numberrc ="";
+        String full_addressrc ="";
         
-        int student_id;
+        int student_id=0;
         
         
         
@@ -156,7 +156,7 @@ public class approve_changes extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Targeted Student  Not Found!"); 
         
     }        pst1.close();
-        rs1.next();
+        rs1.close();
 } catch (Exception e) {
     e.printStackTrace();
 

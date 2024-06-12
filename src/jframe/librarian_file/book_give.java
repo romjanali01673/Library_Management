@@ -212,11 +212,38 @@ public class book_give extends javax.swing.JFrame {
     public void delete(){
             Connection con = DB_connection.getConnection();
         try{
+            String sql = "delete from student_book where student_id = ? and book_id=? and T_status = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, student_ids);
+            pst.setInt(2, book_ids);
+            pst.setString(3, "ISSUED");
+            
+            int rs = pst.executeUpdate();
+            if(rs>0){
+                delete1();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Already Deleted or Given");
+            }        pst.close();
+        
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public void delete1(){
+            Connection con = DB_connection.getConnection();
+        try{
             String sql = "delete from book_history where student_id = ? and book_id=? and T_status = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, student_ids);
             pst.setInt(2, book_ids);
-            pst.setString(3, "REQUESTED");
+            pst.setString(3, "ISSUED");
             
             int rs = pst.executeUpdate();
             if(rs>0){
@@ -236,6 +263,7 @@ public class book_give extends javax.swing.JFrame {
             }
         }
     }
+
     public boolean verify_otp(){
         boolean res = true;
             Connection con = DB_connection.getConnection();
@@ -246,7 +274,7 @@ public class book_give extends javax.swing.JFrame {
             pst.setInt(1, student_ids);
             pst.setInt(2, book_ids);
             pst.setString(3, otp.getText());
-            pst.setString(4,"REQUESTED");
+            pst.setString(4,"ISSUED");
 
            
             
@@ -305,7 +333,7 @@ public class book_give extends javax.swing.JFrame {
     public void confirmed(){
             Connection con = DB_connection.getConnection();
         try{
-            String sql = "insert into book_history(book_id, T_status,T_time,T_date,student_id,employee_id) values(?,?,?,?,?,?)";
+            String sql = "insert into book_history(book_id, T_status,T_time,T_date,student_id,employee_id,by_who) values(?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, book_ids);
@@ -314,6 +342,7 @@ public class book_give extends javax.swing.JFrame {
             pst.setDate(4, nm.getTodayDate());
             pst.setInt(5, student_ids);
             pst.setInt(6, id);
+            pst.setString(7, "LIBRARIAN");
             
             int rs = pst.executeUpdate();
             if(rs>0){
@@ -333,7 +362,7 @@ public class book_give extends javax.swing.JFrame {
     public void update1(){        
             Connection con = DB_connection.getConnection();
         try{
-            String sql = "update student_book set  T_status=?,T_date =?, T_time=?  where book_id =? and student_id=? and T_sataus = \"ISSUED\" ";
+            String sql = "update student_book set  T_status=?,T_date =?, T_time=?  where book_id =? and student_id=? and T_status = \"ISSUED\" ";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1,"TAKEN");
             pst.setDate(2,nm.getTodayDate());
@@ -1245,6 +1274,9 @@ if(input_valid_get(book_id.getText())!= 0){
                         confirmed();
                     }
                 }
+        }
+        else{
+        JOptionPane.showMessageDialog(this, "Enter The necessary Input and Search!");
         }
     }//GEN-LAST:event_confirm_book_requestMouseClicked
 

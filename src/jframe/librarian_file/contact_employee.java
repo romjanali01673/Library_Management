@@ -75,7 +75,7 @@ public class contact_employee extends javax.swing.JFrame {
     public void send(){
         Connection con = DB_connection.getConnection();
     try{
-        String str = "insert into notification(subject,employee_id,From_who,T_time,T_date,message,description) values(?,?,?,?,?,?,?)";
+        String str = "insert into notification(subject,employee_id,A_E_ID ,T_time,T_date,message,description,From_who) values(?,?,?,?,?,?,?,?)";
         PreparedStatement pst = con.prepareStatement(str);    
         pst.setString(1, nm.remove_white_space(subject.getText()));
         pst.setInt(2, nm.stringToint(employee_id.getText()));
@@ -84,6 +84,7 @@ public class contact_employee extends javax.swing.JFrame {
         pst.setDate(5, nm.getTodayDate());
         pst.setString(6, nm.remove_white_space(message.getText()));
         pst.setString(7, nm.remove_white_space(description.getText()));
+        pst.setString(8, "LIBRARIAN");
         
         int rs = pst.executeUpdate();
         if(rs>0){
@@ -569,13 +570,13 @@ public class contact_employee extends javax.swing.JFrame {
 
     private void readingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseEntered
         // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
+        Color mousein = new Color(55,55,55);
         reading.setBackground(mousein);
     }//GEN-LAST:event_readingMouseEntered
 
     private void readingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_readingMouseExited
         // TODO add your handling code here:
-        Color mousein = new Color(251,0,0);
+        Color mousein = new Color(0,0,0);
         reading.setBackground(mousein);
     }//GEN-LAST:event_readingMouseExited
 
@@ -612,29 +613,40 @@ public class contact_employee extends javax.swing.JFrame {
     }//GEN-LAST:event_book_issueMouseExited
 
     private void contact_employeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_employeeMouseClicked
-        // TODO add your handling code here:
+        contact_employee ce = new contact_employee(id);
+        ce.setVisible(true);
+        this.dispose();
+
+// TODO add your handling code here:
     }//GEN-LAST:event_contact_employeeMouseClicked
 
     private void contact_employeeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_employeeMouseEntered
+      Color mouseout = new Color(55,55,55);
+        contact_employee.setBackground(mouseout);
         // TODO add your handling code here:
     }//GEN-LAST:event_contact_employeeMouseEntered
 
     private void contact_employeeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_employeeMouseExited
+      Color mouseout = new Color(255,0,0);
+        contact_employee.setBackground(mouseout);
+        // TODO add your handling code here:
         // TODO add your handling code here:
     }//GEN-LAST:event_contact_employeeMouseExited
 
     private void Retrun2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun2MouseClicked
-        jframe.librarian_file.contact_with_student cws = new jframe.librarian_file.contact_with_student(7658);
+        contact_with_student cws = new contact_with_student(7658);
         cws.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_Retrun2MouseClicked
 
     private void Retrun2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun2MouseEntered
-        // TODO add your handling code here:
+      Color mouseout = new Color(55,55,55);
+        Retrun2.setBackground(mouseout);  // TODO add your handling code here:
     }//GEN-LAST:event_Retrun2MouseEntered
 
     private void Retrun2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun2MouseExited
-        // TODO add your handling code here:
+      Color mouseout = new Color(0,0,0);
+        Retrun2.setBackground(mouseout);        // TODO add your handling code here:
     }//GEN-LAST:event_Retrun2MouseExited
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked

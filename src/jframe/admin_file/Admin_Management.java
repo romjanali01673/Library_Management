@@ -51,12 +51,13 @@ public class Admin_Management extends javax.swing.JFrame {
         
         String type="";
         boolean bod_date_valid;
+        int root_flag = 1; 
 
         
     public Admin_Management(int id) {
         this.id = id;
         initComponents();
-        set_profile();     
+        ROOT_SIMPLE();     
     }
     public java.sql.Date get_Birth_Date(){
         bod_date_valid = false;// ai method er " bod_date_valid"  er value akbar change hoila joto e event hok na kano er default value asbe na. last changes e takba.
@@ -75,7 +76,38 @@ public class Admin_Management extends javax.swing.JFrame {
         }
             return DATE_OF_BIRTH ;
     }
+    public void ROOT_SIMPLE(){
+            Connection con = DB_connection.getConnection();
+        try{
+            String sql = "select * FROM admin_data where user_id =? and admin_type = \"ROOT\"";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                set_profile();             
+            }else{
+                JOptionPane.showMessageDialog(this, "You Hava No ROOT Access!");
+                Admin_home ah = new Admin_home(id);
+                ah.setVisible(true);
+                root_flag= 0;
+                
+            }
+            
+            pst.close();
+            rs.close();
+        }catch(Exception e ){
+            e.printStackTrace();
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
     public void set_profile(){
+
             Connection con = DB_connection.getConnection();
         try{
             String sql = "select fast_name,last_name from employee_data where user_id = ?";
@@ -194,7 +226,7 @@ public class Admin_Management extends javax.swing.JFrame {
     public void update_up_his(){
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date,U_type) values(?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, s_id);
@@ -203,6 +235,7 @@ public class Admin_Management extends javax.swing.JFrame {
             pst.setString(4, "UPDATED");
             pst.setTime(5, nm.getNowTime());
             pst.setDate(6, nm.getTodayDate());
+            pst.setString(7, "ADMIN");
 
             int updatedRowCount = pst.executeUpdate();
 
@@ -323,7 +356,7 @@ public class Admin_Management extends javax.swing.JFrame {
     public void update_add_his(){
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date,U_type) values(?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, s_id);
@@ -332,6 +365,7 @@ public class Admin_Management extends javax.swing.JFrame {
             pst.setString(4, "ADDED");
             pst.setTime(5, nm.getNowTime());
             pst.setDate(6, nm.getTodayDate());
+            pst.setString(7, "ADMIN");
 
             int updatedRowCount = pst.executeUpdate();
 
@@ -422,7 +456,7 @@ public class Admin_Management extends javax.swing.JFrame {
     public void update_DLT_his(){
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date,U_type) values(?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, s_id);
@@ -431,6 +465,7 @@ public class Admin_Management extends javax.swing.JFrame {
             pst.setString(4, "DELETED");
             pst.setTime(5, nm.getNowTime());
             pst.setDate(6, nm.getTodayDate());
+            pst.setString(7, "ADMIN");
 
             int updatedRowCount = pst.executeUpdate();
 
@@ -759,9 +794,19 @@ public class Admin_Management extends javax.swing.JFrame {
         getContentPane().add(MENU_BAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 50));
 
         WELCOME.setBackground(new java.awt.Color(204, 204, 255));
+        WELCOME.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                WELCOMEMouseClicked(evt);
+            }
+        });
 
         fast_name.setToolTipText("");
         fast_name.setPlaceholder("Fast Name");
+        fast_name.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fast_nameMouseClicked(evt);
+            }
+        });
         fast_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fast_nameActionPerformed(evt);
@@ -908,6 +953,8 @@ public class Admin_Management extends javax.swing.JFrame {
 
         buttonGroup3.add(custom);
         custom.setText("Custom");
+
+        dob.setFormatoFecha("dd/MM/yyyy");
 
         jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(0, 0, 255));
@@ -1525,7 +1572,10 @@ this.dispose();
     }//GEN-LAST:event_ADDMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        int s_id = nm.stringToint(student_id.getText());
+if(root_flag==0){
+    this.dispose();
+}
+int s_id = nm.stringToint(student_id.getText());
         get_info(s_id);
         set_info();
     }//GEN-LAST:event_jButton1MouseClicked
@@ -1577,6 +1627,16 @@ this.dispose();
         Color mouseout = new Color(255,255,255);
         close.setBackground(mouseout);           // TODO add your handling code here:
     }//GEN-LAST:event_closeMouseExited
+
+    private void WELCOMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WELCOMEMouseClicked
+// TODO add your handling code here:
+    }//GEN-LAST:event_WELCOMEMouseClicked
+
+    private void fast_nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fast_nameMouseClicked
+if(root_flag==0){
+    this.dispose();
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_fast_nameMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSMaterialButtonCircle ADD;

@@ -290,7 +290,7 @@ else{
         
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into changes_student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , remark,user_id,) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql =  "insert into changes_student_data (fast_name , last_name  ,phone , email , gender , nid_birth , dob , institute_office , ins_office_id , full_address , remark,user_id) values(?,?,?,?,?,?,?,?,?,?,?,?)";
             String sql1 = "update student_data set pass = ? where user_id=?";
             PreparedStatement pst = con.prepareStatement(sql);
             PreparedStatement pst1 = con.prepareStatement(sql1);
@@ -325,7 +325,7 @@ else{
                        pst1.close();
         
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            JOptionPane.showMessageDialog(this,"Already Change");
             e.printStackTrace();
        
         }finally{
@@ -339,12 +339,13 @@ else{
     public void requested1(){
             Connection con = DB_connection.getConnection();
         try{
-            String sql = "insert into student_history ( T_status, T_date, T_time, user_id) values(?,?,?,?,?);";
+            String sql = "insert into student_history ( T_status, T_date, T_time, user_id,by_who) values(?,?,?,?,?);";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1,"CHANGE");
             pst.setDate(2,nm.getTodayDate());
             pst.setTime(3,nm.getNowTime());
             pst.setInt(4, id);
+            pst.setString(5,"STUDENT");
             
             int rs = pst.executeUpdate();
             if(rs>0){
@@ -1110,7 +1111,7 @@ else{
     }//GEN-LAST:event_minimizeMouseExited
 
     public static void main(String args[]) {
-        change_info cf = new change_info(0000003);
+        change_info cf = new change_info(101);
         cf.setVisible(true);
         
         try {

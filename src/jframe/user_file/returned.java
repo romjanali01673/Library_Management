@@ -69,7 +69,7 @@ public class returned extends javax.swing.JFrame {
     public void set_table(){
             Connection con = DB_connection.getConnection();
        try{
-            String sql = "SELECT * FROM book_history INNER JOIN book_data ON book_history.book_id = book_data.book_id WHERE T_status = \"RETURNED\" and student_id = "+id;
+            String sql = "SELECT * FROM student_book INNER JOIN book_data ON student_book.book_id = book_data.book_id WHERE T_status = \"RETURNED\" and student_id = "+id;
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery(sql);
             // the while loop will add a row by eatch 1 looping.
@@ -297,9 +297,7 @@ public class returned extends javax.swing.JFrame {
         table_data.setAutoCreateRowSorter(true);
         table_data.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Book ID", "Book Name", "Book Author", "Part", "Type", "Date"
@@ -641,6 +639,6 @@ set_data_in_textfield();
     // End of variables declaration//GEN-END:variables
 public static void main(String[] args){
     
-returned rn = new returned(87);
+returned rn = new returned(101);
 rn.setVisible(true);
 }}

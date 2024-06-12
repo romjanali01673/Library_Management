@@ -12,8 +12,10 @@ import javax.swing.JOptionPane;
 import jframe.method_romjanali01673.DB_connection;
 import jframe.Help;
 import jframe.home_page;
+import jframe.method_romjanali01673.necessaryMethod;
 
 public class Notify extends javax.swing.JFrame {
+    necessaryMethod nm = new necessaryMethod();
     int id;
 
     public Notify(int id) {
@@ -21,6 +23,30 @@ public class Notify extends javax.swing.JFrame {
         initComponents();
         set_profile();
         
+    }
+    public boolean valid(){
+        boolean res = true;
+        if(nm.remove_white_space(subject.getText()).equals("")){
+            res =false;
+            JOptionPane.showMessageDialog(this, "Write Subject");
+        }
+        else if(nm.remove_white_space(message.getText()).equals("")){
+            res =false;
+            JOptionPane.showMessageDialog(this, "Write Message");
+        }
+        else if(nm.remove_white_space(description.getText()).equals("")){
+            res =false;
+            JOptionPane.showMessageDialog(this, "Write Description");
+        }
+        else if(nm.stringToint(student_id.getText())==0){
+            res =false;
+            JOptionPane.showMessageDialog(this, "Enter Valid ID");
+        }
+        else if(fname.getText().equals("")){
+            res =false;
+            JOptionPane.showMessageDialog(this, "At fast Find Student");
+        }
+        return res;
     }
     public void set_profile(){
             Connection con = DB_connection.getConnection();
@@ -49,33 +75,168 @@ public class Notify extends javax.swing.JFrame {
             }
         }
     }    
+    public void sends(){
+        Connection con = DB_connection.getConnection();
+    try{
+        String str = "insert into notification(subject,student_id,A_E_ID ,T_time,T_date,message,description,From_who) values(?,?,?,?,?,?,?,?)";
+        PreparedStatement pst = con.prepareStatement(str);    
+        pst.setString(1, nm.remove_white_space(subject.getText()));
+        pst.setInt(2, nm.stringToint(student_id.getText()));
+        pst.setInt(3,id);
+        pst.setTime(4, nm.getNowTime());
+        pst.setDate(5, nm.getTodayDate());
+        pst.setString(6, nm.remove_white_space(message.getText()));
+        pst.setString(7, nm.remove_white_space(description.getText()));
+        pst.setString(8, "ADMIN");
+        
+        int rs = pst.executeUpdate();
+        if(rs>0){
+            JOptionPane.showMessageDialog(this, "message send!");
 
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "message send failed!");
+                    
+        }        pst.close();
+        
+    }catch(Exception e){
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Server Error!");
+    
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public void sende(){
+        Connection con = DB_connection.getConnection();
+    try{
+        String str = "insert into notification(subject,employee_id,A_E_ID ,T_time,T_date,message,description,From_who) values(?,?,?,?,?,?,?,?)";
+        PreparedStatement pst = con.prepareStatement(str);    
+        pst.setString(1, nm.remove_white_space(subject.getText()));
+        pst.setInt(2, nm.stringToint(student_id.getText()));
+        pst.setInt(3,id);
+        pst.setTime(4, nm.getNowTime());
+        pst.setDate(5, nm.getTodayDate());
+        pst.setString(6, nm.remove_white_space(message.getText()));
+        pst.setString(7, nm.remove_white_space(description.getText()));
+        pst.setString(8, "ADMIN");
+        
+        int rs = pst.executeUpdate();
+        if(rs>0){
+            JOptionPane.showMessageDialog(this, "message send!");
 
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "message send failed!");
+                    
+        }        pst.close();
+        
+    }catch(Exception e){
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Server Error!");
+    
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public void getDatas(){
+        Connection con = DB_connection.getConnection();
+    try{
+        String str = "select * from student_data where user_id=?";
+        PreparedStatement pst = con.prepareStatement(str);    
+        pst.setInt(1, nm.stringToint(student_id.getText()));
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            String phone= rs.getString("phone");
+            String f_name= rs.getString("fast_name");
+            String l_name= rs.getString("last_name");
+            
+            this.phone.setText(phone);
+            this.fname.setText(f_name+" "+l_name);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Student Dose Not Exist!");
+                    
+        }        pst.close();
+        rs.close();
+    }catch(Exception e){
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Server Error!");
+    
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void getDatae(){
+        Connection con = DB_connection.getConnection();
+    try{
+        String str = "select * from employee_data where user_id=?";
+        PreparedStatement pst = con.prepareStatement(str);    
+        pst.setInt(1, nm.stringToint(student_id.getText()));
+        ResultSet rs = pst.executeQuery();
+        if(rs.next()){
+            String phone= rs.getString("phone");
+            String f_name= rs.getString("fast_name");
+            String l_name= rs.getString("last_name");
+            
+            this.phone.setText(phone);
+            this.fname.setText(f_name+" "+l_name);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Student Employee Dose Not Exist!");
+                    
+        }        pst.close();
+        rs.close();
+    }catch(Exception e){
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Server Error!");
+    
+    }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         Notification = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jCTextField2 = new app.bolivia.swing.JCTextField();
+        subject = new app.bolivia.swing.JCTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        description = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        message = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         rSMaterialButtonCircle1 = new rojerusan.RSMaterialButtonCircle();
         jLabel9 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        studentbt = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
-        jCTextField3 = new app.bolivia.swing.JCTextField();
+        student_id = new app.bolivia.swing.JCTextField();
         jButton1 = new javax.swing.JButton();
-        jCTextField5 = new app.bolivia.swing.JCTextField();
-        jCTextField7 = new app.bolivia.swing.JCTextField();
+        phone = new app.bolivia.swing.JCTextField();
+        fname = new app.bolivia.swing.JCTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -114,9 +275,7 @@ public class Notify extends javax.swing.JFrame {
         Notification.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         jPanel2.add(Notification, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
-
-        jCTextField2.setText("jCTextField1");
-        jPanel2.add(jCTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, -1, -1));
+        jPanel2.add(subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 102));
@@ -127,17 +286,15 @@ public class Notify extends javax.swing.JFrame {
         jLabel5.setText("Subject");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("rdhfghsdfghsjdfhgdkfj iorutoierutiuewr ierutieurtiueryteru iert \ntueriutierytiu\n\n\n\n\n\n\n\n\n\n\n\n\n\neroituerotu\nreutoert\noerutoeiur\noierutoeruit\noieruteriu\nrioteruit\nerotuoei");
-        jScrollPane1.setViewportView(jTextArea1);
+        description.setColumns(20);
+        description.setRows(5);
+        jScrollPane1.setViewportView(description);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, 960, 450));
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setText("rdhfghsdfghsjdfhgdkfj iorutoierutiuewr ierutieurtiueryteru iert \ntueriutierytiu\n\n\n\n\n\n\n\n\n\n\n\n\n\neroituerotu\nreutoert\noerutoeiur\noierutoeruit\noieruteriu\nrioteruit\nerotuoei");
-        jScrollPane2.setViewportView(jTextArea2);
+        message.setColumns(20);
+        message.setRows(5);
+        jScrollPane2.setViewportView(message);
 
         jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 280, 260));
 
@@ -162,41 +319,35 @@ public class Notify extends javax.swing.JFrame {
         jLabel9.setText("To");
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Student");
-        jPanel2.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, -1, -1));
-
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Librarian");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, -1, -1));
+        buttonGroup1.add(studentbt);
+        studentbt.setText("Student");
+        jPanel2.add(studentbt, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
 
         buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Modarator");
-        jPanel2.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
+        jRadioButton3.setText("Employee");
+        jPanel2.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
+        jPanel2.add(student_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, -1, -1));
 
-        jCTextField3.setText("jCTextField3");
-        jPanel2.add(jCTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, -1, -1));
-
-        jButton1.setText("jButton1");
+        jButton1.setText("Find");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 600, 90, -1));
 
-        jCTextField5.setText("jCTextField5");
-        jPanel2.add(jCTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 590, -1, -1));
+        phone.setEditable(false);
+        jPanel2.add(phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 590, -1, -1));
 
-        jCTextField7.setText("jCTextField7");
-        jPanel2.add(jCTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 590, -1, -1));
+        fname.setEditable(false);
+        jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 590, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("His/Her ID");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("His/Her NID No ");
+        jLabel10.setText("His/Her Phone Number ");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 560, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -309,22 +460,21 @@ public class Notify extends javax.swing.JFrame {
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void rSMaterialButtonCircle1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1MouseClicked
-        // TODO add your handling code here:
-        Help hp = new Help();
-        hp.setVisible(true);
-        
+if(valid()){
+    if(studentbt.isSelected()){
+    sends();
+}else{
+    sende();
+}
+}
     }//GEN-LAST:event_rSMaterialButtonCircle1MouseClicked
 
     private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
         // TODO add your handling code here:
-        Notify n = new Notify(id);
+        notification n = new notification(id);
         n.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel17MouseClicked
-
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
         this.setState(this.ICONIFIED);        // TODO add your handling code here:
@@ -357,6 +507,14 @@ public class Notify extends javax.swing.JFrame {
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked
 
     }//GEN-LAST:event_nameMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+if(studentbt.isSelected()){
+    getDatas();
+}else{
+    getDatae();
+}
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -391,13 +549,12 @@ public class Notify extends javax.swing.JFrame {
     private javax.swing.JPanel MENU_BAR;
     private javax.swing.JPanel Notification;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel close;
+    private javax.swing.JTextArea description;
+    private app.bolivia.swing.JCTextField fname;
     private javax.swing.JLabel home;
     private javax.swing.JButton jButton1;
-    private app.bolivia.swing.JCTextField jCTextField2;
-    private app.bolivia.swing.JCTextField jCTextField3;
-    private app.bolivia.swing.JCTextField jCTextField5;
-    private app.bolivia.swing.JCTextField jCTextField7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -409,15 +566,16 @@ public class Notify extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea message;
     private javax.swing.JLabel minimize;
     private javax.swing.JLabel name;
+    private app.bolivia.swing.JCTextField phone;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
+    private app.bolivia.swing.JCTextField student_id;
+    private javax.swing.JRadioButton studentbt;
+    private app.bolivia.swing.JCTextField subject;
     // End of variables declaration//GEN-END:variables
 }

@@ -72,7 +72,7 @@ public class approve_student extends javax.swing.JFrame {
         Connection con = DB_connection.getConnection();
         try{
         String sql1 = "delete from registaed_student_data where nid_birth = ? ";
-        String sql = "insert into student_data(fast_name, last_name, phone, email, gender, dob , nid_birth, institute_office, ins_office_id, full_address, pass, registation_time, registation_date, approve_time, approve_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "insert into student_data(fast_name, last_name, phone, email, gender, dob , nid_birth, institute_office, ins_office_id, full_address, pass) values(?,?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement pst = con.prepareStatement(sql);
         PreparedStatement pst1 = con.prepareStatement(sql1);
         pst1.setLong(1, Long.parseLong(nid_birth.getText()));
@@ -88,10 +88,8 @@ public class approve_student extends javax.swing.JFrame {
         pst.setString(9,ins_office_id.getText());
         pst.setString(10,full_address.getText());
         pst.setString(11,Student_pass);
-        pst.setTime(12,nm.stringToTime(registed_time.getText()));//registation time
-        pst.setDate(13,nm.stringToDate(registed_date.getText()));//registation date
-        pst.setTime(14,nm.getNowTime());//approve time
-        pst.setDate(15,nm.getTodayDate());//approve date
+    
+
 
         int rs = pst.executeUpdate();
                 pst.close();
@@ -100,6 +98,7 @@ public class approve_student extends javax.swing.JFrame {
                 pst1.close();
         
         if(rs>0){
+            update2();
             update1();
         }else{
             result = false;
@@ -154,6 +153,43 @@ public class approve_student extends javax.swing.JFrame {
             pst.setInt(4,id);
             pst.setTime(5, nm.getNowTime());
             pst.setDate(6, nm.getTodayDate());
+
+
+            int updatedRowCount = pst.executeUpdate();
+       
+           
+            if ( updatedRowCount > 0){
+               JOptionPane.showMessageDialog(this, "Account ADDED!.");
+           }
+           else{
+               JOptionPane.showMessageDialog(this, "record Insarte faled!"); 
+           }           pst.close();
+       
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            e.printStackTrace();
+       
+        }finally{
+            try{
+                con.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }    
+    public void update2(){
+            Connection con = DB_connection.getConnection();
+        try {
+            String sql =  "insert into student_history(user_id,T_status,by_who,employee_id,T_time, T_date) values(?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, get_studentID());
+            
+            pst.setString(2, "REGISTATION");
+            pst.setString(3, "STUDENT");
+            pst.setInt(4,id);
+            pst.setTime(5, nm.stringToTime(registed_time.getText()) );
+            pst.setDate(6, nm.stringToDate(registed_date.getText()));
 
 
             int updatedRowCount = pst.executeUpdate();

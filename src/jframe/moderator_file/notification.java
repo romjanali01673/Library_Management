@@ -106,7 +106,7 @@ public class notification extends javax.swing.JFrame {
                  String description=rs.getString("description");
 
                 //set data in table
-                Object[] obj = {subject,T_time,T_date,message,description};
+                Object[] obj = {subject,description,message,T_date,T_time};
                 DefaultTableModel model = (DefaultTableModel) table_data.getModel();
                 model.addRow(obj);
             }        pst.close();
@@ -120,17 +120,16 @@ public class notification extends javax.swing.JFrame {
             }catch(Exception e){
                 e.printStackTrace();
             }
-        }
-    }
+        }}
     
     public void get_book_id_from_table(){
         DefaultTableModel model = (DefaultTableModel)table_data.getModel();
         int row = table_data.getSelectedRow();
          subject = (String) model.getValueAt(row,0);
-         descreption = (String) model.getValueAt(row,4);
-         message = (String) model.getValueAt(row,3);
-        java.sql.Date date = (java.sql.Date) model.getValueAt(row,1);
-        java.sql.Time time = (java.sql.Time) model.getValueAt(row,2);
+         descreption = (String) model.getValueAt(row,1);
+         message = (String) model.getValueAt(row,2);
+        java.sql.Date date = (java.sql.Date) model.getValueAt(row,3);
+        java.sql.Time time = (java.sql.Time) model.getValueAt(row,4);
         this.date = String.valueOf(date);
         this.time = String.valueOf(time);
     }

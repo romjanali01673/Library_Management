@@ -644,6 +644,6 @@ this.dispose();
     private rojeru_san.complementos.RSTableMetro table_data;
     // End of variables declaration//GEN-END:variables
 public static void main(String [] args){
-    queue ue = new queue(87);
+    queue ue = new queue(101);
     ue.setVisible(true);
 }}

@@ -1033,7 +1033,10 @@ public class update_book extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void contact_employeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_employeeMouseClicked
-        // TODO add your handling code here:
+contact_employee ce = new contact_employee(id);
+ce.setVisible(true);
+
+// TODO add your handling code here:
     }//GEN-LAST:event_contact_employeeMouseClicked
 
     private void contact_employeeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contact_employeeMouseEntered
@@ -1053,7 +1056,9 @@ public class update_book extends javax.swing.JFrame {
     }//GEN-LAST:event_Retrun1MouseEntered
 
     private void Retrun1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Retrun1MouseClicked
-        // TODO add your handling code here:
+contact_with_student cws = new contact_with_student(id);
+cws.setVisible(true);
+// TODO add your handling code here:
     }//GEN-LAST:event_Retrun1MouseClicked
 
     private void nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameMouseClicked

@@ -472,7 +472,7 @@ public class registation extends javax.swing.JFrame {
         date_of_birth.setColorBackground(new java.awt.Color(255, 0, 0));
         date_of_birth.setColorButtonHover(new java.awt.Color(255, 51, 51));
         date_of_birth.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        date_of_birth.setFormatoFecha("dd/MM/yyyy\n");
+        date_of_birth.setFormatoFecha("dd/MM/yyyy");
         date_of_birth.setName(""); // NOI18N
         date_of_birth.setOpaque(true);
         date_of_birth.setPlaceholder("Date of Birth");

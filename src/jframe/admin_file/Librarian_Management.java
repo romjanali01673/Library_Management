@@ -77,7 +77,7 @@ public class Librarian_Management extends javax.swing.JFrame {
     public void update_in_his(){
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date,U_type) values(?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, s_id);
@@ -86,11 +86,12 @@ public class Librarian_Management extends javax.swing.JFrame {
             pst.setString(4, "ADDED");
             pst.setTime(5, nm.getNowTime());
             pst.setDate(6, nm.getTodayDate());
+            pst.setString(7, "LIBRARIAN");
 
             int updatedRowCount = pst.executeUpdate();
 
             if ( updatedRowCount > 0){
-        JOptionPane.showMessageDialog(this, "New Modarator Added!");
+        JOptionPane.showMessageDialog(this, "New Librarian Added!");
         String formattedNumber = String.format("%08d", s_id); 
         JOptionPane.showMessageDialog(this, "USER ID : "+formattedNumber+"  & PASSWORD : 1234");
            }
@@ -113,7 +114,7 @@ public class Librarian_Management extends javax.swing.JFrame {
     public void update_up_his(){
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date,U_type) values(?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, s_id);
@@ -122,6 +123,7 @@ public class Librarian_Management extends javax.swing.JFrame {
             pst.setString(4, "UPDATED");
             pst.setTime(5, nm.getNowTime());
             pst.setDate(6, nm.getTodayDate());
+            pst.setString(7, "LIBRARIAN");
 
             int updatedRowCount = pst.executeUpdate();
 
@@ -147,7 +149,7 @@ public class Librarian_Management extends javax.swing.JFrame {
     public void update_DLT_his(){
             Connection con = DB_connection.getConnection();
         try {
-            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date) values(?,?,?,?,?,?)";
+            String sql =  "insert into employee_history(E_id  , A_E_id ,by_who ,T_status ,T_time, T_date,U_type) values(?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setInt(1, s_id);
@@ -156,6 +158,7 @@ public class Librarian_Management extends javax.swing.JFrame {
             pst.setString(4, "DELETED");
             pst.setTime(5, nm.getNowTime());
             pst.setDate(6, nm.getTodayDate());
+            pst.setString(7, "LIBRARIAN");
 
             int updatedRowCount = pst.executeUpdate();
 
@@ -564,6 +567,8 @@ public class Librarian_Management extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         MENU_BAR = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
@@ -1063,17 +1068,24 @@ public class Librarian_Management extends javax.swing.JFrame {
         jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel28.setText("Modarator Status");
 
+        buttonGroup2.add(REGULER);
         REGULER.setSelected(true);
         REGULER.setText("Reguler");
 
+        buttonGroup2.add(SUSPENDED);
         SUSPENDED.setText("Suspended");
 
+        buttonGroup1.add(male);
         male.setSelected(true);
         male.setText("Male");
 
+        buttonGroup1.add(female);
         female.setText("Female");
 
+        buttonGroup1.add(custom);
         custom.setText("Custom");
+
+        dob.setFormatoFecha("dd/MM/yyyy");
 
         jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(0, 0, 255));
@@ -1515,6 +1527,8 @@ public class Librarian_Management extends javax.swing.JFrame {
     private javax.swing.JRadioButton REGULER;
     private javax.swing.JRadioButton SUSPENDED;
     private javax.swing.JPanel WELCOME;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel close;
     private javax.swing.JRadioButton custom;
     private rojeru_san.componentes.RSDateChooser dob;
