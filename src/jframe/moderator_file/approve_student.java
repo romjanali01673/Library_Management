@@ -72,7 +72,7 @@ public class approve_student extends javax.swing.JFrame {
         Connection con = DB_connection.getConnection();
         try{
         String sql1 = "delete from registaed_student_data where nid_birth = ? ";
-        String sql = "insert into student_data(fast_name, last_name, phone, email, gender, dob , nid_birth, institute_office, ins_office_id, full_address, pass) values(?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "insert into student_data(fast_name, last_name, phone, email, gender, dob , nid_birth, institute_office, ins_office_id, full_address, pass, s_status) values(?,?,?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement pst = con.prepareStatement(sql);
         PreparedStatement pst1 = con.prepareStatement(sql1);
         pst1.setLong(1, Long.parseLong(nid_birth.getText()));
@@ -88,6 +88,7 @@ public class approve_student extends javax.swing.JFrame {
         pst.setString(9,ins_office_id.getText());
         pst.setString(10,full_address.getText());
         pst.setString(11,Student_pass);
+        pst.setString(12,"REGULER");
     
 
 

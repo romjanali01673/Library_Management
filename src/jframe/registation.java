@@ -539,6 +539,11 @@ public class registation extends javax.swing.JFrame {
 
         jMenuItem4.setForeground(new java.awt.Color(0, 0, 255));
         jMenuItem4.setText("Librarian Login");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem2.setForeground(new java.awt.Color(0, 0, 255));
@@ -692,6 +697,12 @@ public class registation extends javax.swing.JFrame {
         hp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_helpMouseClicked
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+            librarian_login al = new librarian_login();
+            al.setVisible(true);
+            this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

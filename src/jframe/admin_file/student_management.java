@@ -44,8 +44,8 @@ String institute_officer ;
 String id_numberr;
 String full_addressr ;
 String statusr= "REGULER";
-java.sql.Date reg_date;
 java.sql.Time reg_time;
+java.sql.Date reg_date;
 //      wanted data variable
         String fast_namer1 = "";
         String last_namer1 =  "";
@@ -312,7 +312,7 @@ public void add_student(){
         
                 pst1.close();
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this,"somthing wrong!");
+            JOptionPane.showMessageDialog(this,"User Already Exist!");
             e.printStackTrace();
        
         }finally{
@@ -596,7 +596,7 @@ return as;
         full_addressr = rs1.getString("full_address");
         passwd = rs1.getString("pass");
         reg_time = rs1.getTime("registation_time");
-        reg_date = rs1.getDate("registation_time");
+        reg_date = rs1.getDate("registation_date");
         }
         else{
         JOptionPane.showMessageDialog(this, "The student does not exist!");
