@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2024 at 02:05 PM
+-- Generation Time: Jun 25, 2024 at 10:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -37,12 +37,7 @@ CREATE TABLE `admin_data` (
 --
 
 INSERT INTO `admin_data` (`user_id`, `admin_type`) VALUES
-(8, 'SIMPLE'),
-(9, 'SIMPLE'),
-(10, 'SIMPLE'),
-(11, 'ROOT'),
-(12, 'ROOT'),
-(13, 'ROOT');
+(1, 'ROOT');
 
 -- --------------------------------------------------------
 
@@ -68,11 +63,7 @@ CREATE TABLE `book_data` (
 --
 
 INSERT INTO `book_data` (`book_id`, `book_name`, `author`, `book_part`, `book_type`, `price`, `few_i_line`, `quantity`, `book_source`, `b_status`) VALUES
-(0, 'XYZ', 'XYZ', 0, 'XYZ', 0, 'XYZ', 0, 'XYZ', 'REGULER'),
-(11, 'BIOLOGY\r\n', '2', 2, '2', 2, '2', 2, '2', 'SUSPENDED'),
-(22, '2', '2', 2, '2', 2, '2', 2, '2', 'ENABLED'),
-(1111, '2', '2', 2, '2', 2, '2', 2, '2', 'SUSPENDED'),
-(22222, '22', '22', 22, '22', 22, '2', 22, '22', 'REGULER');
+(121, '1', '1', 1, '1', 1, '1', 1, '1', 'REGULER');
 
 -- --------------------------------------------------------
 
@@ -88,43 +79,16 @@ CREATE TABLE `book_history` (
   `student_id` int(8) DEFAULT NULL,
   `employee_id` int(8) DEFAULT NULL,
   `quantity` int(8) NOT NULL DEFAULT 1,
-  `otp` varchar(6) DEFAULT NULL
+  `otp` varchar(6) DEFAULT NULL,
+  `by_who` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `book_history`
 --
 
-INSERT INTO `book_history` (`book_id`, `T_status`, `T_time`, `T_date`, `student_id`, `employee_id`, `quantity`, `otp`) VALUES
-(22, 'GAVE', '10:12:06', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:12:09', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:13:51', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:19:56', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:20:59', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:21:03', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:24:57', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:25:09', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '10:27:19', '2024-06-05', 87, 9, 1, NULL),
-(22, 'GAVE', '01:46:23', '2024-06-06', 87, 879, 1, '288751'),
-(22, 'GAVE', '01:47:12', '2024-06-06', 87, 879, 1, '585778'),
-(22, 'RETURNED', '02:04:12', '2024-06-06', 87, 879, 1, '227683'),
-(2, 'REQUESTED', '01:31:59', '2024-06-07', 87, NULL, 1, '922341'),
-(1111, 'ADDED', '00:18:32', '2024-06-08', NULL, 8, 2, NULL),
-(11, 'UPDATED', '00:20:52', '2024-06-08', NULL, 8, 2, NULL),
-(11, 'UPDATED', '00:28:52', '2024-06-08', NULL, 8, 2, NULL),
-(11, 'UPDATED', '00:29:07', '2024-06-08', NULL, 8, 2, NULL),
-(11, 'UPDATED', '00:29:19', '2024-06-08', NULL, 8, 2, NULL),
-(111, 'ADDED', '00:30:23', '2024-06-08', NULL, 8, 2, NULL),
-(111, 'DELETED', '00:30:35', '2024-06-08', NULL, 8, 2, NULL),
-(111, 'ADDED', '00:30:53', '2024-06-08', NULL, 8, 2, NULL),
-(111, 'DELETED', '00:31:01', '2024-06-08', NULL, 8, 2, NULL),
-(111, 'DELETED', '00:31:10', '2024-06-08', NULL, 8, 2, NULL),
-(11, 'ADDED', '00:32:12', '2024-06-08', NULL, 8, 2, NULL),
-(11, 'UPDATED', '00:32:38', '2024-06-08', NULL, 8, 2, NULL),
-(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL),
-(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL),
-(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL),
-(11, 'ISSUED', NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `book_history` (`book_id`, `T_status`, `T_time`, `T_date`, `student_id`, `employee_id`, `quantity`, `otp`, `by_who`) VALUES
+(121, 'ADDED', '15:21:24', '2024-06-12', NULL, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -175,15 +139,8 @@ CREATE TABLE `employee_data` (
 --
 
 INSERT INTO `employee_data` (`user_id`, `position`, `fast_name`, `last_name`, `nid`, `phone`, `email`, `full_address`, `dob`, `gender`, `pass`, `ftr_nid`, `e_status`, `ftr_name`) VALUES
-(00000001, 'ADMIN', 'MD ROMJAN', 'ALI', 34, '', '', '', '2004-02-01', 'MALE', '1234', 2345, 'REGULER', ''),
-(00000003, 'ADMIN', '', '', 234123, '', '', '', '0016-03-26', 'MALE', '1234', 52345, 'REGULER', ''),
-(00000004, 'ADMIN', '', '', 12, '', '', '', '1212-12-12', 'MALE', '1234', 12, 'REGULER', ''),
-(00000005, 'ADMIN', '', '', 56, '', '', '', '0036-11-03', 'MALE', '1234', 45, 'REGULER', ''),
-(00000006, 'ADMIN', '', '', 4564356, '', '', '', '0031-04-02', 'MALE', '1234', 3456346, 'REGULER', ''),
-(00000007, 'ADMIN', '', '', 121212, '', '', '', '0012-12-12', 'MALE', '1234', 121212, 'REGULER', ''),
-(00000008, 'ADMIN', '', '', 1212, '', '', '', '0012-12-12', 'MALE', '1234', 1212, 'REGULER', ''),
-(00000009, 'ADMIN', '', '', 12121, '', '', '', '0012-12-12', 'MALE', '1234', 12121, 'REGULER', ''),
-(00000013, 'ADMIN', 'MD ROMJAN', 'ALI', 4674583507, '+8801779852361', 'ROMJANALI01673@GMAIL.COM', '35-BAIRA', '2024-02-01', 'MALE', '1234', 1234567890, 'REGULER', 'KARIM');
+(00000001, 'ADMIN', 'MD ROMJAN', 'ALI', 4574583507, '+8801779852361', 'ROMJANALI01673@GMAIL.COM', '350-BAIRA, MURADNAGAR, CUMILLA.', '2004-02-01', 'MALE', '1234560', 101010101010, 'REGULER', 'KARIM'),
+(00000035, 'LIBRARIAN', 'KAPIL', 'UDDIN', 1234567890, '01789757888', 'KAPILUDDIN@GMAIL.COM', '350-SDFS,SDFSA,COX\'S BAZER.', '2002-06-26', 'MALE', '1234', 1234567890, 'REGULER', 'XYZ');
 
 -- --------------------------------------------------------
 
@@ -197,8 +154,17 @@ CREATE TABLE `employee_history` (
   `by_who` varchar(200) DEFAULT NULL,
   `T_time` time DEFAULT NULL,
   `T_date` date DEFAULT NULL,
-  `A_E_id` int(8) DEFAULT NULL
+  `A_E_id` int(8) DEFAULT NULL,
+  `U_type` varchar(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee_history`
+--
+
+INSERT INTO `employee_history` (`E_id`, `T_status`, `by_who`, `T_time`, `T_date`, `A_E_id`, `U_type`) VALUES
+(1, 'ADDED', 'DEVELOPER', '23:23:23', '2024-06-12', -999999, 'ADMIN'),
+(35, 'ADDED', 'ADMIN', '15:13:30', '2024-06-12', 1, 'LIBRARIAN');
 
 -- --------------------------------------------------------
 
@@ -207,27 +173,16 @@ CREATE TABLE `employee_history` (
 --
 
 CREATE TABLE `notification` (
-  `student_id` int(8) NOT NULL,
-  `employee_id` int(8) NOT NULL,
+  `student_id` int(8) DEFAULT NULL,
+  `employee_id` int(8) DEFAULT NULL,
   `subject` varchar(111) NOT NULL,
-  `T_time` time DEFAULT NULL,
-  `T_date` date DEFAULT NULL,
+  `T_time` time NOT NULL,
+  `T_date` date NOT NULL,
   `message` varchar(800) NOT NULL,
-  `description` varchar(5000) NOT NULL,
-  `From_who` int(8) DEFAULT NULL
+  `description` varchar(5000) DEFAULT NULL,
+  `From_who` varchar(20) DEFAULT NULL,
+  `A_E_ID` int(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `notification`
---
-
-INSERT INTO `notification` (`student_id`, `employee_id`, `subject`, `T_time`, `T_date`, `message`, `description`, `From_who`) VALUES
-(87, 0, '', NULL, NULL, '', '', NULL),
-(5685, 0, '', NULL, NULL, '', '', NULL),
-(87, 0, '', NULL, NULL, '', '', NULL),
-(87, 0, '457454j45756', NULL, NULL, '', '', NULL),
-(2345, 3456, 'sd', '00:58:58', '2024-06-07', 'sd', 'sd', NULL),
-(2345, 3456, 'sd', '01:00:13', '2024-06-07', 'sd', 'sd', NULL);
 
 -- --------------------------------------------------------
 
@@ -256,8 +211,7 @@ CREATE TABLE `registaed_student_data` (
 --
 
 INSERT INTO `registaed_student_data` (`fast_name`, `last_name`, `phone`, `email`, `gender`, `dob`, `nid_birth`, `institute_office`, `ins_office_id`, `full_address`, `pass`, `registation_time`, `registation_date`) VALUES
-('FD', 'DFAS', 'DDDS', 'SDFDDD', 'MALE', '2009-05-29', 4674583506, 'SDASA', 'DASD', 'S', 's', '01:28:17', '2024-05-30'),
-('GFH', 'FGHDFG', 'FGHFDG', 'FDGHDFG', 'MALE', '2015-05-21', 5645645, 'FGH', 'GFHFD', 'FGHD', '11', '06:02:57', '2024-05-31');
+('KAPIL', 'UDDIN', '+8801872018309', 'KAPILUDDIN36000@GMAIL.COM', 'MALE', '2008-06-19', 22009983293424797, 'BRAHMANBARIA POLYTECHNIC INSTITUTE', '677829', 'XYZ, COX\'S BAZER', '1234', '11:07:14', '2024-06-13');
 
 -- --------------------------------------------------------
 
@@ -272,18 +226,6 @@ CREATE TABLE `student_book` (
   `T_date` date NOT NULL,
   `T_status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `student_book`
---
-
-INSERT INTO `student_book` (`student_id`, `book_id`, `T_time`, `T_date`, `T_status`) VALUES
-(0, 23433, '00:00:00', '0000-00-00', ''),
-(234, 0, '00:00:00', '0000-00-00', ''),
-(87, 22, '23:23:23', '2323-12-12', 'TAKEN'),
-(87, 22, '23:23:23', '2323-12-12', 'ISSUE'),
-(0, 0, '00:00:00', '0000-00-00', ''),
-(0, 0, '00:00:00', '0000-00-00', 'ISSUED');
 
 -- --------------------------------------------------------
 
@@ -304,7 +246,7 @@ CREATE TABLE `student_data` (
   `full_address` varchar(200) DEFAULT NULL,
   `pass` varchar(100) DEFAULT NULL,
   `user_id` int(8) UNSIGNED ZEROFILL NOT NULL,
-  `s_status` varchar(10) DEFAULT NULL
+  `s_status` varchar(10) NOT NULL DEFAULT 'REGULER'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -312,7 +254,9 @@ CREATE TABLE `student_data` (
 --
 
 INSERT INTO `student_data` (`fast_name`, `last_name`, `phone`, `email`, `gender`, `dob`, `nid_birth`, `institute_office`, `ins_office_id`, `full_address`, `pass`, `user_id`, `s_status`) VALUES
-('34523', '3453', NULL, '3452', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 00000222, NULL);
+('MD ROMJAN', 'ALI', '+8801779852361', 'ROMJANALI01673@GMAIL.COM', 'MALE', '2004-02-01', 4674583507, 'BRAHMANBARIA POLYTECHNIC INSTITUTE', '677844', '350-BAIRA, MURADNAGER, CUMILLA.', '1234560', 00000246, 'REGULER'),
+('SAA', 'AA', 'AA', 'AA', 'MALE', '2005-05-05', 12, 'AA', 'AA', 'AA', 'aa', 00000249, 'REGULER'),
+('A', 'A', 'A', 'A', 'MALE', '2005-06-21', 13, 'A', 'A', 'A', 'A', 00000253, 'REGULER');
 
 -- --------------------------------------------------------
 
@@ -334,7 +278,17 @@ CREATE TABLE `student_history` (
 --
 
 INSERT INTO `student_history` (`user_id`, `T_status`, `by_who`, `employee_id`, `T_time`, `T_date`) VALUES
-(87, 'registation', NULL, NULL, '09:08:08', '2024-04-09');
+(246, 'ADDED', 'ADMIN', 1, '15:12:04', '2024-06-12'),
+(246, 'REGISTATION', 'STUDENT', NULL, '15:11:32', '1970-01-01'),
+(246, 'CHANGE', 'STUDENT', NULL, '15:19:32', '2024-06-12'),
+(246, 'UPDATED', 'ADMIN', 1, '15:20:49', '2024-06-12'),
+(249, 'ADDED', 'ADMIN', 1, '15:36:58', '2024-06-12'),
+(249, 'REGISTATION', 'STUDENT', NULL, '15:36:31', '1970-01-01'),
+(250, 'REGISTATION', 'STUDENT', 56, '15:40:14', '2024-06-12'),
+(250, 'ADDED', 'MODERATOR', 56, '15:51:03', '2024-06-12'),
+(0, 'DELETED', 'ADMIN', 1, '16:01:43', '2024-06-12'),
+(253, 'ADDED', 'ADMIN', 1, '16:06:38', '2024-06-12'),
+(253, 'REGISTATION', 'STUDENT', NULL, '16:05:07', '1970-01-01');
 
 --
 -- Indexes for dumped tables
@@ -381,13 +335,13 @@ ALTER TABLE `student_data`
 -- AUTO_INCREMENT for table `employee_data`
 --
 ALTER TABLE `employee_data`
-  MODIFY `user_id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `student_data`
 --
 ALTER TABLE `student_data`
-  MODIFY `user_id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
+  MODIFY `user_id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
